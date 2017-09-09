@@ -1,0 +1,40 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-footer">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+        background: #ccc;
+        min-height: 90px;
+      }
+    </style>
+
+    <div class="row">
+      <div class="col">
+
+        [[prop1]]
+
+      </div>
+    </div>
+    
+  </template>
+
+  <script>
+  
+    class BlockFooter extends Polymer.Element {
+      static get is() { return 'block-footer'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'block-footer'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(BlockFooter.is, BlockFooter);
+  </script>
+</dom-module>

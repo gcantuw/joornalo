@@ -1,0 +1,132 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="my-icons.html">
+
+<link rel="import" href="./styles/shared.html">
+
+<link rel="import" href="./elements/blocks/block-header.html">
+<link rel="import" href="./elements/blocks/block-footer.html">
+<link rel="lazy-import" href="elements/page-front.html">
+<link rel="lazy-import" href="elements/page-news.html">
+<link rel="lazy-import" href="elements/page-galleries.html">
+<link rel="lazy-import" href="elements/page-gallery.html">
+<link rel="lazy-import" href="elements/page-search.html">
+<!-- <link rel="lazy-import" href="missing404.html"> -->
+
+<dom-module id="joornalo-app">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+      }
+
+      .content {
+        min-height: 500px;
+      }
+    </style>
+
+    <div class="container-x">
+
+      <app-location id="location" route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+      <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+
+      <block-header menu=[[menuHeader]]></block-header>
+
+      <div class="content">
+        <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="notFound" selected-attribute="route" selected-attribute-value="{{subroute}}" role="main">
+
+          <page-front name="front" route="[[route]]"></page-front>
+
+          <page-news name="news" route="[[route]]"></page-news>
+
+          <page-galleries name="galleries"></page-galleries>
+
+          <page-gallery name="gallery" route="[[route]]"></page-gallery>
+
+          <page-search name="search" route="[[route]]"></page-search>
+
+          <!-- <page-not-found name="notFound"></page-not-found> -->
+        </iron-pages>
+      </div>
+
+      <block-footer></block-footer>
+
+    </div>
+
+  </template>
+
+  <script>
+    class JoornaloApp extends Polymer.Element {
+      static get is() { return 'joornalo-app'; }
+
+      static get properties() {
+        return {
+          page: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_pageChanged',
+          },
+          routeData: Object,
+          subroute: String,
+          // This shouldn't be neccessary, but the Analyzer isn't picking up
+          // Polymer.Element#rootPath
+          rootPath: String,
+
+          menuHeader: Object,
+          menuFoter: Object
+        };
+      }
+
+      static get observers() {
+        return [
+          '_routePageChanged(routeData.page)',
+        ];
+      }
+
+      ready() {
+        super.ready();
+
+        let api = 'json/menu/';
+
+        window.ajax.request('GET', api, null, (data) => {
+
+          // console.log(data);
+
+          this.menuHeader = data['menu-header'];
+          this.menuFooter = data['menu-footer'];
+
+        }, (err) => this.setData(err));
+
+      }
+
+      _routePageChanged(page) {
+        if (this.route.path == '/' || this.route.path == '/front') {
+          this.$.location.set('path', '/front/home');
+        } else {
+          this.page = page || 'front';
+        }
+      }
+
+      _pageChanged(page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('elements/page-' + page + '.html');
+        Polymer.importHref(
+            resolvedPageUrl,
+            null,
+            this._showPage404.bind(this),
+            true);
+
+        window.store.publish(page, page);
+
+      }
+
+      _showPage404() {
+        this.page = 'notFound';
+      }
+    }
+
+    window.customElements.define(JoornaloApp.is, JoornaloApp);
+  </script>
+</dom-module>

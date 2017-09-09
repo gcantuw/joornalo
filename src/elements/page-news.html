@@ -1,0 +1,88 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../styles/shared.html">
+
+<dom-module id="page-news">
+  <template>
+    <style include="shared">
+
+      :host {
+        display: block;
+        background: #eee;
+      }
+      :host h2 {
+        margin: 0;
+      }
+
+    </style>
+
+    <app-route
+        route="{{route}}"
+        pattern="/news/:id"
+        data="{{routeData}}"></app-route>
+    
+    <div class="row">
+
+      <div class="col-lg-12">
+
+        <h2>news: [[id]]</h2>
+        <h3>[[data.title]]</h3>
+        <h5>[[data.desc]]</h5>
+        <p>[[data.text]]</p>
+
+      </div>
+
+    </div>
+
+  </template>
+
+  <script>
+
+    class PageNews extends Polymer.Element {
+      static get is() { return 'page-news'; }
+      static get properties() {
+        return {
+
+          id: {
+            type: String
+          },
+
+          data: {
+            type: Object
+          }
+
+        };
+      }
+
+      static get observers() {
+        return [
+          '_newsChanged(routeData.id)',
+        ];
+      }
+
+      constructor() {
+        super();
+        //this._init();
+        //window.store.subscribe('news', this._init.bind(this));
+      }
+
+      _newsChanged(id) {
+        console.log("News Id:", id);
+        this.id = id;
+
+        let api = 'json/news/' + id; //'json/gallery?i=' + id;
+        window.ajax.request('GET', api, null, (data) => {
+
+
+          console.log(data);
+          this.data = data;
+
+
+        }, (err) => this.setData(err));
+
+      }
+
+    }
+
+    window.customElements.define(PageNews.is, PageNews);
+  </script>
+</dom-module>

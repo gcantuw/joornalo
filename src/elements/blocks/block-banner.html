@@ -1,0 +1,76 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-banner">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+      }
+
+      .b300x250 {
+        height: 250px;
+      }
+      .b300x250 img {
+        position: relative;
+        
+        left: 50%;
+        margin-left: -150px;
+      }
+
+      .b980x90 {
+        height: 90px;
+      }
+      .b980x90 img {
+        position: relative;
+        left: 50%;
+        margin-left: -490px;
+      }
+
+    </style>
+
+    <div class$="[[size]]">
+
+      <img src="../../images/banners/[[img]]">
+
+    </div>
+    
+  </template>
+
+  <script>
+  
+    class BlockBanner extends Polymer.Element {
+      static get is() { return 'block-banner'; }
+      static get properties() {
+        return {
+
+          size: {
+            type: String
+          },
+
+          img: {
+            type: String
+          }
+
+        };
+      }
+
+      ready() {
+        super.ready();
+
+        let banners = {
+          "b300x250": ['b1.png','b2.jpg','b3.jpg','b4.jpg'],
+          "b728x90": ['a1.jpg','a2.jpg','a3.jpg','a4.jpg'],
+          "b980x90": ['c1.gif','c2.png','c3.gif','c4.jpg']
+        };
+
+        let ran = Math.floor(Math.random() * 4);
+
+        this.img = banners[this.size][ran];
+
+      }
+    }
+
+    window.customElements.define(BlockBanner.is, BlockBanner);
+  </script>
+</dom-module>

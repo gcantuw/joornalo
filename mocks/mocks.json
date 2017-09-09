@@ -1,0 +1,351 @@
+[
+	{
+		"request": {
+			"url": "^/json/front/estado-de-mexico",
+			"method": "GET"
+		},
+		"response": {
+			"status": 200,
+			"headers": {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Headers": "X-Requested-With"
+			},
+			"latency": 0,
+			"body": {
+				"layout": "section1",
+
+				"section": "Estado de México",
+
+				"headlines": [
+					{
+						"id": "123456",
+						"title": "La tolerancia de Trump con la violencia racista indigna a Estados Unidos",
+						"desc": "El presidente recibe críticas por la tibieza de su condena a la violencia de racistas y neonazis, grupos que le han apoyado",
+						"img": ""
+					},
+					{
+						"id": "765392",
+						"title": "Cristiano manda en casa de Messi (1-3)",
+						"desc": "El Madrid impone su mejor fútbol y amplitud de banquillo para derrotar al Barça en el Camp Nou en el partido de ida de la Supercopa",
+						"img": ""
+					}, {
+						"id": "986322",
+						"title": "Golazo y expulsión del delantero portugués",
+						"desc": "Marca y se va a la calle tres minutos después por enseñar el torso en la celebración y, supuestamente, simular un penalti",
+						"img": ""
+					}, {
+						"id": "276573",
+						"title": "La oposición de Venezuela rechaza las amenazas de Donald Trump",
+						"desc": "",
+						"img": ""
+					}
+				],
+
+				"top-news": [{
+					"id": "765721",
+					"title": ""
+				}],
+
+				"top-votes": [{
+					"id": "765721",
+					"title": "",
+					"votes": "45"
+				}],
+
+				"latest": [{
+					"id": "765721",
+					"title": "",
+					"img": "",
+					"votes": "45"
+				}],
+
+				"opinion": [{
+					"id": "765721",
+					"title": "",
+					"autor": "",
+					"column": ""
+				}],
+
+				"multimedia": [{
+					"id": "765721",
+					"title": "",
+					"img": ""
+				}],
+
+				"section-news": [{
+					"estado_de_mexico": {
+						"name": "Estado de México",
+						"news": [{
+							"id": "765721",
+							"title": "",
+							"img": ""
+						}]
+					},
+					"mundo_cultural": {
+						"name": "Estado de México",
+						"news": [{
+							"id": "765721",
+							"title": "",
+							"img": ""
+						}]
+					}
+				}],
+
+				"galleries": [{}]
+
+			}
+		}
+	},
+	{
+		"request": {
+			"url": "^/json/front",
+			"method": "GET"
+		},
+		"response": {
+			"status": 200,
+			"headers": {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Headers": "X-Requested-With"
+			},
+			"latency": 0,
+			"body": {
+				"layout": "home1",
+
+				"headlines": [{
+						"id": "123456",
+						"title": "North Korea underground nuclear test feared after earthquake",
+						"desc": "South Korea calls national security meeting after earthquake of magnitude 6.3 detected near a North Korean testing area",
+						"img": "../../images/tmp/sk.jpg"
+					},
+					{
+						"id": "123456",
+						"title": "La tolerancia de Trump con la violencia racista indigna a Estados Unidos",
+						"desc": "El presidente recibe críticas por la tibieza de su condena a la violencia de racistas y neonazis, grupos que le han apoyado",
+						"img": "../../images/tmp/img1.jpg"
+					},
+					{
+						"id": "765392",
+						"title": "Cristiano manda en casa de Messi (1-3)",
+						"desc": "El Madrid impone su mejor fútbol y amplitud de banquillo para derrotar al Barça en el Camp Nou en el partido de ida de la Supercopa",
+						"img": "../../images/tmp/img2.jpg"
+					}, {
+						"id": "986322",
+						"title": "Golazo y expulsión del delantero portugués",
+						"desc": "Marca y se va a la calle tres minutos después por enseñar el torso en la celebración y, supuestamente, simular un penalti",
+						"img": "../../images/tmp/img3.jpg"
+					}, {
+						"id": "276573",
+						"title": "La oposición de Venezuela rechaza las amenazas de Donald Trump",
+						"desc": "",
+						"img": ""
+					}
+				],
+
+				"top-news": [{
+					"id": "765721",
+					"title": ""
+				}],
+
+				"top-votes": [{
+					"id": "765721",
+					"title": "",
+					"votes": "45"
+				}],
+
+				"latest": [{
+					"id": "765721",
+					"title": "",
+					"img": "",
+					"votes": "45"
+				}],
+
+				"opinion": [{
+					"id": "765721",
+					"title": "",
+					"autor": "",
+					"column": ""
+				}],
+
+				"multimedia": [{
+					"id": "765721",
+					"title": "",
+					"img": ""
+				}],
+
+				"section-news": [{
+					"estado_de_mexico": {
+						"name": "Estado de México",
+						"news": [{
+							"id": "765721",
+							"title": "",
+							"img": ""
+						}]
+					},
+					"mundo_cultural": {
+						"name": "Estado de México",
+						"news": [{
+							"id": "765721",
+							"title": "",
+							"img": ""
+						}]
+					}
+				}],
+
+				"galleries": [{}]
+
+			}
+		}
+	},
+	{
+		"request": {
+			"url": "^/json/menu",
+			"method": "GET"
+		},
+		"response": {
+			"status": 200,
+			"headers": {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Headers": "X-Requested-With"
+			},
+			"latency": 0,
+			"body": {
+				"menu-header": [
+					{
+						"text": "Inicio",
+						"link": "front/home",
+						"sub": [
+							{
+								"text": "Estado de México",
+								"link": "front/estado-de-mexico"
+							},
+							{
+								"text": "Mundo Cultural",
+								"link": "front/mundo-cultural"
+							},
+							{
+								"text": "Reportajes",
+								"link": "front/reportajes"
+							},
+							{
+								"text": "Entrevistas",
+								"link": "front/entrevistas"
+							},
+							{
+								"text": "Deportes",
+								"link": "front/deportes"
+							},
+							{
+								"text": "UAEM",
+								"link": "front/uaem"
+							},
+							{
+								"text": "Ayuntamiento",
+								"link": "front/ayuntamiento"
+							},
+							{
+								"text": "Municipios",
+								"link": "front/municipios"
+							},
+							{
+								"text": "SMSEM",
+								"link": "front/smsem"
+							}
+						]
+					},
+					{
+						"text": "Columnas",
+						"link": "front/columnas"
+					},
+					{
+						"text": "Galeria de Fotos",
+						"link": "galleries"
+					},
+					{
+						"text": "Temas de Interes",
+						"link": "topics",
+						"sub": [
+							{
+								"text": "Test 1",
+								"link": "front/estado-de-mexico"
+							},
+							{
+								"text": "Test 2",
+								"link": "front/mundo-cultural"
+							}
+						]
+					},
+					{
+						"text": "Buscar",
+						"link": "search"
+					},
+					{
+						"text": "Nosotros",
+						"link": "static/about"
+					},
+					{
+						"text": "Contacto",
+						"link": "static/directory"
+					}
+				],
+				"menu-footer": [
+					{
+						"text": "Nosotros",
+						"link": "static/about"
+					},
+					{
+						"text": "Aviso",
+						"link": "static/legal"
+					},
+					{
+						"text": "Contacto",
+						"link": "static/directory"
+					}
+				]
+			}
+		}
+	},
+	{
+		"request": {
+			"url": "^/json/news",
+			"method": "GET"
+		},
+		"response": {
+			"status": 200,
+			"headers": {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Headers": "X-Requested-With"
+			},
+			"latency": 0,
+			"body": {
+				"id": "123456",
+				"title": "La tolerancia de Trump con la violencia racista indigna a Estados Unidos",
+				"desc": "El presidente recibe críticas por la tibieza de su condena a la violencia de racistas y neonazis, grupos que le han apoyado",
+				"img": "",
+				"text": " <p> Cabizbajo y con las manos en los bolsillos, Jorge recorría las calles de la capital sumergido en sus pensamientos, debía tomar una importante decisión laboral, en su trayecto, alzó la mirada y se encontró una barda con la frase de un poema, que lo remontó a su niñez, cuando tenía 8 años y después de recibir un beso y una caricia de su madre recitó un poema, con el que ganó el primer lugar de un concurso escolar. </p> <p> “¡Es el poder de la palabra!, –dijo emocionado Jorge Sandoval. - había olvidado ese momento trascendental de mi vida en el que después de muchas tardes de ensayo, en las que mi mamá cocinaba y yo me aprendía el poema del gran José María Heredia, pude transmitir el sentimiento y decir, con la certeza y la fuerza de un experto de esa edad, estos versos que transformarían mi existencia: Torrente prodigioso, calma, calla Tu trueno aterrador: disipa un tanto Las tinieblas que en torno te circundan;Déjame contemplar tu faz serena, Y de entusiasmo ardiente mi alma llena.”Como Jorge, miles de toluqueños se han encontrado con cientos de bardas en las que se han plasmado versos de diferentes poetas;dicha acción forma parte de los preparativos del Primer Festival Internacional de Poesía José María Heredia Toluca 2017, que organiza la administración municipal, que encabeza Fernando Zamora Morales, y que tendrá lugar del 28 al 30 de agosto. </p> <p> La FIPToluca convoca a más de 100 poetas de alta calidad de 24 países como México, Marruecos, Cuba, Palestina, Chile, Ecuador, Italia y Reino Unido, por mencionar algunos. </p> <p> Es así como la poesía ha invadido Toluca con un movimiento que embellecerá 500 paredes de la ciudad y las comunidades del municipio, con versos poderosos con los que se promueve la lectura, la reflexión y la poesía de autores como Benedetti, Neruda, Acolmiztli Nezahuacóyotl, Antonio Machado y Félix Suárez, por mencionar algunos. </p> <p> “Con esta iniciativa nos dan esperanza de vivir en un mundo donde la poesía nutre y transforma el paisaje urbano a través de la palabra y donde nos regalan, en espacios públicos al alcance de todos, versos que nos hacen pensar, salir del letargo, del consumismo y que, sin notarlo, inundan nuestra cotidianidad y nos traen felicidad pura”, consideró Jorge Ignacio, otro de los tantos toluqueños que se han detenido a leer los poemas escritos en bardas. </p>"
+			}
+		}
+	},
+	{
+		"request": {
+			"url": "^/json/gallery/832",
+			"method": "GET"
+		},
+		"response": {
+			"status": 200,
+			"headers": {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Headers": "X-Requested-With"
+			},
+			"latency": 0,
+			"body": {
+				"id": "832",
+				"title": "Images of the Week"
+			}
+		}
+	}
+]

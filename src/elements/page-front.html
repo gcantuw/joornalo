@@ -1,0 +1,104 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../styles/shared.html">
+
+<link rel="import" href="./layout/layout-home1.html">
+<link rel="import" href="./layout/layout-home2.html">
+<link rel="import" href="./layout/layout-section1.html">
+
+<dom-module id="page-front">
+  <template>
+    <style include="shared">
+
+      :host {
+        display: block;
+        margin-top: 1rem;
+        /*background: #eee;*/
+      }
+      :host h2 {
+        margin: 0;
+      }
+
+    </style>
+
+    <app-route
+        route="{{route}}"
+        pattern="/front/:section"
+        data="{{routeData}}"></app-route>
+
+<!--     <div class="row">
+      <div class="col-lg-12">
+    
+        <h2>Front: [[section]]</h2>
+
+      </div>
+    </div> -->
+
+    <iron-pages selected="[[layout]]" attr-for-selected="layout" fallback-selection="notFound">
+
+        <layout-home1 layout="home1" data="[[data]]"></layout-home1>
+        <layout-home2 layout="home2"></layout-home2>
+        <layout-section1 layout="section1"></layout-home2>
+
+
+      </iron-pages>
+  </template>
+
+  <script>
+
+    class PageFront extends Polymer.Element {
+      static get is() { return 'page-front'; }
+      static get properties() {
+        return {
+
+          section: {
+            type: String
+          },
+
+          layout:{
+            type: String,
+            value: null
+          },
+
+          data: {
+            type: Object
+          }
+
+        };
+      }
+
+      static get observers() {
+        return [
+          '_frontChanged(routeData.section)',
+        ];
+      }
+
+      constructor() {
+        super();
+        // this._init();
+        // window.store.subscribe('front', this._init.bind(this));
+      }
+
+      _frontChanged(section) {
+
+        this.section = section.replace("/", "");
+        // console.log("Section:", this.section);
+
+        let api = 'json/front/' + this.section; //'json/front?s=' + section;
+
+        window.ajax.request('GET', api, null, (data) => {
+
+          // console.log(data);
+          // console.log(data.layout);
+
+          this.layout = data.layout;
+          this.data = data;
+
+        }, (err) => this.setData(err));
+
+      }
+
+    }
+
+    window.customElements.define(PageFront.is, PageFront);
+  </script>
+</dom-module>

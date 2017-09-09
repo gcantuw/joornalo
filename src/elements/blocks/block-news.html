@@ -1,0 +1,85 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-news">
+  <template>
+    <style include="shared">
+
+      :host {
+        display: block;
+      }
+
+      .front1 {
+        background: #222;
+        padding-bottom: .4rem;
+        margin-bottom: 1rem;
+      }
+      .front1 a {
+        color: #FFF;
+      }
+      .front1 img {
+        margin-bottom: .4rem
+      }
+      .front1 .title {
+        @apply --h2-mixin;
+      }
+      .front1 .desc {
+        @apply --h4-mixin;
+      }
+
+      .front2 {
+        color: #333;
+        padding-bottom: .4rem;
+        margin-bottom: 1rem;
+      }
+      .front2 a {
+        color: #333;
+      }
+      .front2 img {
+        margin-bottom: .4rem
+      }
+      .front2 .title {
+        @apply --h4-mixin;
+        margin: 0 0 .5rem;
+        font-weight: 500;
+      }
+      .front2 .desc {
+        @apply --h6-mixin;
+        margin: 0;
+      }
+
+    </style>
+
+    <div class$="[[format]]">
+      <a href="/news/[[news.id]]">
+        <img src="[[news.img]]">
+        <div class="title">[[news.title]]</div>
+        <div class="desc">[[news.desc]]</div>
+      </a>
+    </div>
+
+    
+  </template>
+
+  <script>
+  
+    class BlockNews extends Polymer.Element {
+      static get is() { return 'block-news'; }
+      static get properties() {
+        return {
+          news: {
+            type: Object
+          },
+
+          format: {
+            type: String
+          }
+
+
+        };
+      }
+    }
+
+    window.customElements.define(BlockNews.is, BlockNews);
+  </script>
+</dom-module>

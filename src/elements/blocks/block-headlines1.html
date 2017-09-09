@@ -1,0 +1,57 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<link rel="import" href="./block-news.html">
+
+<dom-module id="block-headlines1">
+  <template>
+    <style include="shared">
+
+      :host {
+        display: block;
+      }
+
+    </style>
+
+    <block-news news="[[news.0]]" format="front1"></block-news>
+    
+    <div class="row nopad">
+
+      <div class="col-lg-4">
+        <block-news news="[[news.1]]" format="front2"></block-news>
+      </div>
+      <div class="col-lg-4">
+        <block-news news="[[news.2]]" format="front2"></block-news>
+      </div>
+      <div class="col-lg-4">
+        <block-news news="[[news.3]]" format="front2"></block-news>
+      </div>
+
+    </div>
+    
+  </template>
+
+  <script>
+  
+    class BlockHeadlines1 extends Polymer.Element {
+      static get is() { return 'block-headlines1'; }
+      static get properties() {
+        return {
+          news: {
+            type: Object,
+            // observer: '_newsChanged'
+          }
+
+
+        };
+      }
+
+      // _newsChanged() {
+      //   console.log('this.news');
+      //   console.log(this.news);
+      // }
+    }
+
+    window.customElements.define(BlockHeadlines1.is, BlockHeadlines1);
+  </script>
+</dom-module>

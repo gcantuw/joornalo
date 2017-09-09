@@ -1,0 +1,65 @@
+<custom-style>
+<style>
+/*    html {
+
+      	--font-common-base: {
+        	font-family: Georgia, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        };
+  	}*/
+
+/*  	@font-face {
+		font-family: "BentonSans";
+		src: local("BentonSans Regular"),
+		local("BentonSans-Regular"),
+		url("../fonts/benton/BentonSans-Regular") format("opentype");
+		font-weight: 100;
+		font-style: normal;
+    }*/
+
+    :root  {
+		--font-common-base: {
+			font-family: 'Roboto', 'Noto', sans-serif;
+			-webkit-font-smoothing: antialiased;
+		};
+
+		--joornalo-h1: {
+			@apply(--joornalo-font-common-base);
+			font-size: 3.5rem;  /*  56px  */
+			font-weight: 100;
+		};
+		--joornalo-h2: {
+			@apply(--joornalo-font-common-base);
+			font-size: 2.25rem;  /*  36px  */
+			font-weight: 100;
+		};
+		--joornalo-h3: {
+			@apply(--joornalo-font-common-base);
+			font-size: 1.5rem;  /*  24px  */
+			font-weight: 100;
+		};
+		--joornalo-h4: {
+			@apply(--joornalo-font-common-base);
+			font-size: 1.25rem;  /*  20px  */
+			font-weight: 100;
+		};
+		--joornalo-h5: {
+			@apply(--joornalo-font-common-base);
+			font-size: 1.125rem; /* 18px  */
+			font-weight: 100;
+		};
+		--joornalo-h6: {
+			@apply(--joornalo-font-common-base);
+			font-size: 1rem; 	/* 16px */
+			font-weight: 100;
+			margin: 0 0 1rem;
+			padding: 0 .5rem;
+		};
+		--joornalo-p: {
+			@apply(--joornalo-font-common-base);
+			font-size: 1rem; 	/* 16px  */
+			font-weight: 100;
+		};
+    }
+  </style>
+</custom-style>

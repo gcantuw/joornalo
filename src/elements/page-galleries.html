@@ -1,0 +1,50 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../styles/shared.html">
+
+<dom-module id="page-galleries">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Galleries</h2>
+  </template>
+
+  <script>
+  
+    class PageGalleries extends Polymer.Element {
+      static get is() { return 'page-galleries'; }
+      static get properties() {
+        return {
+
+          // id: {
+          //   type: String,
+          //   observer: '_idChanged'
+          // }
+
+        };
+      }
+
+      constructor() {
+        super();
+        this._init();
+        window.store.subscribe('gallery', this._init.bind(this));
+      }
+
+      _init() {
+
+        let api = 'json/gallery/';
+
+        window.ajax.request('GET', api, null, (data) => {
+
+          console.log(data);
+
+        }, (err) => this.setData(err));
+
+      }
+    }
+
+    window.customElements.define(PageGalleries.is, PageGalleries);
+  </script>
+</dom-module>

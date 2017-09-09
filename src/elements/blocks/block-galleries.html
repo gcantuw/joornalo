@@ -1,0 +1,36 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-galleries">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background: #ccc;
+        color:#000;
+        min-height: 300px;
+        margin-bottom: 1rem;
+      }
+    </style>
+
+    [[prop1]]
+    
+  </template>
+
+  <script>
+  
+    class BlockGalleries extends Polymer.Element {
+      static get is() { return 'block-galleries'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'block-galleries'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(BlockGalleries.is, BlockGalleries);
+  </script>
+</dom-module>

@@ -1,0 +1,48 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<link rel="import" href="../blocks/block-headlines1.html">
+<link rel="import" href="../blocks/block-latest.html">
+<link rel="import" href="../blocks/block-topics.html">
+
+
+<dom-module id="layout-home2">
+  <template>
+    <style>
+
+      :host {
+        display: block;
+      }
+      :host h2 {
+        margin: 0;
+      }
+
+    </style>
+
+    <h2>Layout: [[prop1]]</h2>
+
+    <block-headlines1></block-headlines1>
+
+    <block-latest></block-latest>
+
+    <block-topics></block-topics>
+
+  </template>
+
+  <script>
+  
+    class LayoutHome2 extends Polymer.Element {
+      static get is() { return 'layout-home2'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'home2'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(LayoutHome2.is, LayoutHome2);
+  </script>
+</dom-module>

@@ -1,0 +1,81 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../styles/shared.html">
+
+<dom-module id="page-search">
+  <template>
+    <style include="shared">
+
+      :host {
+        display: block;
+        background: #eee;
+      }
+      :host h2 {
+        margin: 0;
+      }
+
+    </style>
+
+    <app-route
+        route="{{route}}"
+        pattern="/search/:keywords"
+        data="{{routeData}}"></app-route>
+    
+    <h2>Search: [[keywords]]</h2>
+
+  </template>
+
+  <script>
+
+    class PageSearch extends Polymer.Element {
+      static get is() { return 'page-search'; }
+      static get properties() {
+        return {
+
+          keywords: {
+            type: String
+          },
+
+          searchResults: {
+            type: String
+          }
+
+        };
+      }
+
+      static get observers() {
+        return [
+          '_searchChanged(routeData.keywords)',
+        ];
+      }
+
+      constructor() {
+        super();
+      }
+
+      _searchChanged(keywords) {
+        //console.log("Keywords:", keywords);
+        if(keywords) {
+          this.keywords = keywords.replace("-", " ");
+
+          //console.log("Keywords:", keywords);
+
+          let api = 'json/search?k=' + keywords.replace("-", "+");
+          
+          window.ajax.request('GET', api, null, (data) => {
+
+            console.log(data);
+            // this.searchResults = data.results;
+
+          }, (err) => this.setData(err));
+        } else {
+          this.keywords = '';
+          this.searchResults = [];
+        }
+
+      }
+
+    }
+
+    window.customElements.define(PageSearch.is, PageSearch);
+  </script>
+</dom-module>

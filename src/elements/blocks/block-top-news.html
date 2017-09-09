@@ -1,0 +1,36 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-top-news">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background: #777;
+        color:#FFF;
+        min-height: 300px;
+        margin-bottom: 1rem;
+      }
+    </style>
+
+    [[prop1]]
+    
+  </template>
+
+  <script>
+  
+    class BlockTopNews extends Polymer.Element {
+      static get is() { return 'block-top-news'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'block-top-news'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(BlockTopNews.is, BlockTopNews);
+  </script>
+</dom-module>

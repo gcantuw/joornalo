@@ -1,0 +1,71 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/app-route/app-route.html">
+<link rel="import" href="../styles/shared.html">
+
+<dom-module id="page-gallery">
+  <template>
+    <style include="shared">
+
+      :host {
+        display: block;
+        background: #eee;
+      }
+      :host h2 {
+        margin: 0;
+      }
+
+    </style>
+
+    <app-route
+        route="{{route}}"
+        pattern="/gallery/:id"
+        data="{{routeData}}"></app-route>
+    
+    <h2>gallery: [[id]]</h2>
+
+  </template>
+
+  <script>
+
+    class PageGallery extends Polymer.Element {
+      static get is() { return 'page-gallery'; }
+      static get properties() {
+        return {
+
+          id: {
+            type: String
+          }
+
+        };
+      }
+
+      static get observers() {
+        return [
+          '_galleryChanged(routeData.id)',
+        ];
+      }
+
+      constructor() {
+        super();
+      }
+
+      _galleryChanged(id) {
+        console.log("Gallery Id:", id);
+        this.id = id;
+
+        let api = 'json/gallery/' + id; //'json/gallery?i=' + id;
+        window.ajax.request('GET', api, null, (data) => {
+
+
+          console.log(data);
+
+
+        }, (err) => this.setData(err));
+
+      }
+
+    }
+
+    window.customElements.define(PageGallery.is, PageGallery);
+  </script>
+</dom-module>

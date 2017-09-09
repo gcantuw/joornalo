@@ -1,0 +1,36 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-latest">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background: #666;
+        color:#fff;
+        min-height: 900px;
+        margin-bottom: 1rem;
+      }
+    </style>
+
+    [[prop1]]
+    
+  </template>
+
+  <script>
+  
+    class BlockLatest extends Polymer.Element {
+      static get is() { return 'block-latest'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'block-latest'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(BlockLatest.is, BlockLatest);
+  </script>
+</dom-module>

@@ -1,0 +1,141 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<link rel="import" href="../blocks/block-headlines1.html">
+<link rel="import" href="../blocks/block-latest.html">
+<link rel="import" href="../blocks/block-banner.html">
+<link rel="import" href="../blocks/block-sections.html">
+<link rel="import" href="../blocks/block-galleries.html">
+<link rel="import" href="../blocks/block-opinions.html">
+<link rel="import" href="../blocks/block-top-news.html">
+<link rel="import" href="../blocks/block-outstanding.html">
+
+
+<dom-module id="layout-home1">
+  <template>
+    <style include="shared">
+
+      :host {
+        display: block;
+      }
+
+/*      :host h2 {
+        margin: 0;
+      }*/
+
+      .block-top {
+        margin-bottom: 1rem;
+      }
+
+      .block-col block-banner {
+        background: #ccc;
+        padding-bottom: 1rem;
+      }
+      .block-col block-banner:first-of-type {
+        padding-top: 1rem;
+      }
+
+      .row .row {
+        margin: 0 -16px;
+      }
+
+    </style>
+
+<!--     <div class="row">
+      <div class="col-lg-12">
+
+        <h2>Layout: [[prop1]]</h2>
+
+      </div>
+    </div>
+ -->
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="block-top">
+          <block-banner size="b980x90"></block-banner>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-8">
+
+        <block-headlines1 news="[[data.headlines]]"></block-headlines1>
+
+        <div class="row">
+
+          <div class="col-lg-6">
+
+            <block-latest></block-latest>
+
+          </div>
+          <div class="col-lg-6">
+
+            <block-sections></block-sections>
+
+            <block-galleries></block-galleries>
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-lg-4">
+
+        <block-opinions></block-opinions>
+
+        <div class="block block-col">
+
+          <block-banner size="b300x250"></block-banner>
+          <block-banner size="b300x250"></block-banner>
+
+        </div>
+
+        
+
+        <block-top-news></block-top-news>
+
+        <div class="block block-col">
+
+          <block-banner size="b300x250"></block-banner>
+
+          <block-banner size="b300x250"></block-banner>
+
+        </div>
+
+      </div>
+    </div>
+
+    
+
+
+
+  </template>
+
+  <script>
+  
+    class LayoutHome1 extends Polymer.Element {
+      static get is() { return 'layout-home1'; }
+      static get properties() {
+        return {
+          data: {
+            type: Object,
+            // observer: '_dataChanged'
+          }
+        };
+      }
+
+      ready() {
+        super.ready();
+      }
+
+      // _dataChanged() {
+
+      //   console.log(this.data);
+      // }
+    }
+
+    window.customElements.define(LayoutHome1.is, LayoutHome1);
+  </script>
+</dom-module>

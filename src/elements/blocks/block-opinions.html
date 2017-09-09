@@ -1,0 +1,36 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-opinions">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background: #bbb;
+        color:#000;
+        min-height: 280px;
+        margin-bottom: 1rem;
+      }
+    </style>
+
+    [[prop1]]
+    
+  </template>
+
+  <script>
+  
+    class BlockOpinions extends Polymer.Element {
+      static get is() { return 'block-opinions'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'block-opinions'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(BlockOpinions.is, BlockOpinions);
+  </script>
+</dom-module>
