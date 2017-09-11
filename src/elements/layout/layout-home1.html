@@ -1,6 +1,7 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../styles/shared.html">
 
+<link rel="import" href="../util/app-viewport.html">
 <link rel="import" href="../blocks/block-headlines1.html">
 <link rel="import" href="../blocks/block-latest.html">
 <link rel="import" href="../blocks/block-banner.html">
@@ -9,6 +10,9 @@
 <link rel="import" href="../blocks/block-opinions.html">
 <link rel="import" href="../blocks/block-top-news.html">
 <link rel="import" href="../blocks/block-outstanding.html">
+<link rel="import" href="../blocks/block-climate.html">
+<link rel="import" href="../blocks/block-media.html">
+
 
 
 <dom-module id="layout-home1">
@@ -19,67 +23,59 @@
         display: block;
       }
 
-/*      :host h2 {
-        margin: 0;
-      }*/
-
       .block-top {
         margin-bottom: 1rem;
       }
 
-      .block-col block-banner {
+/*      .block-col block-banner {
         background: #ccc;
         padding-bottom: 1rem;
       }
       .block-col block-banner:first-of-type {
         padding-top: 1rem;
-      }
+      }*/
 
-      .row .row {
+/*      .row .row {
         margin: 0 -16px;
-      }
+      }*/
 
     </style>
 
-<!--     <div class="row">
-      <div class="col-lg-12">
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
 
-        <h2>Layout: [[prop1]]</h2>
-
-      </div>
-    </div>
- -->
-
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="block-top">
-          <block-banner size="b980x90"></block-banner>
+    <template is="dom-if" if="{{gMd}}">
+      <div class="row">
+        <div class="col-12">
+          <div class="block-top">
+            <block-banner size="b980x90"></block-banner>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
 
     <div class="row">
-      <div class="col-lg-9">
+      <div class="col-lg-8 col-xl-9">
 
-        <block-headlines1 news="[[data.headlines]]"></block-headlines1>
+        <block-headlines1 news="[[data.headlines]]" top-news="[[data.top-news]]"></block-headlines1>
 
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-4 col-xl-3">
 
         <block-opinions></block-opinions>
 
         <div class="block block-col">
 
           <block-banner size="b300x250"></block-banner>
-          <block-banner size="b300x250"></block-banner>
 
         </div>
+
+        <block-climate></block-climate>
 
       </div>
     </div>
 
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-12">
 
         <block-outstanding></block-outstanding>
 
@@ -87,34 +83,50 @@
     </div>
 
     <div class="row">
-      <div class="col-lg-9">
+
+      <template is="dom-if" if="{{lg}}">
+        <div class="col-lg-12 margin-bottom">
+
+          <block-banner size="b980x90"></block-banner>
+
+        </div>
+      </template>
+      
+      <div class="col-lg-8 col-xl-9">
+
         <div class="row">
 
-          <div class="col-lg-4">
+          <template is="dom-if" if="{{xl}}">
+            <div class="col-xl-12 margin-bottom">
+
+              <block-banner size="b980x90"></block-banner>
+
+            </div>
+          </template>
+
+          <div class="col-lg-4 col-xl-4">
 
             <block-latest></block-latest>
 
           </div>
-          <div class="col-lg-8">
+          <div class="col-lg-8 col-xl-8">
 
             <block-sections></block-sections>
-
-            <block-galleries></block-galleries>
 
           </div>
 
         </div>
 
       </div>
-      <div class="col-lg-3">
-
-        <block-top-news></block-top-news>
+      <div class="col-lg-4 col-xl-3">
 
         <div class="block block-col">
 
-          <block-banner size="b300x250"></block-banner>
+          <block-galleries></block-galleries>
 
-          <block-banner size="b300x250"></block-banner>
+          <block-banner size="b300x250" class="margin-bottom"></block-banner>
+
+          <block-media></block-media>
 
         </div>
 
@@ -133,12 +145,31 @@
           data: {
             type: Object,
             // observer: '_dataChanged'
+          },
+
+          gMd: {
+            type: Boolean,
+            value: false
           }
+
         };
+      }
+
+      static get observers() {
+        return [
+            'greaterMd(xl, lg)'
+        ]
       }
 
       ready() {
         super.ready();
+      }
+
+      greaterMd(xl, lg) {
+        console.log("============");
+        console.log("xl:"+this.xl);
+        console.log("lg:"+this.lg);
+        this.gMd = (xl || lg);
       }
 
       // _dataChanged() {

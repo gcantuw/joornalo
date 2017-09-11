@@ -1,12 +1,12 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../styles/shared.html">
 
-<dom-module id="block-outstanding">
+<dom-module id="block-climate">
   <template>
     <style>
       :host {
         display: block;
-        background: #aaa;
+        background: #ddd;
         color:#000;
         min-height: 250px;
         margin-bottom: 1.5rem;
@@ -19,18 +19,18 @@
 
   <script>
   
-    class BlockOutstanding extends Polymer.Element {
-      static get is() { return 'block-outstanding'; }
+    class BlockClimate extends Polymer.Element {
+      static get is() { return 'block-climate'; }
       static get properties() {
         return {
           prop1: {
             type: String,
-            value: 'block-outstanding'
+            value: 'block-climate'
           }
         };
       }
     }
 
-    window.customElements.define(BlockOutstanding.is, BlockOutstanding);
+    window.customElements.define(BlockClimate.is, BlockClimate);
   </script>
 </dom-module>

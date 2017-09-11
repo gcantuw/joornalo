@@ -25,9 +25,10 @@
       .content {
         min-height: 500px;
       }
+      
     </style>
 
-    <div class="container-x">
+    <div class="container-fluid">
 
       <app-location id="location" route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>

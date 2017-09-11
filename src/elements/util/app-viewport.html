@@ -1,0 +1,79 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="app-viewport">
+  <script>
+    class AppViewport extends Polymer.Element {
+      static get is() { return 'app-viewport'; }
+      static get properties() {
+        return {
+
+          sm:{
+            type: Boolean,
+            readOnly: true,
+            notify: true,
+            reflectToAttribute: true,
+            value: false
+          },
+
+          md:{
+            type: Boolean,
+            readOnly: true,
+            notify: true,
+            reflectToAttribute: true,
+            value: false
+          },
+
+          lg:{
+            type: Boolean,
+            readOnly: true,
+            notify: true,
+            reflectToAttribute: true,
+            value: false
+          },
+
+          xl:{
+            type: Boolean,
+            readOnly: true,
+            notify: true,
+            reflectToAttribute: true,
+            value: false
+          }
+
+        };
+
+      }
+
+      ready(){
+        super.ready();
+        this.windowChange();
+        this.windowObserver();
+      }
+
+      detached() {
+        window.removeEventListener("resize", this.windowChange.bind(this));
+        this._remove();
+      }
+
+      windowObserver(){
+        window.removeEventListener("resize", this.windowChange.bind(this));
+        window.addEventListener("resize", this.windowChange.bind(this));
+      }
+
+      windowChange(){
+        let w = window.innerWidth;
+        this._setSm(w < 576); //sm
+        this._setMd(w >= 768 && w<992); // md
+        this._setLg(w >= 992 && w<1350); // lg
+        this._setXl(w >= 1350); //xl
+        // console.log('------------------');
+        // console.log('width:'+w);
+        // console.log('sm:'+this.sm);
+        // console.log('md:'+this.md);
+        // console.log('lg:'+this.lg);
+        // console.log('xl:'+this.xl);
+      }
+    }
+
+    window.customElements.define(AppViewport.is, AppViewport);
+  </script>
+</dom-module>

@@ -43,9 +43,26 @@
 				],
 
 				"top-news": [{
-					"id": "765721",
-					"title": ""
-				}],
+						"id": "765721",
+						"title": "The Floridians who won't leave"
+					},
+					{
+						"id": "765721",
+						"title": "The thief was big but he left in tears"
+					},
+					{
+						"id": "765721",
+						"title": "When Obama crashes your class"
+					},
+					{
+						"id": "765721",
+						"title": "Barbuda: A Caribbean paradise lost"
+					},
+					{
+						"id": "765721",
+						"title": "How the British Virgin Islands look now"
+					}
+				],
 
 				"top-votes": [{
 					"id": "765721",
@@ -144,9 +161,37 @@
 				],
 
 				"top-news": [{
-					"id": "765721",
-					"title": ""
-				}],
+						"rank": "1",
+						"id": "765721",
+						"title": "The Floridians who won't leave",
+						"img": "../../images/tmp/hurricane.jpg"
+					},
+					{
+						"rank": "2",
+						"id": "765721",
+						"title": "The thief was big but he left in tears"
+					},
+					{
+						"rank": "3",
+						"id": "765721",
+						"title": "When Obama crashes your class"
+					},
+					{
+						"rank": "4",
+						"id": "765721",
+						"title": "Barbuda: A Caribbean paradise lost"
+					},
+					{
+						"rank": "5",
+						"id": "765721",
+						"title": "How the British Virgin Islands look now"
+					},
+					{
+						"rank": "6",
+						"id": "765721",
+						"title": "The thief was big but he left in tears"
+					}
+				],
 
 				"top-votes": [{
 					"id": "765721",

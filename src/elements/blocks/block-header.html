@@ -94,7 +94,6 @@
         display: inline-block;
         position: absolute;
         right: 1rem;
-        /*top: 1rem;*/
         top: 22px;
       }
 
@@ -116,6 +115,16 @@
         top: 5px;
       }
 
+      .menu-band {
+        position: absolute;
+        width: 100%;
+        top: 100px;
+        height: 50px;
+        left: 0;
+        background: #cc0002;
+        z-index: -1;
+      }
+
     </style>
 
     <app-location id="location"></app-location>
@@ -135,9 +144,9 @@
 
       </div>
     </div>
-    <div class="menu">
+    <div class="">
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12 menu">
 
           <ul>
             <template is="dom-repeat" items="{{menu}}">
@@ -159,6 +168,9 @@
 
             </template>
           </ul>
+
+        </div>
+        <div class="menu-band">
 
         </div>
       </div>

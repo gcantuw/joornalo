@@ -3,17 +3,68 @@
 
 <dom-module id="block-top-news">
   <template>
-    <style>
+    <style include="shared">
       :host {
         display: block;
-        background: #777;
-        color:#FFF;
-        min-height: 300px;
-        margin-bottom: 1rem;
+        color:#000;
+        margin-bottom: 1.5rem;
       }
+
+      ol {
+        padding: 0;
+      }
+      li {
+        list-style-type: none;
+        margin-bottom: 1rem;
+        display: flex;
+        line-height: 1.2rem;
+      }
+      li span {
+        color: #fff;
+        border-radius: 50%;
+        background: #cc0002;
+        margin-right: 1rem;
+        height: 1.6rem;
+        width: 1.6rem;
+        text-align: center;
+        line-height: 1.7rem;
+      }
+      li div {
+        flex: 1;
+        margin-top: .2rem;
+      }
+      li a {
+        color: #000;
+      }
+      li a:hover {
+        color: #cc0002;
+      }
+      img {
+        width: 100%;
+        height: auto;
+        margin-top: .2rem;
+      }
+
     </style>
 
-    [[prop1]]
+
+    <div class="tab">
+      <h3>más visto</h3>
+    </div>
+
+    <ol>
+      <template is="dom-repeat" items="{{topNews}}">
+        <li>
+          <span>[[item.rank]]</span>
+          <div>
+            <a href="news/[[item.id]]">
+              [[item.title]]
+              <img src="[[item.img]]">
+            </a>
+          </div>
+        </li>
+      </template>
+    </ol>
     
   </template>
 
@@ -23,10 +74,11 @@
       static get is() { return 'block-top-news'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'block-top-news'
+
+          topNews: {
+            type: Array
           }
+
         };
       }
     }

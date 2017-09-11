@@ -11,20 +11,45 @@
         display: block;
       }
 
+      .gray {
+        background: #ccc;
+      }
+
+      block-news {
+        overflow: hidden;
+      }
+
     </style>
 
-    <block-news news="[[news.0]]" format="front1"></block-news>
+    <div class="row nopad">
+      
+      <div class="col-lg-4 col-xl-4">
+
+        <block-top-news top-news="[[topNews]]"></block-top-news>
+
+      </div>
+
+      <div class="col-lg-8 col-xl-8">
+
+        <block-news news="[[news.0]]" format="front1"></block-news>
+
+      </div>
+
+    </div>
     
     <div class="row nopad">
 
-      <div class="col-lg-4">
+      <div class="col-lg-3 col-xl-3">
         <block-news news="[[news.1]]" format="front2"></block-news>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-3 col-xl-3">
         <block-news news="[[news.2]]" format="front2"></block-news>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-3 col-xl-3">
         <block-news news="[[news.3]]" format="front2"></block-news>
+      </div>
+      <div class="col-lg-3 col-xl-3">
+        <block-news news="[[news.2]]" format="front2"></block-news>
       </div>
 
     </div>
@@ -40,16 +65,21 @@
           news: {
             type: Object,
             // observer: '_newsChanged'
+          },
+
+          topNews: {
+            type: Array,
+            observer: '_topChanged'
           }
 
 
         };
       }
 
-      // _newsChanged() {
-      //   console.log('this.news');
-      //   console.log(this.news);
-      // }
+      _topChanged() {
+        console.log('this.topNews');
+        console.log(this.topNews);
+      }
     }
 
     window.customElements.define(BlockHeadlines1.is, BlockHeadlines1);

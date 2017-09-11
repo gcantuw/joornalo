@@ -3,17 +3,33 @@
 
 <dom-module id="block-opinions">
   <template>
-    <style>
+    <style include="shared">
       :host {
         display: block;
-        background: #bbb;
+     /*   background: #bbb;*/
         color:#000;
         min-height: 280px;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
       }
     </style>
 
-    [[prop1]]
+    <div class="tab">
+      <h3>opinión</h3>
+    </div>
+
+    <ol>
+      <template is="dom-repeat" items="{{topNews}}">
+        <li>
+          <span>[[item.rank]]</span>
+          <div>
+            <a href="news/[[item.id]]">
+              [[item.title]]
+              <img src="[[item.img]]">
+            </a>
+          </div>
+        </li>
+      </template>
+    </ol>
     
   </template>
 
