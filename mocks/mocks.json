@@ -208,9 +208,14 @@
 
 				"opinion": [{
 					"id": "765721",
-					"title": "",
-					"autor": "",
-					"column": ""
+					"title": "La encrucijada",
+					"autor": "David Martín del Campo",
+					"column": "El Rincón de David"
+				},{
+					"id": "765721",
+					"title": "CAROLINA, MONREAL, CRECE GABINETE, ERUVIEL Y AÍDA",
+					"autor": "Guillermo Garduño Ramírez",
+					"column": "De Poder a Poder"
 				}],
 
 				"multimedia": [{
