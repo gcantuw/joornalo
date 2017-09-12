@@ -1,6 +1,7 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../styles/shared.html">
 
+<link rel="import" href="../util/app-viewport.html">
 <link rel="import" href="./block-news.html">
 
 <dom-module id="block-headlines1">
@@ -21,13 +22,17 @@
 
     </style>
 
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
+
     <div class="row nopad">
       
-      <div class="col-lg-4 col-xl-4">
+      <template is="dom-if" if="{{gMd}}">
+        <div class="col-lg-4 col-xl-4">
 
-        <block-top-news top-news="[[topNews]]"></block-top-news>
+          <block-top-news top-news="[[topNews]]"></block-top-news>
 
-      </div>
+        </div>
+      </template>
 
       <div class="col-lg-8 col-xl-8">
 
@@ -53,6 +58,18 @@
       </div>
 
     </div>
+
+    <div class="row nopad">
+      
+      <template is="dom-if" if="{{lLg}}">
+        <div class="col">
+
+          <block-top-news top-news="[[topNews]]"></block-top-news>
+
+        </div>
+      </template>
+
+    </div>
     
   </template>
 
@@ -70,15 +87,40 @@
           topNews: {
             type: Array,
             observer: '_topChanged'
+          },
+
+          gMd: {
+            type: Boolean,
+            value: false
+          },
+
+          lLg: {
+            type: Boolean,
+            value: false
           }
 
 
         };
       }
 
+      static get observers() {
+        return [
+            'greaterMd(xl, lg)',
+            'lessLg(sm, md)'
+        ]
+      }
+
+      greaterMd(xl, lg) {
+        this.gMd = (xl || lg);
+      }
+
+      lessLg(sm, md) {
+        this.lLg = (sm || md);
+      }
+
       _topChanged() {
-        console.log('this.topNews');
-        console.log(this.topNews);
+        // console.log('this.topNews');
+        // console.log(this.topNews);
       }
     }
 

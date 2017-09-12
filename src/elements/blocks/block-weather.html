@@ -1,0 +1,33 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-weather">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <img src="https://www.theweather.com/wimages/foto9b80c5cfd5453a2e47525da0466c72bb.png">
+    <!-- <img src="https://www.theweather.com/wimages/fotof639667a2fa2947b3a445ad36219de08.png"> -->
+    
+  </template>
+
+  <script>
+  
+    class BlockWeather extends Polymer.Element {
+      static get is() { return 'block-weather'; }
+      // static get properties() {
+      //   return {
+      //     prop1: {
+      //       type: String,
+      //       value: 'block-weather'
+      //     }
+      //   };
+      // }
+    }
+
+    window.customElements.define(BlockWeather.is, BlockWeather);
+  </script>
+</dom-module>

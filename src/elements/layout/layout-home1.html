@@ -10,7 +10,7 @@
 <link rel="import" href="../blocks/block-opinions.html">
 <link rel="import" href="../blocks/block-top-news.html">
 <link rel="import" href="../blocks/block-outstanding.html">
-<link rel="import" href="../blocks/block-climate.html">
+<link rel="import" href="../blocks/block-weather.html">
 <link rel="import" href="../blocks/block-media.html">
 
 
@@ -69,18 +69,18 @@
 
         </div>
 
-        <block-climate></block-climate>
+        <block-weather></block-weather>
 
       </div>
     </div>
 
-    <div class="row">
+<!--     <div class="row">
       <div class="col-12">
 
         <block-outstanding></block-outstanding>
 
       </div>
-    </div>
+    </div> -->
 
     <div class="row">
 
@@ -111,7 +111,7 @@
           </div>
           <div class="col-lg-8 col-xl-8">
 
-            <block-sections></block-sections>
+            <block-sections sections="[[data.section-news]]"></block-sections>
 
           </div>
 
@@ -166,9 +166,9 @@
       }
 
       greaterMd(xl, lg) {
-        console.log("============");
-        console.log("xl:"+this.xl);
-        console.log("lg:"+this.lg);
+        // console.log("============");
+        // console.log("xl:"+this.xl);
+        // console.log("lg:"+this.lg);
         this.gMd = (xl || lg);
       }
 

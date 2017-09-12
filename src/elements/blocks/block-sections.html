@@ -3,17 +3,36 @@
 
 <dom-module id="block-sections">
   <template>
-    <style>
+    <style include="shared">
       :host {
         display: block;
-        background: #aaa;
-        color:#000;
-        min-height: 900px;
         margin-bottom: 1.5rem;
       }
+      ul {
+        display: flex;
+        list-style-type: none;
+        margin: 0.5rem -0.5rem 0;
+        padding: 0;
+      }
+      li {
+        flex: 1;
+        margin: 0 0.5rem;
+      }
+
     </style>
 
-    [[prop1]]
+    <template is="dom-repeat" items="{{sections}}" as="section">
+      <div class="tab">
+        <h3><a href="front/[[section.id]]">[[section.name]]</a></h3>
+      </div>
+      <ul>
+        <template is="dom-repeat" items="{{section.news}}" as="news">
+          <li>
+            <block-news news="[[news]]" format="front3"></block-news>
+          </li>
+        </template>
+      </ul>
+    </template>
     
   </template>
 
