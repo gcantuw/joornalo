@@ -1,19 +1,38 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../styles/shared.html">
+<link rel="import" href="./block-news-flow.html">
 
 <dom-module id="block-latest">
   <template>
-    <style>
+    <style include="shared">
       :host {
         display: block;
-        background: #666;
-        color:#fff;
-        min-height: 900px;
         margin-bottom: 1.5rem;
+        background: #eee;
+      }
+      .tab h3 {
+        background: #eee;
+      }
+      ul {
+        list-style-type: none;
+        margin: 0.5rem 0 0;
+        padding: 0;
+      }
+      li {
+        margin: 0 0.5rem;
       }
     </style>
 
-    [[prop1]]
+    <div class="tab">
+      <h3>lo último</h3>
+    </div>
+    <ul>
+      <template is="dom-repeat" items="{{news}}" as="news">
+        <li>
+          <block-news-flow news="[[news]]" format="flow1"></block-news-flow>
+        </li>
+      </template>
+    </ul>
     
   </template>
 

@@ -197,16 +197,22 @@
 
 				"opinion": [
 					{
-					"id": "765721",
-					"title": "La encrucijada",
-					"autor": "David Martín del Campo",
-					"column": "El Rincón de David"
+						"id": "765721",
+						"title": "La encrucijada",
+						"autor": "David Martín del Campo",
+						"column": "El Rincón de David"
 					},
 					{
-					"id": "765721",
-					"title": "CAROLINA, MONREAL, CRECE GABINETE, ERUVIEL Y AÍDA",
-					"autor": "Guillermo Garduño Ramírez",
-					"column": "De Poder a Poder"
+						"id": "765721",
+						"title": "CAROLINA, MONREAL, CRECE GABINETE, ERUVIEL Y AÍDA",
+						"autor": "Guillermo Garduño Ramírez",
+						"column": "De Poder a Poder"
+					},
+					{
+						"id": "765721",
+						"title": "MIRILLA",
+						"autor": "Martha Lujano Valenzuela",
+						"column": "Temblando"
 					}
 				],
 
@@ -254,6 +260,72 @@
 								"img": "../../images/tmp/cult3.jpg"
 							}
 						]
+					},
+					{
+						"id": "deportes",
+						"name": "Deportes",
+						"news": [
+							{
+								"id": "765721",
+								"title": "Teatro de Guadalajara del IMSS con el nombre de Ignacio López Tarso",
+								"img": "../../images/tmp/edo1.jpg"
+							},
+							{
+								"id": "765721",
+								"title": "Erradican burocracia en La Función Registral",
+								"img": "../../images/tmp/edo2.jpg"
+							},
+							{
+								"id": "765721",
+								"title": "Edomex con sensores remotos para detectar vehículos que queman leña",
+								"img": "../../images/tmp/edo3.jpg"
+							}
+						]
+
+					},
+					{
+
+						"id": "uaem",
+						"name": "UAEM",
+						"news": [
+							{
+								"id": "765721",
+								"title": "La literatura en el cine, el periodismo en la era de laposverdad y el activismo pro derechos humanos",
+								"img": "../../images/tmp/cult1.jpg"
+							},
+							{
+								"id": "765721",
+								"title": "Exitoso concierto de la OFiT con Mariachi Sinfónico",
+								"img": "../../images/tmp/cult2.jpg"
+							},
+							{
+								"id": "765721",
+								"title": "Posiciona Ópera Aída a Toluca en el escenario cultural internacional",
+								"img": "../../images/tmp/cult3.jpg"
+							}
+						]
+					},
+					{
+						"id": "toluca",
+						"name": "Toluca",
+						"news": [
+							{
+								"id": "765721",
+								"title": "Teatro de Guadalajara del IMSS con el nombre de Ignacio López Tarso",
+								"img": "../../images/tmp/edo1.jpg"
+							},
+							{
+								"id": "765721",
+								"title": "Erradican burocracia en La Función Registral",
+								"img": "../../images/tmp/edo2.jpg"
+							},
+							{
+								"id": "765721",
+								"title": "Edomex con sensores remotos para detectar vehículos que queman leña",
+								"img": "../../images/tmp/edo3.jpg"
+							}
+						]
+
 					}
 
 				],
@@ -266,12 +338,70 @@
 					"votes": "45"
 				}],
 
-				"latest": [{
-					"id": "765721",
-					"title": "",
-					"img": "",
-					"votes": "45"
-				}],
+				"latest": [
+					{
+						"id": "765721",
+						"title": "La literatura en el cine, el periodismo en la era de laposverdad y el activismo pro derechos humanos",
+						"img": "../../images/tmp/cult1.jpg",
+						"votes": "+8",
+						"section-id": "mundo-cultural",
+						"section-name": "Mundo Cultural",
+						"date": "12/09/2017",
+						"time": "11:10"
+
+					},
+					{
+						"id": "765721",
+						"title": "Teatro de Guadalajara del IMSS con el nombre de Ignacio López Tarso",
+						"img": "../../images/tmp/edo1.jpg",
+						"votes": "+45",
+						"section-id": "estado-de-mexico",
+						"section-name": "Estado de México",
+						"time": "11:05"
+					},
+					{
+						"id": "765721",
+						"title": "Erradican burocracia en La Función Registral",
+						"votes": "+5",
+						"section-id": "mundo-cultural",
+						"section-name": "Mundo Cultural",
+						"time": "10:56"
+					},
+					{
+						"id": "765721",
+						"title": "Edomex con sensores remotos para detectar vehículos que queman leña",
+						"img": "../../images/tmp/edo3.jpg",
+						"section-id": "estado-de-mexico",
+						"section-name": "Estado de México",
+						"time": "10:40"
+					},
+					{
+						"id": "765721",
+						"title": "PERPETUO MOVIMIENTO…",
+						"section-id": "columnas",
+						"section-name": "Columnas",
+						"time": "10:36"
+					},
+					{
+						"id": "765721",
+						"title": "Exitoso concierto de la OFiT con Mariachi Sinfónico",
+						"img": "../../images/tmp/cult2.jpg",
+						"votes": "+2",
+						"section-id": "mundo-cultural",
+						"section-name": "Mundo Cultural",
+						"time": "10:30"
+					},
+					{
+						"id": "765721",
+						"title": "Posiciona Ópera Aída a Toluca en el escenario cultural internacional",
+						"img": "../../images/tmp/cult3.jpg",
+						"votes": "+6",
+						"section-id": "estado-de-mexico",
+						"section-name": "Estado de México",
+						"time": "10:22"
+					}
+
+				],
 
 
 

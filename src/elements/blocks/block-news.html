@@ -72,11 +72,46 @@
         line-height: 1.3rem;
       }
 
+
+      .flow1 {
+        color: #333;
+        padding-bottom: .4rem;
+        margin-bottom: .6rem;
+        border-bottom: 1px dashed #ccc;
+      }
+      .flow1 a {
+        display: flex;
+        flex-direction: column;
+        color: #333;
+      }
+      .flow1 a:hover {
+        color: #cc0002;
+      }
+      .img {
+        order: 2;
+      }
+      .flow1 img {
+        margin-bottom: .2rem;
+      }
+      .flow1 .title {
+        order: 3;
+        @apply --h6-mixin;
+        margin: 0 0 .5rem;
+        font-weight: 400;
+        line-height: 1.3rem;
+      }
+      .flow1 .section {
+        order: 1;
+        color: #3C99B0;
+        font-size: .8rem;
+      }
+
     </style>
 
     <div class$="[[format]]">
       <a href="/news/[[news.id]]">
-        <img src="[[news.img]]">
+        <div class="section">[[news.section-name]]</div>
+        <div class="img"><img src="[[news.img]]"></div>
         <div class="title">[[news.title]]</div>
         <div class="desc">[[news.desc]]</div>
       </a>
