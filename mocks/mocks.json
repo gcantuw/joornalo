@@ -13,6 +13,7 @@
 			},
 			"latency": 0,
 			"body": {
+				"date": "09/16/2017",
 				"layout": "section1",
 
 				"section": "Estado de México",
@@ -42,7 +43,8 @@
 					}
 				],
 
-				"top-news": [{
+				"top-news": [
+					{
 						"id": "765721",
 						"title": "The Floridians who won't leave"
 					},
@@ -411,7 +413,32 @@
 					"img": ""
 				}],
 
-				"galleries": [{}]
+				"galleries": [
+					{
+						"id": "765721",
+						"title": "Inicio de la contienda electoral",
+						"img": "../../images/tmp/gal1.jpg"
+
+					},
+					{
+						"id": "765721",
+						"title": "Casas antiguas en Zinacantepec",
+						"img": "../../images/tmp/gal2.jpg"
+
+					},
+					{
+						"id": "765721",
+						"title": "Huracan Alex causa daño en Monterrey",
+						"img": "../../images/tmp/gal3.jpg"
+
+					},
+					{
+						"id": "765721",
+						"title": "Inicio de la contienda electoral",
+						"img": "../../images/tmp/gal1.jpg"
+
+					}
+				]
 
 			}
 		}
