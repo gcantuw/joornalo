@@ -1,5 +1,6 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../../bower_components/app-route/app-location.html">
+<link rel="import" href="../blocks/block-menu.html">
 <link rel="import" href="../../styles/shared.html">
 
 <dom-module id="block-header">
@@ -9,7 +10,7 @@
         display: block;
       }
       .header {
-        background: #cc0002;;
+        background: #cc0002;
       }
       .poder-edomex {
         padding: 1rem 0;
@@ -20,72 +21,6 @@
         height: 68px;
         background: url(../../../images/poder-edomex.svg) no-repeat 16px top;
       }
-      .menu {
-        font-size: 0.9rem;
-        height: 50px;
-        background: #cc0002;
-      }
-
-      .sub {
-        background: #8A0406;
-        height: 24px;
-      }
-
-      ul {
-        padding: 0;
-        list-style-type: none;
-        margin: 0;
-        padding: 1px 0.5rem;
-      }
-      li {
-        display: inline-block;
-        width: auto;
-        padding: 0;
-        margin-right: .5rem;
-        padding: 1px 0;
-      }
-      ol li {
-        margin-right: .4rem;
-      }
-      li a {
-        color:#fff;
-        text-decoration: none;
-        padding: .2rem .5rem;
-      }
-      li a:hover {
-        color:#cc0002;
-        background: #fff;
-      }
-      ol {
-        display: none;
-        position: absolute;
-        padding: 0;
-        z-index: 11;
-        top: 26px;
-      }
-      .bg {
-        display: none;
-        position: absolute;
-        top: 25px;
-        left: 0;
-        width: calc(100% - 32px);
-        margin-left: 16px;
-        background: #8A0406;
-        height: 24px;
-        z-index: 10;
-      }
-      li:hover .bg,
-      li:hover ol {
-        display: block;
-      }
-      ul li:first-of-type .bg {
-        display: block;
-        z-index: 7;
-      }
-      ul li:first-of-type ol {
-        display: block;
-        z-index: 8;
-      }
 
       .search-box {
         background: #FFF;
@@ -95,7 +30,6 @@
         float: right;
         margin-top: 16px
       }
-
       .search-box input {
         font-size: .8rem;
         background: transparent;
@@ -103,7 +37,6 @@
         padding: 0 0 0 .5rem;
         outline: 0
       }
-
       .search-box .search-icon {
         height: 20px;
         width: 20px;
@@ -112,16 +45,6 @@
         position: absolute;
         right: 16px;
         top: 21px;
-      }
-
-      .menu-band {
-        position: absolute;
-        width: 100%;
-        top: 0;
-        height: 150px;
-        left: 0;
-        background: #cc0002;
-        z-index: -1;
       }
 
       .date {
@@ -135,19 +58,33 @@
 
     <app-location id="location"></app-location>
 
-    <div class="row header">
-      <div class="col-lg-8">
-        <div class="poder-edomex">
-          <a href="front"></a>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="row">
-          <div class="col">
+    <div class="header">
+      <div class="container-fluid">
 
-            <div class="search-box">
-              <input id="search" value="{{search::input}}" placeholder="Search" type="text" on-keydown="_keydown">
-              <div class="search-icon"></div>
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="poder-edomex">
+              <a href="front"></a>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="row">
+              <div class="col">
+
+                <div class="search-box">
+                  <input id="search" value="{{search::input}}" placeholder="Search" type="text" on-keydown="_keydown">
+                  <div class="search-icon"></div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+
+                <div class="date">[[date]]</div>
+
+              </div>
             </div>
 
           </div>
@@ -156,46 +93,14 @@
         <div class="row">
           <div class="col">
 
-            <div class="date">[[date]]</div>
+            <block-menu menu="[[menu]]"></block-menu>
 
           </div>
         </div>
 
       </div>
     </div>
-    <div class="">
-      <div class="row">
-        <div class="col-lg-12 menu">
 
-          <ul>
-            <template is="dom-repeat" items="{{menu}}">
-
-              <li>
-                <a href="[[item.link]]">[[item.text]]</a>
-
-                <div hidden$="[[!item.sub]]" class="bg"></div>
-
-                <ol hidden$="[[!item.sub]]">
-
-                  <template is="dom-repeat" items="{{item.sub}}" as="sub">
-                    <li><a href="[[sub.link]]">[[sub.text]]</a></li>
-                  </template>
-
-                </ol>
-
-              </li>
-
-            </template>
-          </ul>
-
-        </div>
-        <div class="menu-band">
-
-        </div>
-      </div>
-
-    </div>
-    
   </template>
 
   <script>
@@ -206,8 +111,7 @@
         return {
 
           menu: {
-            type: Object,
-            observer: '_menuChanged'
+            type: Object
           },
 
           search: {

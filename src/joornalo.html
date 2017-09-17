@@ -28,12 +28,13 @@
       
     </style>
 
+
+    <app-location id="location" route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+    <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+
+    <block-header menu=[[menuHeader]]></block-header>
+
     <div class="container-fluid">
-
-      <app-location id="location" route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-      <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
-
-      <block-header menu=[[menuHeader]]></block-header>
 
       <div class="content">
         <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="notFound" selected-attribute="route" selected-attribute-value="{{subroute}}" role="main">
@@ -52,9 +53,9 @@
         </iron-pages>
       </div>
 
-      <block-footer></block-footer>
-
     </div>
+    
+    <block-footer menu=[[menuHeader]]></block-footer>
 
   </template>
 

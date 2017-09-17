@@ -1,4 +1,5 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../blocks/block-menu.html">
 <link rel="import" href="../../styles/shared.html">
 
 <dom-module id="block-footer">
@@ -6,18 +7,88 @@
     <style include="shared">
       :host {
         display: block;
-        background: #ccc;
-        min-height: 90px;
+        
+        min-height: 120px;
       }
+      .menu {
+        background: #cc0002;
+        height: 50px;
+      }
+      .footer {
+        background: #ccc;
+        height: 100px;
+        padding-top: 30px;
+      }
+
+      ol {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      li {
+        display: inline-block;
+        padding-right: 1rem;
+        margin: 0 1rem 0 0;
+        border-right: 1px solid #000;
+        line-height: 1rem;
+      }
+      li:last-of-type {
+        border: 0;
+        margin: 0;
+        padding: 0;
+      }
+      a {
+        color: #333;
+      }
+
+      a:hover {
+        color: #FFF;
+      }
+
+      .copy {
+        float: right;
+        font-size: .7rem;
+      }
+
     </style>
 
-    <div class="row">
-      <div class="col">
+    <div class="menu">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
 
-        [[prop1]]
+            <block-menu menu="[[menu]]"></block-menu>
 
+          </div>
+        </div>
       </div>
     </div>
+
+    <div class="footer">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6">
+
+            <ol>
+              <li><a href="static/about">Nosotros</a></li>
+              <li><a href="static/about">Aviso de Privacidad</a></li>
+              <li><a href="static/legal">Contacto</a></li>
+            </ol>
+
+          </div>
+          <div class="col-lg-6">
+
+            <ol class="copy">
+              <li>Copyright © 2017, Poder Edomex - Toda la Información de Estado de México</li>
+              <li>Powered by <a href="http://joornalo.com" target=”_blank”>Joornalo</a></li>
+            </ol>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
     
   </template>
 
@@ -27,10 +98,11 @@
       static get is() { return 'block-footer'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'block-footer'
+
+          menu: {
+            type: Object
           }
+
         };
       }
     }

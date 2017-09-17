@@ -1,0 +1,112 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-menu">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+        font-size: 0.9rem;
+        height: 50px;
+        background: #cc0002;
+      }
+      ul {
+        padding: 0;
+        list-style-type: none;
+        margin: 0;
+        padding: 1px 0.5rem;
+      }
+      li {
+        display: inline-block;
+        width: auto;
+        padding: 0;
+        margin-right: .5rem;
+        padding: 1px 0;
+      }
+      ol li {
+        margin-right: .4rem;
+      }
+      li a {
+        color:#fff;
+        text-decoration: none;
+        padding: .2rem .5rem;
+      }
+      li a:hover {
+        color:#cc0002;
+        background: #fff;
+      }
+      ol {
+        display: none;
+        position: absolute;
+        padding: 0;
+        z-index: 11;
+        top: 26px;
+      }
+      .bg {
+        display: none;
+        position: absolute;
+        top: 25px;
+        left: 0;
+        width: calc(100% - 32px);
+        margin-left: 16px;
+        background: #8A0406;
+        height: 24px;
+        z-index: 10;
+      }
+      li:hover .bg,
+      li:hover ol {
+        display: block;
+      }
+      ul li:first-of-type .bg {
+        display: block;
+        z-index: 7;
+      }
+      ul li:first-of-type ol {
+        display: block;
+        z-index: 8;
+      }
+
+    </style>
+
+    <ul>
+      <template is="dom-repeat" items="{{menu}}">
+
+        <li>
+          <a href="[[item.link]]">[[item.text]]</a>
+
+          <div hidden$="[[!item.sub]]" class="bg"></div>
+
+          <ol hidden$="[[!item.sub]]">
+
+            <template is="dom-repeat" items="{{item.sub}}" as="sub">
+              <li><a href="[[sub.link]]">[[sub.text]]</a></li>
+            </template>
+
+          </ol>
+
+        </li>
+
+      </template>
+    </ul>
+    
+    
+  </template>
+
+  <script>
+  
+    class BlockMenu extends Polymer.Element {
+      static get is() { return 'block-menu'; }
+      static get properties() {
+        return {
+
+          menu: {
+            type: Object
+          }
+          
+        };
+      }
+    }
+
+    window.customElements.define(BlockMenu.is, BlockMenu);
+  </script>
+</dom-module>
