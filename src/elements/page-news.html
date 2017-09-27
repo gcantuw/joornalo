@@ -1,4 +1,4 @@
-<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../styles/shared.html">
 
 <dom-module id="page-news">
@@ -7,7 +7,6 @@
 
       :host {
         display: block;
-        background: #eee;
       }
       :host h2 {
         margin: 0;
@@ -24,10 +23,10 @@
 
       <div class="col-lg-12">
 
-        <h2>news: [[id]]</h2>
+        <!-- <h2>news: [[id]]</h2> -->
         <h3>[[data.title]]</h3>
         <h5>[[data.desc]]</h5>
-        <p>[[data.text]]</p>
+        <p inner-h-t-m-l="[[data.text]]"></p>
 
       </div>
 
@@ -69,7 +68,7 @@
         console.log("News Id:", id);
         this.id = id;
 
-        let api = 'json/news/' + id; //'json/gallery?i=' + id;
+        let api = 'json/news/news.json'; //'json/gallery?i=' + id;
         window.ajax.request('GET', api, null, (data) => {
 
 

@@ -25,7 +25,9 @@ class requestEmitter {
 
   request(method, apiName, payload, successFn, errorFn) {
 
-    let endpoint = 'http://localhost:9998/';
+    //let endpoint = 'http://localhost:9998/';
+    let endpoint = 'http://127.0.0.1:8081/';
+    //let endpoint = 'http://64.182.211.118/';
     let url;
     if (apiName.startsWith("http")) {
       url = apiName;

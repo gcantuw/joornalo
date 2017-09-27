@@ -1,0 +1,71 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-video-thumb">
+  <template>
+    <style include="shared">
+
+      :host {
+        display: block;
+      }
+
+      .front1 {
+        background: #666;
+        padding-bottom: .4rem;
+        margin-bottom: 1rem;
+      }
+      .front1 a {
+        display: block;
+        color: #FFF;
+      }
+      .front1:hover {
+        background: #888;
+      }
+      .front1 img {
+        /*margin-bottom: .4rem*/
+      }
+      .front1 .title {
+        @apply --joornalo-h6;
+        padding: 0 .2rem;
+        margin-bottom: 0;
+      }
+      .front1 .desc {
+        display: none;
+      }
+
+     
+    </style>
+
+    <div class$="[[format]]">
+      <a href="#/multimedia/[[video.id]]">
+        <img src="https://i.ytimg.com/vi/[[video.youtube-id]]/mqdefault.jpg">
+        <div class="title">[[video.title]]</div>
+        <div class="desc">[[video.desc]]</div>
+      </a>
+    </div>
+
+    
+  </template>
+
+  <script>
+  
+    class BlockVideoThumb extends Polymer.Element {
+      static get is() { return 'block-video-thumb'; }
+      static get properties() {
+        return {
+          video: {
+            type: Object
+          },
+
+          format: {
+            type: String
+          }
+
+
+        };
+      }
+    }
+
+    window.customElements.define(BlockVideoThumb.is, BlockVideoThumb);
+  </script>
+</dom-module>

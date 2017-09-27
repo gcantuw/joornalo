@@ -1,4 +1,4 @@
-<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../styles/shared.html">
 
 <link rel="import" href="./layout/layout-home1.html">
@@ -80,20 +80,23 @@
 
       _frontChanged(section) {
 
-        this.section = section.replace("/", "");
-        // console.log("Section:", this.section);
+        if(section) {
+          this.section = section.replace("/", "");
+          // console.log("Section:", this.section);
 
-        let api = 'json/front/' + this.section; //'json/front?s=' + section;
+          let api = 'json/front/' + this.section + '.json'; //'json/front?s=' + section;
 
-        window.ajax.request('GET', api, null, (data) => {
+          window.ajax.request('GET', api, null, (data) => {
 
-          // console.log(data);
-          // console.log(data.layout);
+            // console.log(data);
+            // console.log(data.layout);
 
-          this.layout = data.layout;
-          this.data = data;
+            this.layout = data.layout;
+            this.data = data;
 
-        }, (err) => this.setData(err));
+          }, (err) => this.setData(err));
+
+        }
 
       }
 

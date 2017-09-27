@@ -1,15 +1,16 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/my-app.html",
+  "shell": "src/joornalo.html",
   "fragments": [
-    "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
-    "src/my-view404.html"
+    "src/elements/page-front.html",
+    "src/elements/page-news.html",
+    "src/elements/page-galleries.html",
+    "src/elements/page-search.html"
   ],
   "sources": [
     "src/**/*",
     "images/**/*",
+    "mocks/**/*",
     "bower.json"
   ],
   "extraDependencies": [
@@ -19,7 +20,20 @@
   "lint": {
     "rules": ["polymer-2"]
   },
-  "builds": [
+  "builds": [{
+    "bundle": false,
+    "js": {
+      "minify": false,
+      "compile": false
+    },
+    "css": {
+      "minify": false
+    },
+    "html": {
+      "minify": false
+    }
+  }],
+  "buildsAlt": [
     {
       "preset": "es5-bundled"
     },

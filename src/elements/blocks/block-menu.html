@@ -65,6 +65,9 @@
         display: block;
         z-index: 8;
       }
+      .right {
+        float: right;
+      }
 
     </style>
 
@@ -87,6 +90,7 @@
         </li>
 
       </template>
+      <li hiddenx$="[[!jump]]" class="right"><a on-tap="_jump">[[jump]]</a></li>
     </ul>
     
     
@@ -94,16 +98,25 @@
 
   <script>
   
-    class BlockMenu extends Polymer.Element {
+    class BlockMenu extends Polymer.GestureEventListeners(Polymer.Element) {
       static get is() { return 'block-menu'; }
       static get properties() {
         return {
 
           menu: {
             type: Object
+          },
+
+          jump: {
+            type: String,
+            value: null
           }
           
         };
+      }
+
+      _jump() {
+        window.scrollTo(0, 0);
       }
     }
 

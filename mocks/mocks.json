@@ -1,7 +1,7 @@
 [
 	{
 		"request": {
-			"url": "^/json/front/estado-de-mexico",
+			"url": "^/json/front/estado-de-mexico.json",
 			"method": "GET"
 		},
 		"response": {
@@ -86,7 +86,7 @@
 					"column": ""
 				}],
 
-				"multimedia": [{
+				"multimediax": [{
 					"id": "765721",
 					"title": "",
 					"img": ""
@@ -118,7 +118,7 @@
 	},
 	{
 		"request": {
-			"url": "^/json/front",
+			"url": "^/json/front/home.json",
 			"method": "GET"
 		},
 		"response": {
@@ -405,13 +405,32 @@
 
 				],
 
-
-
-				"multimedia": [{
-					"id": "765721",
-					"title": "",
-					"img": ""
-				}],
+				"multimedia": [
+					{
+						"id": "765721",
+						"youtube-id": "VdUm44bDoCg",
+						"title": "Liverpool top Leicester City in 3-2 thriller",
+						"description": ""
+					},
+					{
+						"id": "765721",
+						"youtube-id": "V0wy2R5_y4U",
+						"title": "Greatest US Sports Moments (2010-2016)",
+						"description": "The best plays in recent United States sports history from 2010 through June of 2016."
+					},
+					{
+						"id": "765721",
+						"youtube-id": "LVZ4o1pbRIk",
+						"title": "Best Big Guy Moments in NFL History",
+						"description": "The Best Plays by Linemen in the History of the NFL."
+					},
+					{
+						"id": "765721",
+						"youtube-id": "Fj8G9dGuNkU",
+						"title": "Greatest Trick Plays in Football History",
+						"description": "Best trick plays in football of all time"
+					}
+				],
 
 				"galleries": [
 					{
@@ -434,7 +453,7 @@
 	},
 	{
 		"request": {
-			"url": "^/json/menu",
+			"url": "^/json/menu.json",
 			"method": "GET"
 		},
 		"response": {
@@ -453,89 +472,89 @@
 						"sub": [
 							{
 								"text": "Estado de México",
-								"link": "front/estado-de-mexico"
+								"link": "#/front/estado-de-mexico"
 							},
 							{
 								"text": "Mundo Cultural",
-								"link": "front/mundo-cultural"
+								"link": "#/front/mundo-cultural"
 							},
 							{
 								"text": "Reportajes",
-								"link": "front/reportajes"
+								"link": "#/front/reportajes"
 							},
 							{
 								"text": "Entrevistas",
-								"link": "front/entrevistas"
+								"link": "#/front/entrevistas"
 							},
 							{
 								"text": "Deportes",
-								"link": "front/deportes"
+								"link": "#/front/deportes"
 							},
 							{
 								"text": "UAEM",
-								"link": "front/uaem"
+								"link": "#/front/uaem"
 							},
 							{
 								"text": "Ayuntamiento",
-								"link": "front/ayuntamiento"
+								"link": "#/front/ayuntamiento"
 							},
 							{
 								"text": "Municipios",
-								"link": "front/municipios"
+								"link": "#/front/municipios"
 							},
 							{
 								"text": "SMSEM",
-								"link": "front/smsem"
+								"link": "#/front/smsem"
 							}
 						]
 					},
 					{
 						"text": "Columnas",
-						"link": "front/columnas"
+						"link": "#/front/columnas"
 					},
 					{
 						"text": "Galeria de Fotos",
-						"link": "galleries"
+						"link": "#/galleries"
 					},
 					{
 						"text": "Temas de Interes",
-						"link": "topics",
+						"link": "#/topics",
 						"sub": [
 							{
 								"text": "Test 1",
-								"link": "front/estado-de-mexico"
+								"link": "#/front/estado-de-mexico"
 							},
 							{
 								"text": "Test 2",
-								"link": "front/mundo-cultural"
+								"link": "#/front/mundo-cultural"
 							}
 						]
 					},
 					{
 						"text": "Buscar",
-						"link": "search"
+						"link": "#/search"
 					},
 					{
 						"text": "Nosotros",
-						"link": "static/about"
+						"link": "#/static/about"
 					},
 					{
 						"text": "Contacto",
-						"link": "static/directory"
+						"link": "#/static/directory"
 					}
 				],
 				"menu-footer": [
 					{
 						"text": "Nosotros",
-						"link": "static/about"
+						"link": "#/static/about"
 					},
 					{
 						"text": "Aviso",
-						"link": "static/legal"
+						"link": "#/static/legal"
 					},
 					{
 						"text": "Contacto",
-						"link": "static/directory"
+						"link": "#/static/directory"
 					}
 				]
 			}
@@ -543,7 +562,7 @@
 	},
 	{
 		"request": {
-			"url": "^/json/news",
+			"url": "^/json/news.json",
 			"method": "GET"
 		},
 		"response": {

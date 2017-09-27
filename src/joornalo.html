@@ -29,7 +29,7 @@
     </style>
 
 
-    <app-location id="location" route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+    <app-location id="location" route="{{route}}" url-space-regex="^[[rootPath]]" use-hash-as-path></app-location>
     <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
 
     <block-header menu=[[menuHeader]]></block-header>
@@ -90,7 +90,7 @@
       ready() {
         super.ready();
 
-        let api = 'json/menu/';
+        let api = 'json/menu.json';
 
         window.ajax.request('GET', api, null, (data) => {
 
@@ -104,7 +104,10 @@
       }
 
       _routePageChanged(page) {
-        if (this.route.path == '/' || this.route.path == '/front') {
+        //window.scrollTo(0, 0);
+        console.log(this.route.path);
+        if (this.route.path == '' || this.route.path == '/' || this.route.path == '/front') {
+          console.log('----');
           this.$.location.set('path', '/front/home');
         } else {
           this.page = page || 'front';

@@ -20,25 +20,29 @@
         margin: .8rem 0 .5rem;
       }
       a {
+        display: block;
         color: #fff;
+      }
+      a:hover {
+        background: #888;
       }
       h5 {
         font-size: 1.125rem;
         margin: 0;
-        padding: 0;
+        padding:0 .2rem .2rem;
         font-weight: 100;
         line-height: 1.4rem;
       }
     </style>
 
     <div class="tab transparent">
-      <h3><a href="galleries">galerías</a></h3>
+      <h3><a href="#/galleries">galerías</a></h3>
     </div>
 
     <ol>
       <template is="dom-repeat" items="{{galleries}}">
         <li>
-          <a href="news/[[item.id]]">
+          <a href="#/gallery/[[item.id]]">
             <img src="[[item.img]]">
             <h5>[[item.title]]</h5>
           </a>
