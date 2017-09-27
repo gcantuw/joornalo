@@ -1,15 +1,63 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../styles/shared.html">
 
+<link rel="import" href="./util/app-viewport.html">
+<link rel="import" href="./blocks/block-banner.html">
+<link rel="import" href="./blocks/block-galleries.html">
+<link rel="import" href="./blocks/block-top-news.html">
+
+
 <dom-module id="page-news">
   <template>
     <style include="shared">
 
       :host {
         display: block;
+        margin: 1rem 0 2rem;
       }
-      :host h2 {
+      .page {
+        margin: 2rem 0 0;
+      }
+      .news {
+        padding: 0 3rem 0 0;
+        color: #333;
+      }
+      h2 {
         margin: 0;
+      }
+      .images {
+        position: relative;
+        background: #666;
+        color: #FFF;
+      }
+      .images h6 {
+        margin: 0;
+        color: #fff;
+        font-size: 0.7rem;
+        line-height: 1rem;
+        font-weight: 300;
+        margin-bottom: 1.5rem;
+        padding: 0.2rem .5rem .5rem;
+      }
+      .images .left {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        color: red;
+      }
+      .images .right {
+        display: none;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        color: red;
+      }
+      [loop].images .left,
+      [loop].images .right {
+        display: block;
+        cursor: pointer;
+
       }
 
     </style>
@@ -18,15 +66,57 @@
         route="{{route}}"
         pattern="/news/:id"
         data="{{routeData}}"></app-route>
+
+
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
+
+    <template is="dom-if" if="{{gMd}}">
+      <div class="row">
+        <div class="col-12">
+          <div class="block-top">
+            <block-banner size="b980x90"></block-banner>
+          </div>
+        </div>
+      </div>
+    </template>
     
-    <div class="row">
+    <div class="row page">
 
-      <div class="col-lg-12">
+      <div class="col-lg-2">
+        <a href="#/front/[[news.section-id]]">
+            <h6>[[news.section]]</h6>
+        </a>
+        <h6>[[news.date]]</h6>
+        <h6>[[news.author]]</h6>
+        <h6>[[news.likes]] +</h6>
+      </div>
 
-        <!-- <h2>news: [[id]]</h2> -->
-        <h3>[[data.title]]</h3>
-        <h5>[[data.desc]]</h5>
-        <p inner-h-t-m-l="[[data.text]]"></p>
+      <div class="col-lg-7">
+
+        <div class="news">
+
+          <h2>[[news.title]]</h2>
+          <h5>[[news.desc]]</h5>
+
+          <div class="images" loop$="[[loopImages]]" hidden$="[[!activeImage]]">
+
+            <img src="[[activeImage.url]]">
+            <h6 hidden$="[[!activeImage.label]]">[[activeImage.label]]</h6>
+            <div class="left" on-tap="_left"><</div>
+            <div class="right" on-tap="_right">></div>
+
+          </div>
+
+          <p inner-h-t-m-l="[[news.text]]"></p>
+
+        </div>
+
+      </div>
+
+      <div class="col-lg-3">
+        
+        <block-top-news top-news="[[data.top-news]]"></block-top-news>
+        <block-galleries galleries="[[data.galleries]]"></block-galleries>
 
       </div>
 
@@ -36,7 +126,7 @@
 
   <script>
 
-    class PageNews extends Polymer.Element {
+    class PageNews extends Polymer.GestureEventListeners(Polymer.Element) {
       static get is() { return 'page-news'; }
       static get properties() {
         return {
@@ -45,8 +135,37 @@
             type: String
           },
 
+          news: {
+            type: Object
+          },
+
           data: {
             type: Object
+          },
+
+          gMd: {
+            type: Boolean,
+            value: false
+          },
+
+          activeImage: {
+            type: Object,
+            value: null
+          },
+
+          activeImageIndex: {
+            type: Number,
+            value: null
+          },
+
+          totalImages: {
+            type: Number,
+            value: null
+          },
+
+          loopImages: {
+            type: Boolean,
+            value: false
           }
 
         };
@@ -55,13 +174,20 @@
       static get observers() {
         return [
           '_newsChanged(routeData.id)',
-        ];
+          'greaterMd(xl, lg)'
+        ]
       }
+
+      
 
       constructor() {
         super();
         //this._init();
         //window.store.subscribe('news', this._init.bind(this));
+      }
+
+      greaterMd(xl, lg) {
+        this.gMd = (xl || lg);
       }
 
       _newsChanged(id) {
@@ -71,13 +197,45 @@
         let api = 'json/news/news.json'; //'json/gallery?i=' + id;
         window.ajax.request('GET', api, null, (data) => {
 
+          this.news = data;
 
-          console.log(data);
-          this.data = data;
+          this.totalImages = data.images.length;
+          if(this.totalImages > 0) {
+            this.activeImageIndex = 0;
+            this.activeImage = data.images[0];
+            if(this.totalImages > 1) {
+              this.loopImages = true;
+            }
+          }
 
 
         }, (err) => this.setData(err));
 
+
+        api = 'json/news/column-data.json';
+        window.ajax.request('GET', api, null, (data) => {
+
+          console.log(data);
+          this.data = data;
+
+        }, (err) => this.setData(err));
+
+      }
+
+      _left() {
+        this.activeImageIndex--;
+        this._calculateImage();
+      }
+
+      _right() {
+        this.activeImageIndex++;
+        this._calculateImage();
+      }
+
+      _calculateImage() {
+        if(this.totalImages <= this.activeImageIndex) this.activeImageIndex = 0;
+        if(0 > this.activeImageIndex) this.activeImageIndex = this.totalImages - 1;
+        this.activeImage = this.news.images[this.activeImageIndex];
       }
 
     }
