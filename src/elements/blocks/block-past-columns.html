@@ -1,0 +1,76 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-past-columns">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+        color:#000;
+        margin-bottom: 1.5rem;
+        background: #EFEFEF;
+        padding: .5rem;
+      }
+
+      ol {
+        padding: 0;
+      }
+      li {
+        background: url(../../../images/icons/play3.svg) no-repeat left 2px;
+        background-size: 14px;
+        font-size: 1rem;
+        list-style-type: none;
+        margin-bottom: 1rem;
+        display: flex;
+        line-height: 1.2rem;
+        padding-left: 1.2rem
+      }
+      li a {
+        color: #000;
+      }
+      li a:hover {
+        color: #cc0002;
+      }
+      li a span {
+        font-size: 0.7rem;
+        color: #cc0002;
+      }
+
+    </style>
+
+
+    <div class="tab gray">
+      <h3>columnas anteriores</h3>
+    </div>
+
+    <ol>
+      <template is="dom-repeat" items="{{columns}}">
+        <li>
+          <a href="#/news/[[item.id]]">
+            [[item.title]]
+            <span>[[item.date]]</span>
+          </a>
+        </li>
+      </template>
+    </ol>
+    
+  </template>
+
+  <script>
+  
+    class BlockPastColumns extends Polymer.Element {
+      static get is() { return 'block-past-columns'; }
+      static get properties() {
+        return {
+
+          columns: {
+            type: Array
+          }
+
+        };
+      }
+    }
+
+    window.customElements.define(BlockPastColumns.is, BlockPastColumns);
+  </script>
+</dom-module>

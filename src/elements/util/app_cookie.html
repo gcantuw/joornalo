@@ -1,0 +1,106 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="app-cookie">
+
+  <script>
+
+    class AppCookie extends Polymer.Element {
+      static get is() { return 'app-cookie'; }
+      static get properties() {
+        return {
+
+          value: {
+            type: String,
+            value: null
+            // observer: '_valueChanged'
+          },
+
+          enabled: {
+            type: Boolean,
+            value: null
+          },
+
+          name: {
+            type: String,
+            value: null
+          },
+
+          exdays: {
+            type: Number,
+            value: 365
+          }
+
+        };
+      }
+
+      ready() {
+        super.ready();
+        //this.enabled = this.checkCookie();
+      }
+
+      // _valueChanged() {
+      //   setCookie();
+      // }
+
+      setCookie2(text) {
+        console.log(text);
+      }
+
+      setCookie(cname, cvalue, exdays) {
+          console.log('setCookie-----');
+          if(!exdays) exdays = this.exdays;
+          var d = new Date();
+          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+          var expires = "expires="+d.toUTCString();
+          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      }
+
+      getCookie(cname) {
+          var name = cname + "=";
+          var ca = document.cookie.split(';');
+          for(var i = 0; i < ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                  return c.substring(name.length, c.length);
+              }
+          }
+          return "";
+      }
+
+
+      // setCookie() {
+      //   if(this.name) {
+      //     var d = new Date();
+      //     d.setTime(d.getTime() + (this.exdays * 24 * 60 * 60 * 1000));
+      //     var expires = "expires="+d.toUTCString();
+      //     document.cookie = this.name + "=" + this.value + ";" + expires + ";path=/";
+      //   }
+      // }
+
+      // getCookie(cname) {
+      //     var name = (cname)? cname + "=" : this.name + "=";
+      //     var ca = document.cookie.split(';');
+      //     for(var i = 0; i < ca.length; i++) {
+      //         var c = ca[i];
+      //         while (c.charAt(0) == ' ') {
+      //             c = c.substring(1);
+      //         }
+      //         if (c.indexOf(name) == 0) {
+      //             return c.substring(name.length, c.length);
+      //         }
+      //     }
+      //     return "";
+      // }
+
+      cookiesEnabled() {
+        return navigator.cookieEnabled;
+      }
+
+    }
+
+    window.customElements.define(AppCookie.is, AppCookie);
+  </script>
+</dom-module>

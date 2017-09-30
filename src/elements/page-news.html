@@ -2,9 +2,11 @@
 <link rel="import" href="../styles/shared.html">
 
 <link rel="import" href="./util/app-viewport.html">
+<link rel="import" href="./util/app_cookie.html">
 <link rel="import" href="./blocks/block-banner.html">
 <link rel="import" href="./blocks/block-galleries.html">
 <link rel="import" href="./blocks/block-top-news.html">
+<link rel="import" href="./blocks/block-past-columns.html">
 
 
 <dom-module id="page-news">
@@ -107,6 +109,11 @@
         cursor: pointer;
       }
 
+      [voted] .icon-like {
+        background: url(../../images/icons/likeVoted.svg) no-repeat top left;
+        cursor: none;
+      }
+
       .left-column .section {
         @apply --joornalo-h4;
         font-weight: 500;
@@ -125,7 +132,7 @@
       .left-column .author {
         font-size: 1rem;
         font-weight: normal;
-        margin: 0.3rem 0;
+        margin: 0.3rem 0 0;;
         line-height: 1.2rem;
         color: #3699A9
       }
@@ -134,14 +141,54 @@
         line-height: 1rem;
         color: #cc0002;
         display: inline-block;
+        font-size: 1.5rem;
       }
-
-
-
       .border-bottom {
         border-bottom: 1px dotted #ddd;
         margin-bottom: .8rem;
         padding-bottom: .8rem;
+      }
+
+      .column {
+        text-align: right;
+        border-top: 1px dotted #ddd;
+        border-bottom: 1px dotted #ddd;
+        margin-bottom: .8rem;
+        padding: .8rem .8rem .8rem 0;
+        color: #3699A9;
+        background: linear-gradient(to right, #FFF 0%, #efefef 100%);
+      }
+
+      .column h3 {
+        @apply --joornalo-h3;
+        font-weight: 400;
+      }
+      .column h4 {
+        @apply --joornalo-h4;
+        font-weight: 300;
+      }
+
+      .profile {
+        background: #EFEFEF;
+        padding: 0 .3rem;
+      }
+
+      .profile h3 {
+        @apply --joornalo-h4;
+        font-weight: 500;
+        color: #cc0002;
+        margin-top: .8rem;
+        font-size: 1rem;
+        display: inline-block;
+        margin-top: 0;
+      }
+      .profile p {
+        @apply --joornalo-p;
+        font-weight: 400;
+        color: #666;
+        font-size: .875rem;
+        display: inline-block;
+        margin: .5rem 0;
       }
 
 
@@ -152,6 +199,7 @@
         pattern="/news/:id"
         data="{{routeData}}"></app-route>
 
+    <app-cookie id="cookie"></app-cookie>
 
     <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
 
@@ -171,11 +219,10 @@
         <a href="#/front/[[news.section-id]]">
             <h3 class="section border-bottom">[[news.section]]</h3>
         </a>
-        <h6 class="date">[[date]]</h6>
-        <h6 class="author border-bottom">[[news.author]]</h6>
+        
         
 
-        <div class="share">
+        <div class="share border-bottom">
           
           <a href="[[facebookLink]]" target="_blank">
             <span class="icon-facebook2"></span>
@@ -189,7 +236,14 @@
           <a href="[[mailToLink]]">
             <span class="icon-mail"></span>
           </a>
-          <h6 class="likes"><span class="icon-like"></span>[[news.likes]]</h6>
+          <h6 voted$="[[voted]]" class="likes" on-tap="_like"><span class="icon-like"></span>[[likes]]</h6>
+        </div>
+
+        <h6 class="date">[[date]]</h6>
+        <h6 class="author border-bottom">[[news.author]]</h6>
+        <div hidden$="[[!news.author-profile]]" class="profile">
+          <h3>Perfil del Autor</h3>
+          <p>[[news.author-profile]]</p>
         </div>
         
       </div>
@@ -197,6 +251,10 @@
       <div class="col-lg-7">
 
         <div class="news">
+          <div hidden$="[[!news.column]]" class="column">
+            <h3>[[news.column]]</h3>
+            <h4>[[news.author]]</h4>
+          </div>
 
           <h2>[[news.title]]</h2>
           <h5>[[news.desc]]</h5>
@@ -222,6 +280,7 @@
 
       <div class="col-lg-3">
         
+        <block-past-columns columns="[[news.past-columns]]"></block-past-columns>
         <block-top-news top-news="[[data.top-news]]"></block-top-news>
         <block-galleries galleries="[[data.galleries]]"></block-galleries>
 
@@ -303,6 +362,16 @@
           mailToLink: {
             type: String,
             value: null
+          },
+
+          likes: {
+            type: Number,
+            value: null
+          },
+
+          voted: {
+            type: Boolean,
+            value: false
           }
 
         };
@@ -313,14 +382,22 @@
           '_newsChanged(routeData.id)',
           'greaterMd(xl, lg)'
         ]
-      }
-
-      
+      } 
 
       constructor() {
         super();
+
         //this._init();
         //window.store.subscribe('news', this._init.bind(this));
+      }
+
+      ready(){
+        super.ready();
+        if(!this.$.cookie.cookiesEnabled()) { 
+          this.voted = true;
+        } else {
+          if(this.$.cookie.getCookie('nv' +  this.id)) this.voted = true;
+        }
       }
 
       greaterMd(xl, lg) {
@@ -331,10 +408,11 @@
         console.log("News Id:", id);
         this.id = id;
 
-        let api = 'json/news/news.json'; //'json/gallery?i=' + id;
+        let api = 'json/news/newsColumn.json?id=' + id;
         window.ajax.request('GET', api, null, (data) => {
 
           this.news = data;
+          this.likes = data.likes;
           this.url = window.location.origin + '/#/news/' + data.id;
           this.date = this._convertDate(data.date);
 
@@ -385,7 +463,7 @@
         this.linkedinLink = "https://www.linkedin.com/shareArticle?mini=true&title=" + encodeURIComponent(this.news.title) + "&url=https" + encodeURIComponent(this.url);
 
         this.mailToLink = "mailto:?subject=" + encodeURIComponent(this.news.title) + "&body=" + encodeURIComponent(this.url);
-    }
+      }
 
       _left() {
         this.activeImageIndex--;
@@ -401,6 +479,21 @@
         if(this.totalImages <= this.activeImageIndex) this.activeImageIndex = 0;
         if(0 > this.activeImageIndex) this.activeImageIndex = this.totalImages - 1;
         this.activeImage = this.news.images[this.activeImageIndex];
+      }
+
+      _like() {
+        if(!this.voted) {
+          this.$.cookie.setCookie('nv' +  this.id, '1');
+          let api = 'json/news/like.json?id=' +  this.id;
+          window.ajax.request('GET', api, null, (data) => {
+
+            console.log(data);
+            this.likes = data.likes;
+            this.voted = true;
+
+
+          }, (err) => this.setData(err));
+        }
       }
 
     }
