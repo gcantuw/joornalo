@@ -27,38 +27,123 @@
       }
       .images {
         position: relative;
-        background: #666;
         color: #FFF;
       }
       .images h6 {
         margin: 0;
-        color: #fff;
-        font-size: 0.7rem;
+        color: #777;
+        font-size: 0.85rem;
         line-height: 1rem;
         font-weight: 300;
         margin-bottom: 1.5rem;
-        padding: 0.2rem .5rem .5rem;
       }
       .images .left {
         display: none;
         position: absolute;
-        top: 50%;
-        left: 0;
+        top: 45%;
+        left: 0.5rem;
         color: red;
       }
       .images .right {
         display: none;
         position: absolute;
-        top: 50%;
-        right: 0;
+        top: 45%;
+        right: 0.5rem;
         color: red;
       }
       [loop].images .left,
       [loop].images .right {
         display: block;
         cursor: pointer;
-
+        font-size: 2rem;
+        color: #fff;
+        opacity: .5;
       }
+      [loop].images .left:hover,
+      [loop].images .right:hover {
+        opacity: 1;
+      }
+      [class^="icon-"], [class*=" icon-"] {
+        @apply --joornalo-icon;
+        cursor: pointer;
+        color: #666;
+      }
+      [class^="icon-"]:hover, [class*=" icon-"]:hover {
+        color: #999;
+      }
+      .icon-circle-right:before {
+        content: "\ea42";
+        color: #FFF;
+      }
+      .icon-circle-left:before {
+        content: "\ea44";
+        color: #FFF;
+      }
+      .icon-mail:before {
+        content: "\ea83";
+        padding-right: .5rem;
+      }
+      .icon-facebook2:before {
+        content: "\ea91";
+      }
+      .icon-twitter:before {
+        content: "\ea96";
+      }
+      .icon-linkedin:before {
+        content: "\eac9";
+      }
+      .share {
+        font-size: 1.4rem;
+        color: #666;
+        margin-top: .8rem;
+      }
+
+      .icon-like {
+        display: inline-block;
+        height: 16px;
+        width: 20px;
+        background: url(../../images/icons/like.svg) no-repeat top left;
+        background-size: 16px;
+        cursor: pointer;
+      }
+
+      .left-column .section {
+        @apply --joornalo-h4;
+        font-weight: 500;
+        color: #cc0002;
+      }
+      .left-column .section:hover {
+        text-decoration: underline;
+      }
+      .left-column .date {
+        font-size: .75rem;
+        font-weight: 300;
+        margin: 0;
+        line-height: 1rem;
+        color: #777;
+      }
+      .left-column .author {
+        font-size: 1rem;
+        font-weight: normal;
+        margin: 0.3rem 0;
+        line-height: 1.2rem;
+        color: #3699A9
+      }
+      .left-column .likes {
+        margin: 0.3rem 0;
+        line-height: 1rem;
+        color: #cc0002;
+        display: inline-block;
+      }
+
+
+
+      .border-bottom {
+        border-bottom: 1px dotted #ddd;
+        margin-bottom: .8rem;
+        padding-bottom: .8rem;
+      }
+
 
     </style>
 
@@ -82,13 +167,31 @@
     
     <div class="row page">
 
-      <div class="col-lg-2">
+      <div class="col-lg-2 left-column">
         <a href="#/front/[[news.section-id]]">
-            <h6>[[news.section]]</h6>
+            <h3 class="section border-bottom">[[news.section]]</h3>
         </a>
-        <h6>[[news.date]]</h6>
-        <h6>[[news.author]]</h6>
-        <h6>[[news.likes]] +</h6>
+        <h6 class="date">[[date]]</h6>
+        <h6 class="author border-bottom">[[news.author]]</h6>
+        
+
+        <div class="share">
+          
+          <a href="[[facebookLink]]" target="_blank">
+            <span class="icon-facebook2"></span>
+          </a>
+          <a href="[[twitterLink]]" target="_blank">
+            <span class="icon-twitter"></span>
+          </a>
+          <a href="[[linkedinLink]]" target="_blank">
+            <span class="icon-linkedin"></span>
+          </a>
+          <a href="[[mailToLink]]">
+            <span class="icon-mail"></span>
+          </a>
+          <h6 class="likes"><span class="icon-like"></span>[[news.likes]]</h6>
+        </div>
+        
       </div>
 
       <div class="col-lg-7">
@@ -102,8 +205,12 @@
 
             <img src="[[activeImage.url]]">
             <h6 hidden$="[[!activeImage.label]]">[[activeImage.label]]</h6>
-            <div class="left" on-tap="_left"><</div>
-            <div class="right" on-tap="_right">></div>
+            <div class="left" on-tap="_left">
+              <span class="icon-circle-left"></span>
+            </div>
+            <div class="right" on-tap="_right">
+              <span class="icon-circle-right"></span>
+            </div>
 
           </div>
 
@@ -166,6 +273,36 @@
           loopImages: {
             type: Boolean,
             value: false
+          },
+
+          date: {
+            type: String,
+            value: null
+          },
+
+          url: {
+            type: String,
+            value: null
+          },
+
+          facebookLink: {
+            type: String,
+            value: null
+          },
+
+          twitterLink: {
+            type: String,
+            value: null
+          },
+
+          linkedinLink: {
+            type: String,
+            value: null
+          },
+
+          mailToLink: {
+            type: String,
+            value: null
           }
 
         };
@@ -198,16 +335,11 @@
         window.ajax.request('GET', api, null, (data) => {
 
           this.news = data;
+          this.url = window.location.origin + '/#/news/' + data.id;
+          this.date = this._convertDate(data.date);
 
-          this.totalImages = data.images.length;
-          if(this.totalImages > 0) {
-            this.activeImageIndex = 0;
-            this.activeImage = data.images[0];
-            if(this.totalImages > 1) {
-              this.loopImages = true;
-            }
-          }
-
+          this._socialMediaLinks();
+          this._imageProcessing();
 
         }, (err) => this.setData(err));
 
@@ -221,6 +353,39 @@
         }, (err) => this.setData(err));
 
       }
+
+      _convertDate(dateString) {
+        console.log(dateString);
+        let days = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            date = new Date(dateString);
+
+        console.log(date);
+
+        return days[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+
+      }
+
+      _imageProcessing() {
+        this.totalImages = this.news.images.length;
+        if(this.totalImages > 0) {
+          this.activeImageIndex = 0;
+          this.activeImage = this.news.images[0];
+          if(this.totalImages > 1) {
+            this.loopImages = true;
+          }
+        }
+      }
+
+      _socialMediaLinks() {
+        this.facebookLink = "https://www.facebook.com/dialog/share?app_id=1914179482237147&href=" + encodeURIComponent(this.url);
+
+        this.twitterLink = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(this.news.title) + "&url=" + encodeURIComponent(this.url);
+
+        this.linkedinLink = "https://www.linkedin.com/shareArticle?mini=true&title=" + encodeURIComponent(this.news.title) + "&url=https" + encodeURIComponent(this.url);
+
+        this.mailToLink = "mailto:?subject=" + encodeURIComponent(this.news.title) + "&body=" + encodeURIComponent(this.url);
+    }
 
       _left() {
         this.activeImageIndex--;
