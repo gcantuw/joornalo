@@ -4,7 +4,7 @@
 <dom-module id="block-galleries">
   <template>
     <style include="shared">
-      :host {
+      .all {
         display: block;
         background: #666;
         color:#FFF;
@@ -35,20 +35,24 @@
       }
     </style>
 
-    <div class="tab transparent">
-      <h3><a href="#/galleries">galerías</a></h3>
-    </div>
+    <div class="all" hidden$="[[!galleries]]">
 
-    <ol>
-      <template is="dom-repeat" items="{{galleries}}">
-        <li>
-          <a href="#/gallery/[[item.id]]">
-            <img src="[[item.img]]">
-            <h5>[[item.title]]</h5>
-          </a>
-        </li>
-      </template>
-    </ol>
+      <div class="tab transparent">
+        <h3><a href="#/galleries">galerías</a></h3>
+      </div>
+
+      <ol>
+        <template is="dom-repeat" items="{{galleries}}">
+          <li>
+            <a href="#/gallery/[[item.id]]">
+              <img src="[[item.img]]">
+              <h5>[[item.title]]</h5>
+            </a>
+          </li>
+        </template>
+      </ol>
+
+    </div>
     
   </template>
 
@@ -58,9 +62,9 @@
       static get is() { return 'block-galleries'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'block-galleries'
+          galleries: {
+            type: Array,
+            value: null
           }
         };
       }

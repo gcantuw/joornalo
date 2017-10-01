@@ -23,14 +23,14 @@
   "builds": [{
     "bundle": false,
     "js": {
-      "minify": false,
-      "compile": false
+      "minify": true,
+      "compile": true
     },
     "css": {
-      "minify": false
+      "minify": true
     },
     "html": {
-      "minify": false
+      "minify": true
     }
   }],
   "buildsAlt": [

@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../styles/shared.html">
 
+<link rel="import" href="./util/app-spinner.html">
 <link rel="import" href="./layout/layout-home1.html">
 <link rel="import" href="./layout/layout-home2.html">
 <link rel="import" href="./layout/layout-section1.html">
@@ -25,13 +26,7 @@
         pattern="/front/:section"
         data="{{routeData}}"></app-route>
 
-<!--     <div class="row">
-      <div class="col-lg-12">
-    
-        <h2>Front: [[section]]</h2>
-
-      </div>
-    </div> -->
+    <app-spinner loading="[[spinner]]"></app-spinner>
 
     <iron-pages selected="[[layout]]" attr-for-selected="layout" fallback-selection="notFound">
 
@@ -61,6 +56,11 @@
 
           data: {
             type: Object
+          },
+
+          spinner: {
+            type: Boolean,
+            value: true
           }
 
         };
@@ -81,6 +81,10 @@
       _frontChanged(section) {
 
         if(section) {
+          this.spinner = true;
+          this.layout = null;
+          this.data = null;
+
           this.section = section.replace("/", "");
           // console.log("Section:", this.section);
 
@@ -88,11 +92,14 @@
 
           window.ajax.request('GET', api, null, (data) => {
 
-            // console.log(data);
-            // console.log(data.layout);
+            this.spinner = false;
 
-            this.layout = data.layout;
-            this.data = data;
+            if (data.success) {
+
+              this.layout = data.layout;
+              this.data = data;
+
+            }
 
           }, (err) => this.setData(err));
 

@@ -1,0 +1,93 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="app-spinner">
+  <template>
+    <style include="shared">
+      .all {
+        display: block;
+        position: absolute;
+	    height: 100%;
+	    width: 100%;
+	    top: 0;
+	    left: 0;
+      }
+
+      .loader,
+      .loader:after {
+        border-radius: 50%;
+        width: 6em;
+        height: 6em;
+      }
+      .loader {
+      	top: 50%;
+	    z-index: 1000;
+	    left: 0;
+	    margin: 0 0 0 50%;
+
+        font-size: 10px;
+        position: relative;
+        text-indent: -9999em;
+        border-top: 1.1em solid rgba(204, 0, 2, 0.7);
+        border-right: 1.1em solid rgba(204, 0, 2, 0.7);
+        border-bottom: 1.1em solid rgba(204, 0, 2, 0.7);
+        border-left: 1.1em solid rgba(255, 255, 255, 0.2);
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-animation: load8 .8s infinite linear;
+        animation: load8 .8s infinite linear;
+      }
+      @-webkit-keyframes load8 {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes load8 {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+
+      
+
+    </style>
+
+
+    <div class="all" hidden$="[[!loading]]">
+	    <div class="loader">Loading...</div>
+	</div>
+
+    
+  </template>
+
+  <script>
+  
+    class AppSpinner extends Polymer.Element {
+      static get is() { return 'app-spinner'; }
+      static get properties() {
+        return {
+
+          loading: {
+            type: Boolean,
+            value: false
+          }
+
+        };
+      }
+
+    }
+
+    window.customElements.define(AppSpinner.is, AppSpinner);
+  </script>
+</dom-module>

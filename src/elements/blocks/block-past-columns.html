@@ -4,7 +4,7 @@
 <dom-module id="block-past-columns">
   <template>
     <style include="shared">
-      :host {
+      .all {
         display: block;
         color:#000;
         margin-bottom: 1.5rem;
@@ -38,21 +38,22 @@
 
     </style>
 
+    <div class="all" hidden$="[[!columns]]">
+      <div class="tab gray">
+        <h3>columnas anteriores</h3>
+      </div>
 
-    <div class="tab gray">
-      <h3>columnas anteriores</h3>
+      <ol>
+        <template is="dom-repeat" items="{{columns}}">
+          <li>
+            <a href="#/news/[[item.id]]">
+              [[item.title]]
+              <span>[[item.date]]</span>
+            </a>
+          </li>
+        </template>
+      </ol>
     </div>
-
-    <ol>
-      <template is="dom-repeat" items="{{columns}}">
-        <li>
-          <a href="#/news/[[item.id]]">
-            [[item.title]]
-            <span>[[item.date]]</span>
-          </a>
-        </li>
-      </template>
-    </ol>
     
   </template>
 
@@ -64,11 +65,19 @@
         return {
 
           columns: {
-            type: Array
+            type: Array,
+            value: null,
+            observer: '_columnsChange'
           }
 
         };
       }
+
+
+      _columnsChange() {
+        console.log(this.columns);
+      }
+
     }
 
     window.customElements.define(BlockPastColumns.is, BlockPastColumns);

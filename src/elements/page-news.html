@@ -3,6 +3,7 @@
 
 <link rel="import" href="./util/app-viewport.html">
 <link rel="import" href="./util/app_cookie.html">
+<link rel="import" href="./util/app-spinner.html">
 <link rel="import" href="./blocks/block-banner.html">
 <link rel="import" href="./blocks/block-galleries.html">
 <link rel="import" href="./blocks/block-top-news.html">
@@ -191,7 +192,6 @@
         margin: .5rem 0;
       }
 
-
     </style>
 
     <app-route
@@ -202,6 +202,8 @@
     <app-cookie id="cookie"></app-cookie>
 
     <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
+
+    <app-spinner loading="[[spinner]]"></app-spinner>
 
     <template is="dom-if" if="{{gMd}}">
       <div class="row">
@@ -216,66 +218,71 @@
     <div class="row page">
 
       <div class="col-lg-2 left-column">
-        <a href="#/front/[[news.section-id]]">
-            <h3 class="section border-bottom">[[news.section]]</h3>
-        </a>
-        
-        
 
-        <div class="share border-bottom">
+        <div hidden$="[[!news]]">
+
+          <a href="#/front/[[news.section-id]]">
+              <h3 class="section border-bottom">[[news.section]]</h3>
+          </a>
           
-          <a href="[[facebookLink]]" target="_blank">
-            <span class="icon-facebook2"></span>
-          </a>
-          <a href="[[twitterLink]]" target="_blank">
-            <span class="icon-twitter"></span>
-          </a>
-          <a href="[[linkedinLink]]" target="_blank">
-            <span class="icon-linkedin"></span>
-          </a>
-          <a href="[[mailToLink]]">
-            <span class="icon-mail"></span>
-          </a>
-          <h6 voted$="[[voted]]" class="likes" on-tap="_like"><span class="icon-like"></span>[[likes]]</h6>
-        </div>
+          <div class="share border-bottom">
+            
+            <a href="[[facebookLink]]" target="_blank">
+              <span class="icon-facebook2"></span>
+            </a>
+            <a href="[[twitterLink]]" target="_blank">
+              <span class="icon-twitter"></span>
+            </a>
+            <a href="[[linkedinLink]]" target="_blank">
+              <span class="icon-linkedin"></span>
+            </a>
+            <a href="[[mailToLink]]">
+              <span class="icon-mail"></span>
+            </a>
+            <h6 voted$="[[voted]]" class="likes" on-tap="_like"><span class="icon-like"></span>[[likes]]</h6>
+          </div>
 
-        <h6 class="date">[[date]]</h6>
-        <h6 class="author border-bottom">[[news.author]]</h6>
-        <div hidden$="[[!news.author-profile]]" class="profile">
-          <h3>Perfil del Autor</h3>
-          <p>[[news.author-profile]]</p>
+          <h6 class="date">[[date]]</h6>
+          <h6 class="author border-bottom">[[news.author]]</h6>
+          <div hidden$="[[!news.author-profile]]" class="profile">
+            <h3>Perfil del Autor</h3>
+            <p>[[news.author-profile]]</p>
+          </div>
+
         </div>
-        
       </div>
 
       <div class="col-lg-7">
 
-        <div class="news">
-          <div hidden$="[[!news.column]]" class="column">
-            <h3>[[news.column]]</h3>
-            <h4>[[news.author]]</h4>
-          </div>
+        <div hidden$="[[!news]]">
 
-          <h2>[[news.title]]</h2>
-          <h5>[[news.desc]]</h5>
-
-          <div class="images" loop$="[[loopImages]]" hidden$="[[!activeImage]]">
-
-            <img src="[[activeImage.url]]">
-            <h6 hidden$="[[!activeImage.label]]">[[activeImage.label]]</h6>
-            <div class="left" on-tap="_left">
-              <span class="icon-circle-left"></span>
-            </div>
-            <div class="right" on-tap="_right">
-              <span class="icon-circle-right"></span>
+          <div class="news">
+            <div hidden$="[[!news.column]]" class="column">
+              <h3>[[news.column]]</h3>
+              <h4>[[news.author]]</h4>
             </div>
 
-          </div>
+            <h2>[[news.title]]</h2>
+            <h5>[[news.desc]]</h5>
 
-          <p inner-h-t-m-l="[[news.text]]"></p>
+            <div class="images" loop$="[[loopImages]]" hidden$="[[!activeImage]]">
+
+              <img src="[[activeImage.url]]">
+              <h6 hidden$="[[!activeImage.label]]">[[activeImage.label]]</h6>
+              <div class="left" on-tap="_left">
+                <span class="icon-circle-left"></span>
+              </div>
+              <div class="right" on-tap="_right">
+                <span class="icon-circle-right"></span>
+              </div>
+
+            </div>
+
+            <p inner-h-t-m-l="[[news.text]]"></p>
+
+          </div>
 
         </div>
-
       </div>
 
       <div class="col-lg-3">
@@ -372,6 +379,11 @@
           voted: {
             type: Boolean,
             value: false
+          },
+
+          spinner: {
+            type: Boolean,
+            value: true
           }
 
         };
@@ -405,21 +417,38 @@
       }
 
       _newsChanged(id) {
+        this.spinner = true;
+        this.activeImage = null;
+        this.news = null;
+        this.likes = null;
+        this.url  = null;
+        this.date = null;
+        this.totalImages = 0;
+
+
         console.log("News Id:", id);
         this.id = id;
 
-        let api = 'json/news/newsColumn.json?id=' + id;
+        let api = 'json/news/newsColumn.json'; //?id=' + id;
+
+        if(id=='123456') {
+          api = 'json/news/news.json'; //?id=' + id;
+        }
         window.ajax.request('GET', api, null, (data) => {
 
-          this.news = data;
-          this.likes = data.likes;
-          this.url = window.location.origin + '/#/news/' + data.id;
-          this.date = this._convertDate(data.date);
+          this.spinner = false;
 
-          this._socialMediaLinks();
-          this._imageProcessing();
+          if (data.success) {
+            this.news = data;
+            this.likes = data.likes;
+            this.url = window.location.origin + '/#/news/' + data.id;
+            this.date = this._convertDate(data.date);
 
-        }, (err) => this.setData(err));
+            this._socialMediaLinks();
+            this._imageProcessing();
+          }
+
+        }, (err) => { console.log('error-------'); });
 
 
         api = 'json/news/column-data.json';

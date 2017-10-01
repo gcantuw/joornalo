@@ -25,8 +25,8 @@ class requestEmitter {
 
   request(method, apiName, payload, successFn, errorFn) {
 
-    //let endpoint = 'http://localhost:9998/';
-    let endpoint = 'http://127.0.0.1:8081/';
+    let endpoint = 'http://localhost:9998/';
+    //let endpoint = 'http://127.0.0.1:8081/';
     //let endpoint = 'http://64.182.211.118/';
     let url;
     if (apiName.startsWith("http")) {
@@ -42,6 +42,21 @@ class requestEmitter {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     });
+
+    let success = function (status) {
+      return (String(status).startsWith("2"));
+    }
+
+    let encapsulateArray = function (data) {
+      if (Array.isArray(data)) {
+        data = {
+          "data": data
+        }
+        return data;
+      } else {
+        return data;
+      }
+    }
 
     let properties;
 
@@ -59,18 +74,29 @@ class requestEmitter {
 
     // this code needs some changes
     fetch(url, properties).then((response) => {
+
       status = response.status;
-      if (status == 204) {
-        return {};
-      } else {
-        return response.json();
-      }
+      return response.text();
+
     }).then((data) => {
+
+      data = encapsulateArray(JSON.parse(data));
       data.status = status;
+      data.success = success(status);
+
+      console.log(data);
 
       this.publish(eventName, data);
+
     }).catch((err) => {
-      this.publish(eventName, err);
+      
+      let response = {
+        "status": status,
+        "success": success(status)
+      };
+
+      this.publish(eventName, response);
+
     });
 
     return getSubject(this, eventName).subscribe(successFn, errorFn);

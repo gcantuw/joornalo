@@ -47,25 +47,28 @@
 
     </style>
 
+    
+    <div hidden$="[[!topNews]]">
+      <div class="tab">
+        <h3>más visto</h3>
+      </div>
 
-    <div class="tab">
-      <h3>más visto</h3>
+      <ol>
+        <template is="dom-repeat" items="{{topNews}}">
+          <li>
+            <span>[[item.rank]]</span>
+            <div>
+              <a href="#/news/[[item.id]]">
+                [[item.title]]
+                <img src="[[item.img]]">
+              </a>
+            </div>
+          </li>
+        </template>
+      </ol>
+
     </div>
 
-    <ol>
-      <template is="dom-repeat" items="{{topNews}}">
-        <li>
-          <span>[[item.rank]]</span>
-          <div>
-            <a href="#/news/[[item.id]]">
-              [[item.title]]
-              <img src="[[item.img]]">
-            </a>
-          </div>
-        </li>
-      </template>
-    </ol>
-    
   </template>
 
   <script>
@@ -76,7 +79,8 @@
         return {
 
           topNews: {
-            type: Array
+            type: Array,
+            value: null
           }
 
         };
