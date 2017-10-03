@@ -36,7 +36,13 @@
         }
       }
       h2 {
+        @apply --joornalo-h2;
         margin: 0;
+        font-weight: normal;
+      }
+      [mobile] h2 {
+        @apply --joornalo-h3;
+        font-weight: normal;
       }
       .images {
         position: relative;
@@ -109,6 +115,14 @@
         font-size: 1.4rem;
         color: #666;
         margin-top: .8rem;
+      }
+
+      .share.mobile {
+        margin-top: .8rem;
+        border-top: 1px dotted #ddd;
+        border-bottom: 1px dotted #ddd;
+        padding-top: .2rem;
+
       }
 
       .icon-like {
@@ -211,7 +225,7 @@
 
     <app-cookie id="cookie"></app-cookie>
 
-    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
 
     <app-spinner loading="[[spinner]]"></app-spinner>
 
@@ -225,7 +239,7 @@
       </div>
     </template>
     
-    <div class="row page">
+    <div class="row page" mobile$="[[sm]]">
 
       <div class="col-lg-2 left-column">
 
@@ -280,9 +294,22 @@
             <h2>[[news.title]]</h2>
             <h5>[[news.desc]]</h5>
 
+            <div class="images" loop$="[[loopImages]]" hidden$="[[!activeImage]]">
+
+              <img src="[[activeImage.url]]">
+              <h6 hidden$="[[!activeImage.label]]">[[activeImage.label]]</h6>
+              <div class="left" on-tap="_left">
+                <span class="icon-circle-left"></span>
+              </div>
+              <div class="right" on-tap="_right">
+                <span class="icon-circle-right"></span>
+              </div>
+
+            </div>
+
             <template is="dom-if" if="{{!gMd}}">
 
-              <div class="share border-bottom">
+              <div class="share mobile">
                 
                 <a href="[[facebookLink]]" target="_blank">
                   <span class="icon-facebook2"></span>
@@ -300,19 +327,6 @@
               </div>
 
             </template>
-
-            <div class="images" loop$="[[loopImages]]" hidden$="[[!activeImage]]">
-
-              <img src="[[activeImage.url]]">
-              <h6 hidden$="[[!activeImage.label]]">[[activeImage.label]]</h6>
-              <div class="left" on-tap="_left">
-                <span class="icon-circle-left"></span>
-              </div>
-              <div class="right" on-tap="_right">
-                <span class="icon-circle-right"></span>
-              </div>
-
-            </div>
 
             <p inner-h-t-m-l="[[news.text]]"></p>
 

@@ -1,10 +1,12 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../styles/shared.html">
 
+<link rel="import" href="../util/app-viewport.html">
+
 <dom-module id="block-menu">
   <template>
     <style include="shared">
-      :host {
+      .all {
         display: block;
         font-size: 0.9rem;
         height: 50px;
@@ -71,28 +73,38 @@
 
     </style>
 
-    <ul>
-      <template is="dom-repeat" items="{{menu}}">
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
 
-        <li>
-          <a href="[[item.link]]">[[item.text]]</a>
+    <template is="dom-if" if="{{gMd}}">
+      <div class="row all">
+          <div class="col">
 
-          <div hidden$="[[!item.sub]]" class="bg"></div>
+            <ul>
+              <template is="dom-repeat" items="{{menu}}">
 
-          <ol hidden$="[[!item.sub]]">
+                <li>
+                  <a href="[[item.link]]">[[item.text]]</a>
 
-            <template is="dom-repeat" items="{{item.sub}}" as="sub">
-              <li><a href="[[sub.link]]">[[sub.text]]</a></li>
-            </template>
+                  <div hidden$="[[!item.sub]]" class="bg"></div>
 
-          </ol>
+                  <ol hidden$="[[!item.sub]]">
 
-        </li>
+                    <template is="dom-repeat" items="{{item.sub}}" as="sub">
+                      <li><a href="[[sub.link]]">[[sub.text]]</a></li>
+                    </template>
 
-      </template>
-      <li hiddenx$="[[!jump]]" class="right"><a on-tap="_jump">[[jump]]</a></li>
-    </ul>
-    
+                  </ol>
+
+                </li>
+
+              </template>
+              <li hiddenx$="[[!jump]]" class="right"><a on-tap="_jump">[[jump]]</a></li>
+            </ul>
+
+        </div>
+      </div>
+    </template>
+      
     
   </template>
 
@@ -110,9 +122,24 @@
           jump: {
             type: String,
             value: null
+          },
+
+          gMd: {
+            type: Boolean,
+            value: false
           }
           
         };
+      }
+
+      static get observers() {
+        return [
+          '_greaterMd(xl, lg)'
+        ]
+      }
+
+      _greaterMd(xl, lg) {
+        this.gMd = (xl || lg);
       }
 
       _jump() {
