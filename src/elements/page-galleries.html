@@ -7,8 +7,73 @@
       :host {
         display: block;
       }
+      .page-title {
+        background-color: #eee;
+      }
+      .page-title h3 {
+        @apply --joornalo-h3;
+        margin: 0;
+        padding: 1rem;
+      }
+      .galleries {
+        margin: 2rem 0 4rem;
+      }
+
+      .gallery {
+        display: block;
+        position: relative;
+        margin: 0 0 2rem;
+        color: #000;
+      }
+      .gallery h6 {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        color: #FFF;
+        @apply --joornalo-h6;
+        font-weight: 700;
+        text-shadow: 0 1px 1px #000;
+        padding: 0 .5rem .4rem;
+      }
+      
+      a:before {
+        background: rgba(0,0,0,.15);
+        content: '';
+        display: block;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        -webkit-transition: background-color .15s ease-out;
+        -moz-transition: background-color .15s ease-out;
+        transition: background-color .15s ease-out;
+        width: 100%;
+        z-index: 2;
+      }
+      a:hover:before {
+        background: none;
+      }
     </style>
-    <h2>Galleries</h2>
+    <div class="page-title">
+      <h3>Foto Galerías</h3>
+    </div>
+
+    <div class="galleries">
+      <div class="row">
+
+        <template is="dom-repeat" items="{{galleries}}" as="gallery">
+
+          <div class="col-lg-3">
+            <a href="#/gallery/[[gallery.gallery_id]]" class="gallery">
+              <div class="img"><img src="[[gallery.img]]"></div>
+              <h6>[[gallery.title]]</h6>
+            </a>
+          </div>
+
+        </template>
+
+      </div>
+    </div>
+
   </template>
 
   <script>
@@ -18,10 +83,9 @@
       static get properties() {
         return {
 
-          // id: {
-          //   type: String,
-          //   observer: '_idChanged'
-          // }
+          galleries: {
+            type: Array
+          }
 
         };
       }
@@ -34,10 +98,11 @@
 
       _init() {
 
-        let api = 'json/gallery/';
+        let api = 'json/media/galleries.json';
 
         window.ajax.request('GET', api, null, (data) => {
 
+          this.galleries = data.data;
           console.log(data);
 
         }, (err) => this.setData(err));
