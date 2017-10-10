@@ -33,7 +33,7 @@
         @apply --joornalo-h6;
         font-weight: 700;
         text-shadow: 0 1px 1px #000;
-        padding: 0 .5rem .4rem;
+        padding: 0 .5rem;
       }
       
       a:before {
@@ -52,6 +52,11 @@
       a:hover:before {
         background: none;
       }
+
+      img {
+        margin-bottom: -5px;
+      }
+          
     </style>
     <div class="page-title">
       <h3>Foto Galerías</h3>
@@ -64,7 +69,7 @@
 
           <div class="col-lg-3">
             <a href="#/gallery/[[gallery.gallery_id]]" class="gallery">
-              <div class="img"><img src="[[gallery.img]]"></div>
+              <img src="[[gallery.img]]">
               <h6>[[gallery.title]]</h6>
             </a>
           </div>
