@@ -1,0 +1,30 @@
+{
+	"gallery_id": "98765",
+	"title": "Active volcanoes around the globe",
+	"images": [
+		{
+			"img": "../../images/tmp/gal/ga1.jpg",
+			"desc": "An Indonesian villager gestures as Mount Sinabung volcano spews thick volcanic ash, near Karo, North Sumatra on July 8, 2017. Sinabung roared back to life in 2010 for the first time in 400 years. "
+		},
+		{
+			"img": "../../images/tmp/gal/ga2.jpg",
+			"desc": "Manaro Voui Volcano on Vanuatu's Ambae island, where the volcano is threatening a major eruption on Sept. 30, 2017. The Vanuatu government announced that all 11,000 residents on Ambae, in the north of the Pacific archipelago, would be moved, after the volcano rumbled to life and rained rock and ash on villages. "
+		},
+		{
+			"img": "../../images/tmp/gal/ga3.jpg",
+			"desc": "A man in Puebla, Mexico, looks at the Popocatepetl Volcano spewing ash and smoke on Oct. 1, 2017. The Popocatepetl volcano, located about 55 km from Mexico City, has recorded numerous low-intensity exhalations in the past few days. "
+		},
+		{
+			"img": "../../images/tmp/gal/ga4.jpg",
+			"desc": "Smoke and ash rise from the Shinmoedake Volcano after it erupted on the border of Kagoshima and Miyazaki prefectures, in southwestern Japan on Oct. 12, 2017.  "
+		},
+		{
+			"img": "../../images/tmp/gal/ga5.jpg",
+			"desc": "The Mount Agung Volcano is seen in Karangasem, Bali, Indonesia on Oct. 4, 2017. More than 140,000 people have fled from the surrounds of Mount Agung since authorities raised the volcano's alert status to the highest level on Sept. 22 after a sudden increase in tremors. It last erupted in 1963, killing more than 1,000 people. "
+		},
+		{
+			"img": "../../images/tmp/gal/ga6.jpg",
+			"desc": "Snow-covered Mount Etna, Europe's most active volcano, spews lava during an eruption in the early hours April 11, 2017.  "
+		}
+	]
+}

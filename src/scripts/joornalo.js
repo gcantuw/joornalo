@@ -84,7 +84,7 @@ class requestEmitter {
       data.status = status;
       data.success = success(status);
 
-      console.log(data);
+      //console.log(data);
 
       this.publish(eventName, data);
 

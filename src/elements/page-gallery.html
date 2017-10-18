@@ -8,10 +8,79 @@
 
       :host {
         display: block;
-        background: #eee;
+        background-color: #eee;
+        padding-bottom: 40px;
       }
-      :host h2 {
-        margin: 0;
+      .gallery {
+        width: 100%;
+        height: 600px;
+        margin: 1rem 0;
+      }
+      .picture {
+        position: relative;
+        margin: auto;
+        height: 100%;
+        width: 800px;
+        
+      }
+      .gallery img {
+        display: block;
+        margin: auto;
+        width: auto;
+        height: 100%;
+        cursor: pointer;
+      }
+      .gallery h6 {
+        position: absolute;
+        bottom: 0;
+        color: #fff;
+        @apply --joornalo-h6;
+        background-color: rgba(0,0,0,.5);
+        padding: 1rem 2rem .5rem;
+      }
+
+      .gallery .left,
+      .gallery .right {
+        display: block;
+        cursor: pointer;
+        font-size: 2.5rem;
+        color: #fff;
+        opacity: .4;
+      }
+
+      .gallery .left {
+        position: absolute;
+        top: 45%;
+        left: 0.5rem;
+        color: red;
+      }
+      .gallery .right {
+        position: absolute;
+        top: 45%;
+        right: 0.5rem;
+        color: red;
+      }
+
+      .left:hover,
+      .right:hover {
+        opacity: 1;
+      }
+      [class^="icon-"], [class*=" icon-"] {
+        @apply --joornalo-icon;
+        cursor: pointer;
+        color: #666;
+      }
+      [class^="icon-"]:hover, [class*=" icon-"]:hover {
+        color: #999;
+      }
+
+      .icon-circle-right:before {
+        content: "\ea42";
+        color: #FFF;
+      }
+      .icon-circle-left:before {
+        content: "\ea44";
+        color: #FFF;
       }
 
     </style>
@@ -20,20 +89,67 @@
         route="{{route}}"
         pattern="/gallery/:id"
         data="{{routeData}}"></app-route>
-    
-    <h2>gallery: [[id]]</h2>
+
+    <div class="page-title">
+      <h3><a href="#/galleries">Foto Galerías</a> | [[title]]</h3>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="gallery">
+
+          <div class="picture" on-tap="_right">
+            <img src="[[picture.img]]">
+            <h6>[[picture.desc]]</h6>
+
+            <div class="left" on-tap="_left">
+              <span class="icon-circle-left"></span>
+            </div>
+            <div class="right">
+              <span class="icon-circle-right"></span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
 
   </template>
 
   <script>
 
-    class PageGallery extends Polymer.Element {
+    class PageGallery extends Polymer.GestureEventListeners(Polymer.Element) {
       static get is() { return 'page-gallery'; }
       static get properties() {
         return {
 
           id: {
             type: String
+          },
+
+          picture: {
+            type: Object,
+            value: null
+          },
+
+          gallery: {
+            type: Array
+          },
+
+          currentImage: {
+            type: Number,
+            value: 0
+          },
+
+          totalImages: {
+            type: Number,
+            value: 0
+          },
+
+          cancelRight: {
+            type: Boolean,
+            value: false
           }
 
         };
@@ -50,18 +166,36 @@
       }
 
       _galleryChanged(id) {
-        console.log("Gallery Id:", id);
+        //console.log("Gallery Id:", id);
         this.id = id;
 
-        let api = 'json/gallery/' + id; //'json/gallery?i=' + id;
+        let api = 'json/media/gallery.json'; //' + id; //'json/gallery?i=' + id;
         window.ajax.request('GET', api, null, (data) => {
 
-
-          console.log(data);
+          this.title = data.title;
+          this.gallery = data.images;
+          this.totalImages = data.images.length - 1;
+          this.picture = this.gallery[0];
 
 
         }, (err) => this.setData(err));
 
+      }
+
+      _left() {
+        this.cancelRight = true;
+        this.currentImage--;
+        if(this.currentImage < 0) this.currentImage = this.totalImages;
+        this.picture = this.gallery[this.currentImage];
+      }
+
+      _right() {
+        if (!this.cancelRight) {
+          this.currentImage++;
+          if(this.currentImage > this.totalImages) this.currentImage = 0
+          this.picture = this.gallery[this.currentImage];
+        }
+        this.cancelRight = false;
       }
 
     }

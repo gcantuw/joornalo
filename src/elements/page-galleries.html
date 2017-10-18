@@ -7,14 +7,7 @@
       :host {
         display: block;
       }
-      .page-title {
-        background-color: #eee;
-      }
-      .page-title h3 {
-        @apply --joornalo-h3;
-        margin: 0;
-        padding: 1rem;
-      }
+      
       .galleries {
         margin: 2rem 0 4rem;
       }
@@ -65,6 +58,21 @@
     <div class="galleries">
       <div class="row">
 
+        <template is="dom-repeat" items="{{topGalleries}}" as="gallery">
+
+          <div class="col-lg-4">
+            <a href="#/gallery/[[gallery.gallery_id]]" class="gallery">
+              <img src="[[gallery.img]]">
+              <h6>[[gallery.title]]</h6>
+            </a>
+          </div>
+
+        </template>
+
+      </div>
+
+      <div class="row">
+
         <template is="dom-repeat" items="{{galleries}}" as="gallery">
 
           <div class="col-lg-3">
@@ -89,7 +97,13 @@
         return {
 
           galleries: {
-            type: Array
+            type: Array,
+            observer: 'galleriesChange'
+          },
+          
+          topGalleries: {
+            type: Array,
+            value: null
           }
 
         };
@@ -107,8 +121,25 @@
 
         window.ajax.request('GET', api, null, (data) => {
 
-          this.galleries = data.data;
+          let tmp = [],
+              galleries = data.data;
           console.log(data);
+
+          if(galleries) {
+            let y = 0,
+                i = galleries.length;
+            for(;y < 3 && i > y; y++) {
+              tmp.push(galleries[y]);
+            }
+            this.topGalleries = tmp;
+
+            tmp = [];
+            for(;i > y; y++) {
+              tmp.push(galleries[y]);
+            }
+            this.galleries = tmp;
+
+          }
 
         }, (err) => this.setData(err));
 

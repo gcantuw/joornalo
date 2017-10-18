@@ -94,5 +94,23 @@
 		"title": "Life in North Korea",
 		"desc": "",
 		"img": "../../images/tmp/gal/a8.jpg"
+	},
+	{
+		"gallery_id": "98765",
+		"title": "Passages 2017: those we’ve lost through the year",
+		"desc": "",
+		"img": "../../images/tmp/gal/a3.jpg"
+	},
+	{
+		"gallery_id": "98765",
+		"title": "Hurricane Nate hits Gulf Coast with heavy rains and winds",
+		"desc": "",
+		"img": "../../images/tmp/gal/a4.jpg"
+	},
+	{
+		"gallery_id": "98765",
+		"title": "October political cartoons from the USA TODAY Network",
+		"desc": "",
+		"img": "../../images/tmp/gal/a5.jpg"
 	}
 ]

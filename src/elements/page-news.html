@@ -76,7 +76,7 @@
         cursor: pointer;
         font-size: 2rem;
         color: #fff;
-        opacity: .5;
+        opacity: .4;
       }
       [loop].images .left:hover,
       [loop].images .right:hover {
@@ -479,7 +479,7 @@
         this.totalImages = 0;
 
 
-        console.log("News Id:", id);
+        //console.log("News Id:", id);
         this.id = id;
 
         let api = 'json/news/newsColumn.json'; //?id=' + id;
@@ -507,7 +507,6 @@
         api = 'json/news/column-data.json';
         window.ajax.request('GET', api, null, (data) => {
 
-          console.log(data);
           this.data = data;
 
         }, (err) => this.setData(err));
@@ -515,12 +514,9 @@
       }
 
       _convertDate(dateString) {
-        console.log(dateString);
         let days = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
             months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             date = new Date(dateString);
-
-        console.log(date);
 
         return days[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
 
@@ -569,7 +565,6 @@
           let api = 'json/news/like.json?id=' +  this.id;
           window.ajax.request('GET', api, null, (data) => {
 
-            console.log(data);
             this.likes = data.likes;
             this.voted = true;
 
