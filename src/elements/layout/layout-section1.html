@@ -1,8 +1,15 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../styles/shared.html">
 
-<link rel="import" href="../blocks/block-headlines1.html">
+<link rel="import" href="../util/app-viewport.html">
+<link rel="import" href="../blocks/block-headlines2.html">
 <link rel="import" href="../blocks/block-latest.html">
+<link rel="import" href="../blocks/block-banner.html">
+<link rel="import" href="../blocks/block-galleries.html">
+<link rel="import" href="../blocks/block-top-news.html">
+<link rel="import" href="../blocks/block-outstanding.html">
+<link rel="import" href="../blocks/block-media.html">
+
 
 
 <dom-module id="layout-section1">
@@ -12,17 +19,64 @@
       :host {
         display: block;
       }
-      :host h2 {
-        margin: 0;
+
+      .block-top {
+        margin-bottom: 1rem;
       }
+
+/*      .block-col block-banner {
+        background: #ccc;
+        padding-bottom: 1rem;
+      }
+      .block-col block-banner:first-of-type {
+        padding-top: 1rem;
+      }*/
+
+/*      .row .row {
+        margin: 0 -16px;
+      }*/
 
     </style>
 
-    <h2>Layout: [[prop1]]</h2>
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
 
-    <block-headlines1></block-headlines1>
+    <template is="dom-if" if="{{gMd}}">
+      <div class="row">
+        <div class="col-12">
+          <div class="block-top">
+            <block-banner size="b980x90"></block-banner>
+          </div>
+        </div>
+      </div>
+    </template>
 
-    <block-latest></block-latest>
+    <div class="row">
+      <div class="col-lg-8 col-xl-9">
+
+        <block-headlines2 news="[[data.headlines]]" top-news="[[data.top-news]]"></block-headlines2>
+
+        <block-subsections news=""></block-subsections>
+
+      </div>
+      <div class="col-lg-4 col-xl-3">
+
+        <div class="block block-col">
+
+          <block-banner size="b300x250" class="margin-bottom"></block-banner>
+
+          <block-galleries galleries="[[data.galleries]]"></block-galleries>
+
+          <block-banner size="b300x250" class="margin-bottom"></block-banner>
+
+          <block-media multimedia="[[data.multimedia]]"></block-media>
+
+          <block-banner size="b300x250" class="margin-bottom"></block-banner>
+
+        </div>
+
+      </div>
+    </div>
+
 
 
   </template>
@@ -33,12 +87,40 @@
       static get is() { return 'layout-section1'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'section1'
+          data: {
+            type: Object,
+            // observer: '_dataChanged'
+          },
+
+          gMd: {
+            type: Boolean,
+            value: false
           }
+
         };
       }
+
+      static get observers() {
+        return [
+            'greaterMd(xl, lg)'
+        ]
+      }
+
+      ready() {
+        super.ready();
+      }
+
+      greaterMd(xl, lg) {
+        // console.log("============");
+        // console.log("xl:"+this.xl);
+        // console.log("lg:"+this.lg);
+        this.gMd = (xl || lg);
+      }
+
+      // _dataChanged() {
+
+      //   console.log(this.data);
+      // }
     }
 
     window.customElements.define(LayoutSection1.is, LayoutSection1);

@@ -1,5 +1,8 @@
 {
-	"layout": "home1",
+	"date": "09/16/2017",
+	"layout": "section1",
+
+	"section": "Estado de México",
 
 	"headlines": [
 		{
@@ -31,6 +34,7 @@
 			"img": ""
 		}
 	],
+
 
 	"top-news": [
 		{
@@ -66,150 +70,16 @@
 		}
 	],
 
-	"opinion": [
-		{
-			"id": "765721",
-			"title": "La encrucijada",
-			"autor": "David Martín del Campo",
-			"column": "El Rincón de David"
-		},
-		{
-			"id": "765721",
-			"title": "CAROLINA, MONREAL, CRECE GABINETE, ERUVIEL Y AÍDA",
-			"autor": "Guillermo Garduño Ramírez",
-			"column": "De Poder a Poder"
-		},
-		{
-			"id": "765721",
-			"title": "MIRILLA",
-			"autor": "Martha Lujano Valenzuela",
-			"column": "Temblando"
-		}
-	],
-
-	"section-news": [
-		{
-			"id": "estado-de-mexico",
-			"name": "Estado de México",
-			"news": [
-				{
-					"id": "765721",
-					"title": "Teatro de Guadalajara del IMSS con el nombre de Ignacio López Tarso",
-					"img": "../../images/tmp/edo1.jpg"
-				},
-				{
-					"id": "765721",
-					"title": "Erradican burocracia en La Función Registral",
-					"img": "../../images/tmp/edo2.jpg"
-				},
-				{
-					"id": "765721",
-					"title": "Edomex con sensores remotos para detectar vehículos que queman leña",
-					"img": "../../images/tmp/edo3.jpg"
-				}
-			]
-
-		},
-		{
-
-			"id": "mundo-cultural",
-			"name": "Mundo Cultural",
-			"news": [
-				{
-					"id": "765721",
-					"title": "La literatura en el cine, el periodismo en la era de laposverdad y el activismo pro derechos humanos",
-					"img": "../../images/tmp/cult1.jpg"
-				},
-				{
-					"id": "765721",
-					"title": "Exitoso concierto de la OFiT con Mariachi Sinfónico",
-					"img": "../../images/tmp/cult2.jpg"
-				},
-				{
-					"id": "765721",
-					"title": "Posiciona Ópera Aída a Toluca en el escenario cultural internacional",
-					"img": "../../images/tmp/cult3.jpg"
-				}
-			]
-		},
-		{
-			"id": "deportes",
-			"name": "Deportes",
-			"news": [
-				{
-					"id": "765721",
-					"title": "Teatro de Guadalajara del IMSS con el nombre de Ignacio López Tarso",
-					"img": "../../images/tmp/edo1.jpg"
-				},
-				{
-					"id": "765721",
-					"title": "Erradican burocracia en La Función Registral",
-					"img": "../../images/tmp/edo2.jpg"
-				},
-				{
-					"id": "765721",
-					"title": "Edomex con sensores remotos para detectar vehículos que queman leña",
-					"img": "../../images/tmp/edo3.jpg"
-				}
-			]
-
-		},
-		{
-
-			"id": "uaem",
-			"name": "UAEM",
-			"news": [
-				{
-					"id": "765721",
-					"title": "La literatura en el cine, el periodismo en la era de laposverdad y el activismo pro derechos humanos",
-					"img": "../../images/tmp/cult1.jpg"
-				},
-				{
-					"id": "765721",
-					"title": "Exitoso concierto de la OFiT con Mariachi Sinfónico",
-					"img": "../../images/tmp/cult2.jpg"
-				},
-				{
-					"id": "765721",
-					"title": "Posiciona Ópera Aída a Toluca en el escenario cultural internacional",
-					"img": "../../images/tmp/cult3.jpg"
-				}
-			]
-		},
-		{
-			"id": "toluca",
-			"name": "Toluca",
-			"news": [
-				{
-					"id": "765721",
-					"title": "Teatro de Guadalajara del IMSS con el nombre de Ignacio López Tarso",
-					"img": "../../images/tmp/edo1.jpg"
-				},
-				{
-					"id": "765721",
-					"title": "Erradican burocracia en La Función Registral",
-					"img": "../../images/tmp/edo2.jpg"
-				},
-				{
-					"id": "765721",
-					"title": "Edomex con sensores remotos para detectar vehículos que queman leña",
-					"img": "../../images/tmp/edo3.jpg"
-				}
-			]
-
-		}
-
-	],
-
-
-
 	"top-votes": [{
 		"id": "765721",
 		"title": "",
 		"votes": "45"
 	}],
 
-	"latest": [
+
+
+
+		"latest": [
 		{
 			"id": "765721",
 			"title": "La literatura en el cine, el periodismo en la era de laposverdad y el activismo pro derechos humanos",
