@@ -1,7 +1,7 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../styles/shared.html">
 
-<dom-module id="block-subsections">
+<dom-module id="block-section-latest">
   <template>
     <style include="shared">
       :host {
@@ -11,7 +11,7 @@
       .border-top {
         
       }
-      ul {
+      /*ul {
         display: flex;
         list-style-type: none;
         margin: 0.5rem 0 0;
@@ -25,41 +25,39 @@
       }
       li:last-of-type {
         margin-right: 0;
-      }
+      }*/
 
     </style>
 
-    <template is="dom-repeat" items="{{sections}}" as="section">
-      <div class="row">
-        <div class="col-lg-12 border-top">
-          <ul>
-            <li><h3 class="section"><a href="#/subsections/[[section.id]]">[[section.name]]</a></h3></li>
-            <template is="dom-repeat" items="{{section.news}}" as="news">
-              <li>
-                <block-news news="[[news]]" format="front3"></block-news>
-              </li>
-            </template>
-          </ul>
+    
+    <div class="tab">
+      <h3>lo último</h3>
+    </div>
+
+    <div class="row">
+      <template is="dom-repeat" items="{{news}}" as="news">
+        <div class="col-lg-3">
+          <block-news-flow news="[[news]]" format="flow2"></block-news-flow>
         </div>
-      </div>
-    </template>
+      </template>
+    </div>
     
   </template>
 
   <script>
   
-    class BlockSubsections extends Polymer.Element {
-      static get is() { return 'block-subsections'; }
+    class BlockSectionLatest extends Polymer.Element {
+      static get is() { return 'block-section-latest'; }
       static get properties() {
         return {
           prop1: {
             type: String,
-            value: 'block-subsections'
+            value: 'block-section-latest'
           }
         };
       }
     }
 
-    window.customElements.define(BlockSubsections.is, BlockSubsections);
+    window.customElements.define(BlockSectionLatest.is, BlockSectionLatest);
   </script>
 </dom-module>

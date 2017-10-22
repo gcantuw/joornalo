@@ -7,79 +7,173 @@
 	"headlines": [
 		{
 			"id": "123456",
-			"title": "North Korea underground nuclear test feared after earthquake",
-			"desc": "South Korea calls national security meeting after earthquake of magnitude 6.3 detected near a North Korean testing area",
-			"img": "../../images/tmp/sk.jpg"
-		},
-		{
-			"id": "123456",
-			"title": "La tolerancia de Trump con la violencia racista indigna a Estados Unidos",
-			"desc": "El presidente recibe críticas por la tibieza de su condena a la violencia de racistas y neonazis, grupos que le han apoyado",
-			"img": "../../images/tmp/img1.jpg"
+			"title": "Catalonia: what next for the independence movement?",
+			"desc": "Spain’s government has said it will push ahead with suspending Catalonia’s autonomy after the region’s leader refused to abandon secession plans",
+			"img": "../../images/tmp/n1.jpg"
 		},
 		{
 			"id": "765392",
-			"title": "Cristiano manda en casa de Messi (1-3)",
-			"desc": "El Madrid impone su mejor fútbol y amplitud de banquillo para derrotar al Barça en el Camp Nou en el partido de ida de la Supercopa",
-			"img": "../../images/tmp/img2.jpg"
+			"title": "'He keeps zigging and zagging': the perils of doing a healthcare deal with Trump",
+			"descx": "This week, senators moved to salvage the Obamacare subsidies Trump cut – but Washington remains confused over which way the president is swinging",
+			"img": "../../images/tmp/n3.jpg"
 		}, {
 			"id": "986322",
-			"title": "Golazo y expulsión del delantero portugués",
-			"desc": "Marca y se va a la calle tres minutos después por enseñar el torso en la celebración y, supuestamente, simular un penalti",
-			"img": "../../images/tmp/img3.jpg"
+			"title": "Xi Jinping tests eyelids – and bladders – with three-and-a-half hour speech",
+			"descx": "Chinese president channelled Hugo Chávez with marathon 65-page sermon setting out vision for Communist party",
+			"img": "../../images/tmp/n4.jpg"
 		}, {
 			"id": "276573",
-			"title": "La oposición de Venezuela rechaza las amenazas de Donald Trump",
-			"desc": "",
-			"img": ""
+			"title": "'It is a dangerous moment': Madagascar plague death toll reaches 74",
+			"descx": "Health officials struggle to contain spread of disease after virulent pneumonic strain infects 800 people across island since August",
+			"img": "../../images/tmp/n5.jpg"
+		},
+		{
+			"id": "123456",
+			"title": "Daphne Caruana Galizia: Establishment was out to get her, says family",
+			"descx": "Murdered investigative journalist’s sons tell of attempts on their mother’s life, and why they blame a ‘takedown of the rule of law’ in Malta for her death",
+			"img": "../../images/tmp/n2.jpg"
 		}
 	],
 
+	"subsection-news": [
+		{
+			"id": "estado-de-mexico/politica",
+			"name": "Politica",
+			"news": [
+				{
+					"id": "765721",
+					"title": "Teatro de Guadalajara del IMSS con el nombre de Ignacio López Tarso",
+					"img": "../../images/tmp/edo1.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "Erradican burocracia en La Función Registral",
+					"img": "../../images/tmp/edo2.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "Edomex con sensores remotos para detectar vehículos que queman leña",
+					"img": "../../images/tmp/edo3.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "Teatro de Guadalajara del IMSS con el nombre de Ignacio López Tarso",
+					"imgX": "../../images/tmp/edo1.jpg",
+					"desc": "Precisó que si bien es cierto se concretaron acuerdos para impulsar de forma mayoritaria temas como la Fiscalía General de la República"
+				}
+			]
 
-	"top-news": [
-		{
-			"rank": "1",
-			"id": "765721",
-			"title": "The Floridians who won't leave",
-			"img": "../../images/tmp/hurricane.jpg"
 		},
 		{
-			"rank": "2",
-			"id": "765721",
-			"title": "The thief was big but he left in tears"
+
+			"id": "estado-de-mexico/seguridad",
+			"name": "Seguridad",
+			"news": [
+				{
+					"id": "765721",
+					"title": "La literatura en el cine, el periodismo en la era de laposverdad y el activismo pro derechos humanos",
+					"img": "../../images/tmp/cult1.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "Exitoso concierto de la OFiT con Mariachi Sinfónico",
+					"imgX": "../../images/tmp/cult2.jpg",
+					"desc": "Este viernes 20 de octubre, a partir de las 16:30 horas, la comunidad del Centro Universitario Tenancingo de la Universidad Autónoma realizará su tradicional festival"
+				},
+				{
+					"id": "765721",
+					"title": "Posiciona Ópera Aída a Toluca en el escenario cultural internacional",
+					"img": "../../images/tmp/cult3.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "La literatura en el cine, el periodismo en la era de laposverdad y el activismo pro derechos humanos",
+					"img": "../../images/tmp/cult1.jpg"
+				}
+			]
 		},
 		{
-			"rank": "3",
-			"id": "765721",
-			"title": "When Obama crashes your class"
+			"id": "estado-de-mexico/vialidad",
+			"name": "Vialidad",
+			"news": [
+				{
+					"id": "765721",
+					"title": "Teatro de Guadalajara del IMSS con el nombre de Ignacio López Tarso",
+					"img": "../../images/tmp/edo1.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "Erradican burocracia en La Función Registral",
+					"img": "../../images/tmp/edo2.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "Edomex con sensores remotos para detectar vehículos que queman leña",
+					"img": "../../images/tmp/edo3.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "Teatro de Guadalajara del IMSS con el nombre de Ignacio López Tarso",
+					"img": "../../images/tmp/edo1.jpg"
+				}
+			]
+
 		},
 		{
-			"rank": "4",
-			"id": "765721",
-			"title": "Barbuda: A Caribbean paradise lost"
+			"id": "estado-de-mexico/salud",
+			"name": "Salud",
+			"news": [
+				{
+					"id": "765721",
+					"title": "Teatro de Guadalajara del IMSS con el nombre de Ignacio López Tarso",
+					"img": "../../images/tmp/edo1.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "Erradican burocracia en La Función Registral",
+					"img": "../../images/tmp/edo2.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "Edomex con sensores remotos para detectar vehículos que queman leña",
+					"img": "../../images/tmp/edo3.jpg"
+				}
+			]
+
 		},
 		{
-			"rank": "5",
-			"id": "765721",
-			"title": "How the British Virgin Islands look now"
-		},
-		{
-			"rank": "6",
-			"id": "765721",
-			"title": "The thief was big but he left in tears"
+
+			"id": "estado-de-mexico/educacion",
+			"name": "Educación",
+			"news": [
+				{
+					"id": "765721",
+					"title": "La literatura en el cine, el periodismo en la era de laposverdad y el activismo pro derechos humanos",
+					"img": "../../images/tmp/cult1.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "Exitoso concierto de la OFiT con Mariachi Sinfónico",
+					"img": "../../images/tmp/cult2.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "Posiciona Ópera Aída a Toluca en el escenario cultural internacional",
+					"img": "../../images/tmp/cult3.jpg"
+				},
+				{
+					"id": "765721",
+					"title": "La literatura en el cine, el periodismo en la era de laposverdad y el activismo pro derechos humanos",
+					"img": "../../images/tmp/cult1.jpg"
+				}
+			]
 		}
+
 	],
 
-	"top-votes": [{
-		"id": "765721",
-		"title": "",
-		"votes": "45"
-	}],
 
 
-
-
-		"latest": [
+	"latest": [
 		{
 			"id": "765721",
 			"title": "La literatura en el cine, el periodismo en la era de laposverdad y el activismo pro derechos humanos",

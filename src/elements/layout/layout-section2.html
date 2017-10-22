@@ -8,11 +8,11 @@
 <link rel="import" href="../blocks/block-galleries.html">
 <link rel="import" href="../blocks/block-outstanding.html">
 <link rel="import" href="../blocks/block-media.html">
-<link rel="import" href="../blocks/block-subsections.html">
+<link rel="import" href="../blocks/block-section-latest.html">
 
 
 
-<dom-module id="layout-section1">
+<dom-module id="layout-section2">
   <template>
     <style include="shared">
 
@@ -55,7 +55,7 @@
 
         <block-headlines2 news="[[data.headlines]]" top-news="[[data.top-news]]"></block-headlines2>
 
-        <block-subsections sections="[[data.subsection-news]]"></block-subsections>
+        <block-section-latest news="[[data.latest-news]]"></block-section-latest>
 
       </div>
       <div class="col-lg-4 col-xl-3">
@@ -83,8 +83,8 @@
 
   <script>
   
-    class LayoutSection1 extends Polymer.Element {
-      static get is() { return 'layout-section1'; }
+    class LayoutSection2 extends Polymer.Element {
+      static get is() { return 'layout-section2'; }
       static get properties() {
         return {
           data: {
@@ -123,6 +123,6 @@
       // }
     }
 
-    window.customElements.define(LayoutSection1.is, LayoutSection1);
+    window.customElements.define(LayoutSection2.is, LayoutSection2);
   </script>
 </dom-module>

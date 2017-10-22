@@ -41,28 +41,76 @@
         color: #3C99B0;
         font-size: .8rem;
       }
-      .flow1 h6 {
+      .top-right {
         display: inline-block;
         margin: 0;
         float: right;
+        margin-left: .5rem;
+      }
+      .flow1 h6,
+      .flow2 h6 {
+        /*display: inline-block;*/
+        margin: 0;
+        /*float: right;*/
         border: 1px solid #cc0002;
         border-radius: 5px;
         background: #fff;
         padding: .6rem .5rem;
         line-height: 0;
-        margin-left: .5rem;
+        /*margin-left: .5rem;*/
         color: #000 !important;
         font-size: 0.9rem;
       }
       .flow1 .time {
         display: inline-block;
         float: right;
-        color: #000;
+        color: #3699A9;
         padding-left: 12px;
         background: url(http://127.0.0.1:8081/images/icons/clock.svg) no-repeat center left;
         background-size: 10px;
         font-size: .6rem;
         margin-top: 3px;
+      }
+      .flow2 .time {
+        color: #3699A9;
+        padding-left: 12px;
+        background: url(http://127.0.0.1:8081/images/icons/clock.svg) no-repeat center left;
+        background-size: 10px;
+        font-size: .6rem;
+      }
+      .flow1 .title .time {
+        display: none;
+      }
+
+      .flow2 {
+        color: #333;
+        padding-bottom: .4rem;
+        margin-bottom: 1rem;
+      }
+      .flow2 a {
+        color: #333;
+      }
+      .flow2 a:hover {
+        color: #cc0002;
+      }
+      .flow2 img {
+        margin-bottom: .2rem;
+      }
+      .flow2 .title {
+        @apply --h6-mixin;
+        margin: 0 0 .5rem;
+        font-weight: 500;
+        line-height: 1.3rem;
+      }
+      .flow2 .desc {
+        @apply --h6-mixin;
+        font-size: 0.75rem;
+        margin: 0 0 .5rem;
+        font-weight: 400;
+        /*line-height: 1.3rem;*/
+      }
+      .flow2 .section {
+        display: none;
       }
 
     </style>
@@ -74,7 +122,13 @@
           <div class="time">[[news.time]]</div>
         </div>
         <div class="img" hidden$="[[!news.img]]"><img src="[[news.img]]"></div>
-        <div class="title"><h6 hidden$=[[!news.votes]]>[[news.votes]]</h6>[[news.title]]</div>
+        <div class="title">
+          <div class="top-right">
+            <div class="time">[[news.time]]</div>
+            <h6 hidden$=[[!news.votes]]>[[news.votes]]</h6>
+          </div>
+          [[news.title]]
+        </div>
         <div class="desc">[[news.desc]]</div>
       </a>
     </div>
