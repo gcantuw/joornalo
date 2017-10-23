@@ -19,31 +19,19 @@
       :host {
         display: block;
       }
-
-      .block-top {
-        margin-bottom: 1rem;
-      }
-
-/*      .block-col block-banner {
-        background: #ccc;
-        padding-bottom: 1rem;
-      }
-      .block-col block-banner:first-of-type {
-        padding-top: 1rem;
-      }*/
-
-/*      .row .row {
-        margin: 0 -16px;
-      }*/
-
+      
     </style>
 
     <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
 
+    <div class="page-title">
+      <h3>[[data.section]]</h3>
+    </div>
+
     <template is="dom-if" if="{{gMd}}">
       <div class="row">
         <div class="col-12">
-          <div class="block-top">
+          <div class="margin-bottom">
             <block-banner size="b980x90"></block-banner>
           </div>
         </div>

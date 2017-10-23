@@ -1,7 +1,7 @@
 {
 	"menu-header": [{
 		"text": "Inicio",
-		"link": "front/home",
+		"link": "#/front/home",
 		"sub": [{
 			"text": "Estado de México",
 			"link": "#/front/estado-de-mexico"

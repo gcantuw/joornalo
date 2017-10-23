@@ -1,4 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../util/app-viewport.html">
+<link rel="import" href="./blocks/block-banner.html">
 <link rel="import" href="../styles/shared.html">
 
 <dom-module id="page-galleries">
@@ -9,7 +11,7 @@
       }
       
       .galleries {
-        margin: 2rem 0 4rem;
+        margin: 0 0 4rem;
       }
 
       .gallery {
@@ -51,9 +53,22 @@
       }
           
     </style>
+
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
+
     <div class="page-title">
       <h3>Foto Galerías</h3>
     </div>
+
+    <template is="dom-if" if="{{gMd}}">
+      <div class="row">
+        <div class="col-12">
+          <div class="margin-bottom">
+            <block-banner size="b980x90"></block-banner>
+          </div>
+        </div>
+      </div>
+    </template>
 
     <div class="galleries">
       <div class="row">
@@ -104,15 +119,30 @@
           topGalleries: {
             type: Array,
             value: null
+          },
+
+          gMd: {
+            type: Boolean,
+            value: false
           }
 
         };
+      }
+
+      static get observers() {
+        return [
+          'greaterMd(xl, lg)'
+        ]
       }
 
       constructor() {
         super();
         this._init();
         window.store.subscribe('gallery', this._init.bind(this));
+      }
+
+      greaterMd(xl, lg) {
+        this.gMd = (xl || lg);
       }
 
       _init() {
@@ -123,7 +153,6 @@
 
           let tmp = [],
               galleries = data.data;
-          console.log(data);
 
           if(galleries) {
             let y = 0,

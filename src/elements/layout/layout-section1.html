@@ -20,10 +20,6 @@
         display: block;
       }
 
-      .block-top {
-        margin-bottom: 1rem;
-      }
-
 /*      .block-col block-banner {
         background: #ccc;
         padding-bottom: 1rem;
@@ -40,10 +36,14 @@
 
     <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
 
+    <div class="page-title">
+      <h3>[[data.section]]</h3>
+    </div>
+
     <template is="dom-if" if="{{gMd}}">
       <div class="row">
         <div class="col-12">
-          <div class="block-top">
+          <div class="margin-bottom">
             <block-banner size="b980x90"></block-banner>
           </div>
         </div>
@@ -102,7 +102,7 @@
 
       static get observers() {
         return [
-            'greaterMd(xl, lg)'
+          'greaterMd(xl, lg)'
         ]
       }
 
@@ -111,9 +111,6 @@
       }
 
       greaterMd(xl, lg) {
-        // console.log("============");
-        // console.log("xl:"+this.xl);
-        // console.log("lg:"+this.lg);
         this.gMd = (xl || lg);
       }
 
