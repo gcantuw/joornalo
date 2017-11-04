@@ -1,0 +1,98 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="search-input">
+	<template>
+	    <style include="shared">
+	    	.input-container {
+	    		width: 100%;
+	    		background: #FFF;
+	    		border: 1px solid #ccc;
+	    		display: flex;
+	    	}
+	    	input {
+	    		outline: none;
+	    		width: 100%;
+	    		height: 44px;
+	    		font-size: 1.25rem;
+	    		padding: 0 1rem;
+	    		flex: 1;
+	    		background: transparent;
+	    		border: 0;
+        		outline: 0;
+	    	}
+	    	.button {
+	    		width: 40px;
+	    		height: 44px;
+	    		padding: 0 .5rem;
+	    	}
+
+	    	[class^="icon-"], [class*=" icon-"] {
+				@apply --joornalo-icon;
+				cursor: pointer;
+				color: #666;
+			}
+			[class^="icon-"]:hover, [class*=" icon-"]:hover {
+				color: #999;
+			}
+			.icon-search:before {
+				font-size: 1.5rem;
+				content: "\e986";
+				color: #333;
+			}
+
+		</style>
+
+
+		<div class="input-container">
+
+			<input id="input" value="{{value::input}}" type$="[[typeMod]]" disabled$="[[disabled]]" on-tap="_tap" on-keydown="_keydown" on-keyup="_keyup" on-blur="_blur" on-focus="_focus">
+			<div class="button" on-tap="_submit"><span class="icon-search"></span></div>
+
+		</div>
+	</template>
+
+	<script>
+		class SearchInput extends Polymer.GestureEventListeners(Polymer.Element) {
+			static get is() { return 'search-input'; }
+			static get properties() {
+				return {
+
+					input:{
+						type: String,
+						notify: true,
+						value: null
+					},
+
+					submit: {
+						type: Boolean,
+						notify: true,
+						value: false
+					}
+
+				};
+
+			}
+
+			ready(){
+				super.ready();
+			}
+
+			_keydown(e) {
+
+				if (e.key == 'Enter') {
+		      		this._submit();
+		    	}
+
+ 			}
+
+ 			_submit() {
+ 				console.log("submit...")
+	      		this.submit = true;
+	      		setTimeout(() => { this.submit = false; }, 100);
+ 			}
+
+		}
+
+		window.customElements.define(SearchInput.is, SearchInput);
+	</script>
+</dom-module>

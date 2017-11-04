@@ -1,4 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="./util/search-input.html">
+<link rel="import" href="./util/app-spinner.html">
 <link rel="import" href="../styles/shared.html">
 
 <dom-module id="page-search">
@@ -7,36 +9,190 @@
 
       :host {
         display: block;
-        background: #eee;
+        
       }
+
       :host h2 {
         margin: 0;
+        background: #eee;
+        padding: 1rem;
+      }
+
+      .results {
+        margin: 0 1rem 4rem;
+      }
+
+      .results p {
+        margin: 2rem 0;
+      }
+
+      .result {
+        display: flex;
+        margin-bottom: 3rem;
+      }
+
+      .result h3 {
+        color: #000;
+      }
+
+      .result .left {
+        width: 100px;
+      }
+
+      .result .img {
+        width: 200px;
+        margin: .2rem 2rem 0 0
+      }
+
+      .result .right {
+        flex: 1;
+      }
+
+      .result h5 {
+        color: #999;
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        padding: 1px 0 0 0;
+      }
+
+      .result h4 {
+        color: #000;
+        margin: 0;
+        font-weight: 500;
+      }
+
+      .result h6 {
+        color: #333;
+        margin: 0;
+        font-weight: 400;
+      }
+
+      .navigation {
+        background: #666;
+        color: #FFF;
+        text-align: center;
+        padding: .5rem;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+
+      .empty em {
+        font-weight: bold;
       }
 
     </style>
+
+    <iron-location id="location"></iron-location>
 
     <app-route
         route="{{route}}"
         pattern="/search/:keywords"
         data="{{routeData}}"></app-route>
-    
-    <h2>Search: [[keywords]]</h2>
+
+    <app-spinner loading="[[spinner]]"></app-spinner>
+
+    <h2>
+      <search-input type="text" value="{{search::input}}" submit="{{submit}}"></search-input>
+    </h2>
+
+    <div class="results">
+
+      <div class="empty" hidden$="[[!noResults]]">
+        <p> No hay resultados para <em>[[keywords]]</em></p>
+
+        <p>
+          Sugerencias
+          <ul>
+            <li>Asegúrese de que las palabras esten escritas correctamente.</li>
+            <li>Utilice diferentes palabras.</li>
+            <li>Intente palabras más genéricas.</li>
+          </ul>
+        </p>
+      </div>
+
+      <p hidden$="[[noResults]]">Results for: [[keywords]]</p>
+
+      <div class="row">
+
+        <template is="dom-repeat" items="{{results}}" as="news">
+
+          <div class="col-lg-12">
+            <a class="result" href="#/news/[[news.id]]">
+              <div class="left">
+                <h5>[[news.date]]</h5>
+              </div>
+              <div hidden$="[[!news.img]]" class="img">
+                <img src="[[news.img]]">
+              </div>
+              <div class="right">
+                <h4>[[news.title]]</h4>
+                <h6>[[news.desc]]</h6>
+              </div>
+            </a>
+          </div>
+
+        </template>
+
+      </div>
+
+      <div hidden$="[[!more]]" class="navigation" on-tap="_more">
+        Mostrar más resultados
+      </div>
+
+    </div>
 
   </template>
 
   <script>
 
-    class PageSearch extends Polymer.Element {
+    class PageSearch extends Polymer.GestureEventListeners(Polymer.Element) {
       static get is() { return 'page-search'; }
       static get properties() {
         return {
+
+          search: {
+            type: String,
+            value: null
+          },
 
           keywords: {
             type: String
           },
 
-          searchResults: {
-            type: String
+          results: {
+            type: Array
+          },
+
+          submit: {
+            type: Boolean,
+            value: false,
+            observer: '_submitChange'
+          },
+
+          page: {
+            type: Number,
+            value: 1
+          },
+
+          spinner: {
+            type: Boolean,
+            value: false
+          },
+
+          noResults: {
+            type: Boolean,
+            value: false
+          },
+
+          more: {
+            type: Boolean,
+            value: false
+          },
+
+          empty: {
+            type: Boolean,
+            value: true
           }
 
         };
@@ -48,30 +204,71 @@
         ];
       }
 
-      constructor() {
-        super();
-      }
+      // constructor() {
+      //   super();
+      // }
 
       _searchChanged(keywords) {
-        //console.log("Keywords:", keywords);
-        if(keywords) {
-          this.keywords = keywords.replace("-", " ");
+        //console.log("[["+keywords+"]]");
+        if(keywords && keywords.length>0) {
+          this.keywords = keywords.replace(/\+/g, " ");
 
-          //console.log("Keywords:", keywords);
+          this.search = this.keywords.replace(/\+/g, " ");
 
-          let api = 'json/search?k=' + keywords.replace("-", "+");
+          let api = 'json/news/search.json?k=' + keywords.replace(/\-/g, "+");
           
+          this.spinner = true;
+
           window.ajax.request('GET', api, null, (data) => {
 
-            console.log(data);
-            // this.searchResults = data.results;
+            this.spinner = false;
+            this.empty = false;
+            this.results = data.results;
+            this.more = data.more;
+            if(data.results.length>0) {
+              this.noResults = false;
+            } else {
+              this.noResults = true;
+              this.more = false;
+            }
+            this.page = 1;
 
           }, (err) => this.setData(err));
+
         } else {
           this.keywords = '';
-          this.searchResults = [];
+          this.results = [];
+          this.empty = true;
+          this.more = false;
         }
 
+      }
+
+      _submitChange() {
+        if(this.submit) {
+          this._search();
+        }
+      }
+
+      _search() {
+        let search = this.search.replace(/  /g, " ").replace(/ /g, "+");
+        this.$.location.set('hash', '/search/'+search);
+      }
+
+      _more() {
+        this.page++;
+
+        let api = 'json/news/search.json?k=' + this.keywords.replace(/\-/g, "+") + '&p=' + this.page;
+        
+        this.spinner = true;
+        window.ajax.request('GET', api, null, (data) => {
+
+          this.spinner = false;
+
+          this.results = this.results.concat(data.results);
+          this.more = data.more;
+
+        }, (err) => this.setData(err));
       }
 
     }
