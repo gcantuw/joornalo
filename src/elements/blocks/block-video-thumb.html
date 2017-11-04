@@ -33,12 +33,91 @@
         display: none;
       }
 
+      .multi1 {
+        padding-bottom: .4rem;
+        margin-bottom: 1rem;
+      }
+      .multi1 a {
+        display: block;
+        color: #000;
+        position: relative;
+      }
+      .multi1:hover {
+       /* background: #888;*/
+      }
+      .multi1 img {
+        /*margin-bottom: .4rem*/
+        margin-bottom: -5px;
+      }
+      .multi1 .title {
+        @apply --joornalo-h6;
+        padding: .2rem .2rem 0;
+        margin-bottom: 0;
+        line-height: 1.1rem;
+      }
+      .multi1 .desc {
+        display: none;
+      }
+
+      .multi1 .overlay {
+        display: block;
+        position: relative;
+      }
+
+      .multi1 .overlay:before {
+        background: rgba(0,0,0,.15);
+        content: '';
+        display: block;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        -webkit-transition: background-color .15s ease-out;
+        -moz-transition: background-color .15s ease-out;
+        transition: background-color .15s ease-out;
+        width: 100%;
+        z-index: 2;
+      }
+
+      .multi1 a:hover .overlay:before {
+        background: none;
+      }
+
+      .multi1 .icon-play3 {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+      }
+
+      .multi1 .icon-play3:before {
+        position: absolute;
+        opacity: .6;
+        right: 50%;
+        top: 28%;
+        @apply --joornalo-icon;
+        content: "\ea1c";
+        color: #FFF;
+        font-size: 1.5rem;
+        margin-right: -12px;
+        z-index: 1000;
+      }
+      .multi1 a:hover .icon-play3:before {
+        opacity: 1;
+      }
+      .multi1 a:hover {
+        color: #cc0002;
+      }
+
+      
+
      
     </style>
 
     <div class$="[[format]]">
       <a href="#/multimedia/[[video.id]]">
-        <img src="https://i.ytimg.com/vi/[[video.youtube-id]]/mqdefault.jpg">
+        <span class="icon-play3"></span>
+        <span class="overlay">
+          <img src="https://i.ytimg.com/vi/[[video.youtube-id]]/mqdefault.jpg">
+        </span>
         <div class="title">[[video.title]]</div>
         <div class="desc">[[video.desc]]</div>
       </a>

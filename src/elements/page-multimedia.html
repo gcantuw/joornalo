@@ -1,0 +1,184 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="./util/app-viewport.html">
+<link rel="import" href="./blocks/block-banner.html">
+<link rel="import" href="./blocks/block-video-thumb.html">
+
+<link rel="import" href="../styles/shared.html">
+
+<dom-module id="page-multimedia">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+        margin-bottom: 4rem;
+      }
+
+      .video {
+        margin-bottom: 2rem;
+      }
+
+      .videoFrame {
+        width: 100%;
+        height: 440px;
+        margin-bottom: 1rem;
+      }
+      iframe {
+        border: none;
+      }
+
+      .video h2 {
+        line-height: 2.5rem;
+        margin: 0 0 1rem;
+      }
+
+      .video h4 {
+        line-height: 1.6rem;
+        margin: 0 0 1rem;
+      }
+  
+    </style>
+
+    <app-route
+        route="{{route}}"
+        pattern="/multimedia/:id"
+        data="{{routeData}}"></app-route>
+
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
+
+    <div class="page-title">
+      <h3>Multimedia</h3>
+    </div>
+
+    <template is="dom-if" if="{{gMd}}">
+      <div class="row">
+        <div class="col-12">
+          <div class="margin-bottom">
+            <block-banner size="b980x90"></block-banner>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <div class="video">
+
+      <div class="row">
+        <div class="col-lg-7 col-md-7">
+          <div class="videoFrame">
+
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/[[video.youtube-id]]"></iframe>
+            
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-5">
+          <h2>[[video.title]]</h2>
+          <h4>[[video.desc]]</h4>
+
+          <block-banner size="b300x250"></block-banner>
+
+        </div>
+      </div>
+
+    </div>
+
+      <div class="row">
+
+        <template is="dom-repeat" items="{{multimedia}}" as="video">
+
+          <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+
+            <span on-tap="_changeVideo">
+              <block-video-thumb video="[[video]]" format="multi1"></block-video-thumb>
+            </span>
+
+          </div>
+
+        </template>
+
+      </div>
+
+    </div>
+
+  </template>
+
+  <script>
+  
+    class PageMultimedia extends Polymer.GestureEventListeners(Polymer.Element) {
+      static get is() { return 'page-multimedia'; }
+      static get properties() {
+        return {
+
+          id: {
+            type: String,
+            value: null
+          },
+
+          multimedia: {
+            type: Array,
+            observer: 'galleriesChange'
+          },
+
+          video: {
+            type: Object,
+            value: null
+          },
+
+          gMd: {
+            type: Boolean,
+            value: false
+          }
+
+        };
+      }
+
+      static get observers() {
+        return [
+          '_multimediaChanged(routeData.id)',
+          '_greaterMd(xl, lg)'
+        ]
+      }
+
+      constructor() {
+        super();
+        this._init();
+        window.store.subscribe('multimedia', this._init.bind(this));
+      }
+
+      _init() {
+        this.id = null;
+
+        setTimeout(() => {
+
+          let api = 'json/media/multimedia.json?id=' + this.id;
+
+          window.ajax.request('GET', api, null, (data) => {
+
+            this.multimedia = data.data;
+            this.video = this.multimedia[0];
+
+          }, (err) => this.setData(err));
+
+
+        }, 0);
+
+      }
+
+      _greaterMd(xl, lg) {
+        this.gMd = (xl || lg);
+      }
+
+      _multimediaChanged(id) {
+        
+        this.id = id;
+        console.log('id::::>>>>>>>>', this.id);
+
+      }
+
+      _changeVideo(e) {
+        console.log(e.model.video);
+        this.video = e.model.video;
+      }
+    }
+
+    window.customElements.define(PageMultimedia.is, PageMultimedia);
+  </script>
+</dom-module>

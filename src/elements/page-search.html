@@ -71,10 +71,17 @@
         font-weight: 500;
       }
 
+      .result h4.section {
+        color: #CC0005;
+        font-size: 0.9rem;
+        line-height: 1.3rem;
+      }
+
       .result h6 {
         color: #333;
         margin: 0;
         font-weight: 400;
+        margin-top: .2rem;
       }
 
       .navigation {
@@ -122,7 +129,7 @@
         </p>
       </div>
 
-      <p hidden$="[[empty]]">Results for: [[keywords]]</p>
+      <p hidden$="[[empty]]">Se encontraron [[totalResults]] resultados para: [[keywords]]</p>
 
       <div class="row">
 
@@ -140,6 +147,7 @@
               </template>
               <div class="right">
                 <h5 hidden$="[[gMd]]">[[news.date]]</h5>
+                <h4 class="section">[[news.section]]</h4>
                 <h4>[[news.title]]</h4>
                 <h6>[[news.desc]]</h6>
               </div>
@@ -187,6 +195,11 @@
           page: {
             type: Number,
             value: 1
+          },
+
+          totalResults: {
+            type: Number,
+            value: 0
           },
 
           spinner: {
@@ -258,6 +271,7 @@
             this.spinner = false;
             this.results = data.results;
             this.more = data.more;
+            this.totalResults = data.total;
             if(data.results.length>0) {
               this.noResults = false;
               this.empty = false;
@@ -275,6 +289,7 @@
           this.results = [];
           this.empty = true;
           this.more = false;
+          this.totalResults = 0;
         }
 
       }
