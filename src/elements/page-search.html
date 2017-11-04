@@ -261,7 +261,7 @@
       }
 
       _search() {
-        let search = this.search.replace(/  /g, " ").replace(/ /g, "+");
+        let search = this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+");
         this.$.location.set('hash', '/search/'+search);
       }
 

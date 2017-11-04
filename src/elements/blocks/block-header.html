@@ -155,7 +155,7 @@
           console.log(this.search);
 
           if(this.search.length>0) {
-            let search = this.search.replace(" ", "-");
+            let search = this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+");
             this.$.location.set('path', '/search/'+search);
             this.search = '';
           }
@@ -166,7 +166,7 @@
       _submit() {
         let search = '';
         if(this.search && this.search.length>0) {
-          search = this.search.replace(" ", "-");
+          search = this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+");
         }
         this.$.location.set('path', '/search/'+search);
         this.search = '';
