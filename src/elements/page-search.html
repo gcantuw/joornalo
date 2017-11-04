@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="./util/search-input.html">
 <link rel="import" href="./util/app-spinner.html">
+<link rel="import" href="./util/app-viewport.html">
 <link rel="import" href="../styles/shared.html">
 
 <dom-module id="page-search">
@@ -37,15 +38,23 @@
 
       .result .left {
         width: 100px;
+        order: 1;
       }
 
       .result .img {
         width: 200px;
-        margin: .2rem 2rem 0 0
+        margin: .3rem 2rem 0 0;
+        order: 2;
+      }
+
+      .result [right].img {
+        margin: .3rem 0 0 2rem;
+        order: 4;
       }
 
       .result .right {
         flex: 1;
+        order: 3;
       }
 
       .result h5 {
@@ -85,6 +94,8 @@
 
     <iron-location id="location"></iron-location>
 
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
+
     <app-route
         route="{{route}}"
         pattern="/search/:keywords"
@@ -119,13 +130,16 @@
 
           <div class="col-lg-12">
             <a class="result" href="#/news/[[news.id]]">
-              <div class="left">
+              <div class="left" hidden$="[[!gMd]]">
                 <h5>[[news.date]]</h5>
               </div>
-              <div hidden$="[[!news.img]]" class="img">
-                <img src="[[news.img]]">
-              </div>
+              <template is="dom-if" if="{{gSm}}">
+                <div hidden$="[[!news.img]]" right$="[[md]]" class="img">
+                  <img src="[[news.img]]">
+                </div>
+              </template>
               <div class="right">
+                <h5 hidden$="[[gMd]]">[[news.date]]</h5>
                 <h4>[[news.title]]</h4>
                 <h6>[[news.desc]]</h6>
               </div>
@@ -193,6 +207,16 @@
           empty: {
             type: Boolean,
             value: true
+          },
+
+          gMd: {
+            type: Boolean,
+            value: false
+          },
+
+          gSm: {
+            type: Boolean,
+            value: false
           }
 
         };
@@ -201,6 +225,7 @@
       static get observers() {
         return [
           '_searchChanged(routeData.keywords)',
+          '_greaterSm(xl, lg, md)'
         ];
       }
 
@@ -279,6 +304,11 @@
           this.more = data.more;
 
         }, (err) => this.setData(err));
+      }
+
+      _greaterSm(xl, lg, md) {
+        this.gMd = (xl || lg);
+        this.gSm = (xl || lg || md);
       }
 
     }
