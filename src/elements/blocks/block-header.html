@@ -68,7 +68,7 @@
         <div class="row">
           <div class="col-lg-8">
             <div class="poder-edomex">
-              <a href="#/front"></a>
+              <a href="#/front/home"></a>
             </div>
           </div>
 
@@ -79,7 +79,7 @@
 
                   <div class="search-box">
                     <input id="search" value="{{search::input}}" placeholder="Buscar" type="text" on-keydown="_keydown">
-                    <div class="search-icon"></div>
+                    <div on-tap="_submit" class="search-icon"></div>
                   </div>
 
                 </div>
@@ -107,7 +107,7 @@
 
   <script>
   
-    class BlockHeader extends Polymer.Element {
+    class BlockHeader extends Polymer.GestureEventListeners(Polymer.Element) {
       static get is() { return 'block-header'; }
       static get properties() {
         return {
@@ -149,22 +149,31 @@
         this.date = days[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
       }
 
-      static get observers() {
-        return [
-          '_greaterMd(xl, lg)'
-        ]
-      }
-
       _keydown(e) {
 
         if (e.key == 'Enter') {
           console.log(this.search);
-          let search = this.search.replace(" ", "-");
-          this.$.location.set('path', '/search/'+search);
-          this.search = '';
 
+          if(this.search.length>0) {
+            let search = this.search.replace(" ", "-");
+            this.$.location.set('path', '/search/'+search);
+            this.search = '';
+          }
         }
 
+      }
+
+      _submit() {
+        let search = '';
+        if(this.search && this.search.length>0) {
+          search = this.search.replace(" ", "-");
+        }
+        this.$.location.set('path', '/search/'+search);
+        this.search = '';
+      }
+
+      _greaterMd(xl, lg) {
+        this.gMd = (xl || lg);
       }
 
 

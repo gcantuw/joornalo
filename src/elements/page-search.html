@@ -93,7 +93,7 @@
     <app-spinner loading="[[spinner]]"></app-spinner>
 
     <h2>
-      <search-input type="text" value="{{search::input}}" submit="{{submit}}"></search-input>
+      <search-input type="text" value="{{search::input}}" autofocus submit="{{submit}}"></search-input>
     </h2>
 
     <div class="results">
@@ -111,7 +111,7 @@
         </p>
       </div>
 
-      <p hidden$="[[noResults]]">Results for: [[keywords]]</p>
+      <p hidden$="[[empty]]">Results for: [[keywords]]</p>
 
       <div class="row">
 
@@ -204,12 +204,21 @@
         ];
       }
 
-      // constructor() {
-      //   super();
-      // }
+      constructor() {
+        super();
+        window.store.subscribe('search', this._reset.bind(this));
+      }
+
+      _reset() {
+        this.search = null;
+        this.noResults = false;
+        this.more = false;
+        this.empty = true;
+        this.results = [];
+      }
 
       _searchChanged(keywords) {
-        //console.log("[["+keywords+"]]");
+
         if(keywords && keywords.length>0) {
           this.keywords = keywords.replace(/\+/g, " ");
 
@@ -222,14 +231,15 @@
           window.ajax.request('GET', api, null, (data) => {
 
             this.spinner = false;
-            this.empty = false;
             this.results = data.results;
             this.more = data.more;
             if(data.results.length>0) {
               this.noResults = false;
+              this.empty = false;
             } else {
               this.noResults = true;
               this.more = false;
+              this.empty = true;
             }
             this.page = 1;
 
