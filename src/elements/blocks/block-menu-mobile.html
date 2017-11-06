@@ -30,7 +30,10 @@
         width: 0;
         left: 0;
         top: 0;
-        background: #fff;
+        
+        background: #333;
+        color: #fff;
+        opacity: 1;
 
         -webkit-transition: width .2s; 
         transition: width .2s;
@@ -40,9 +43,6 @@
 
       [show].menu {
         width: 300px;
-        background: #333;
-        color: #fff;
-        padding: 1rem;
       }
 
       [show].menu a {
@@ -52,15 +52,16 @@
 
 
       ul {
-        padding: 0;
+        padding: 1rem;
         list-style-type: none;
         margin: 0;
-        padding: 1px 0.5rem;
         font-size: 1.3rem;
         font-weight: 200;
+        width: 268px;
+        overflow: hidden;
 
-        -webkit-transition: all 0; 
-        transition: all 0;
+        -webkit-transition: all 0s; 
+        transition: all 0s;
       }
       li {
         padding: 0.25rem 0 0.25rem;
