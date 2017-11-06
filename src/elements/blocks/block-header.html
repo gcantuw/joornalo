@@ -10,6 +10,7 @@
     <style include="shared">
       :host {
         display: block;
+        position: relative;
       }
       .header {
         background: #cc0002;
@@ -61,10 +62,19 @@
         -webkit-box-shadow: 0 0 0 1000px #FFF inset;
       }
 
+      .spacer {
+        height: 50px;
+      }
+
       .headerMobile {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1;
         display: flex;
         background: #cc0002;
         height: 50px;
+        opacity: 1;
       }
 
       .headerMobile .menu {
@@ -152,17 +162,23 @@
       </div>
     </div>
 
-    <div class="headerMobile" hidden$="[[!mobile]]">
+    <div hidden$="[[!mobile]]">
 
-      <div class="menu" on-tap="_mobileMenu"></div>
+      <div class="spacer"></div>
 
-      <div class="logo">
-        <a href="#/front/home"></a>
+      <div class="headerMobile">
+
+        <div class="menu" on-tap="_mobileMenu"></div>
+
+        <div class="logo">
+          <a href="#/front/home"></a>
+        </div>
+
+        <a class="search" href="#/search"></a>
+
+        <block-menu-mobile show="{{showMenu}}" menu="[[menu]]"></block-menu-mobile>
+
       </div>
-
-      <a class="search" href="#/search"></a>
-
-      <block-menu-mobile show="{{showMenu}}" menu="[[menu]]"></block-menu-mobile>
 
     </div>
 
