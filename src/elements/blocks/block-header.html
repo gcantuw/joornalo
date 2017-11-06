@@ -1,6 +1,7 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../../bower_components/app-route/app-location.html">
 <link rel="import" href="../blocks/block-menu.html">
+<link rel="import" href="../blocks/block-menu-mobile.html">
 <link rel="import" href="../util/app-viewport.html">
 <link rel="import" href="../../styles/shared.html">
 
@@ -13,10 +14,10 @@
       .header {
         background: #cc0002;
       }
-      .poder-edomex {
+      .logo {
         padding: 1rem 0;
       }
-      .poder-edomex a {
+      .logo a {
         display: block;
         width: 460px;
         height: 68px;
@@ -38,7 +39,7 @@
         padding: 0 0 0 .5rem;
         outline: 0
       }
-      .search-box .search-icon {
+      .search-icon {
         height: 20px;
         width: 20px;
         background: url(../../../images/icons/search.svg) no-repeat top left;
@@ -60,51 +61,108 @@
         -webkit-box-shadow: 0 0 0 1000px #FFF inset;
       }
 
+      .headerMobile {
+        display: flex;
+        background: #cc0002;
+        height: 50px;
+      }
+
+      .headerMobile .menu {
+        width: 30px;
+      }
+
+      .headerMobile .logo {
+        flex: 1;
+        padding: 0;
+      }
+
+      .headerMobile .logo a {
+        background: url(../../../images/poder-edomex-mobile.svg) no-repeat 16px top;
+        width: 100%;
+        height: 50px;
+        background-size: 100% 20px;
+        background-position: left 15px;
+      }
+
+      .headerMobile .search {
+        width: 30px;
+      }
+
+      .headerMobile .menu,
+      .headerMobile .search {
+        @apply --joornalo-icon;
+        cursor: pointer;
+        color: #FFF;
+        font-size: 1.4rem;
+        padding-top: .8rem;
+      }
+
+      .headerMobile .menu:before {
+        content: "\e9bd";
+        padding-left: .8rem;
+      }
+      .headerMobile .search:before {
+        content: "\e986";
+        padding-right: .8rem;
+      }
+
     </style>
 
     <app-location id="location" use-hash-as-path></app-location>
 
     <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
 
-    <div class="header">
+    <div class="header" hidden$="[[mobile]]">
       <div class="container-fluid">
 
         <div class="row">
-          <div class="col-lg-8">
-            <div class="poder-edomex">
+
+          <div class="col-lg-8 col-md-6">
+            <div class="logo">
               <a href="#/front/home"></a>
             </div>
           </div>
 
-          <template is="dom-if" if="{{gMd}}">
-            <div class="col-lg-4">
-              <div class="row">
-                <div class="col">
+          <div class="col-lg-4 col-md-4">
+            <div class="row">
+              <div class="col">
 
-                  <div class="search-box">
-                    <input id="search" value="{{search::input}}" placeholder="Buscar" type="text" on-keydown="_keydown">
-                    <div on-tap="_submit" class="search-icon"></div>
-                  </div>
-
+                <div class="search-box">
+                  <input id="search" value="{{search::input}}" placeholder="Buscar" type="text" on-keydown="_keydown">
+                  <div on-tap="_submit" class="search-icon"></div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="col">
-
-                  <div class="date">[[date]]</div>
-
-                </div>
               </div>
             </div>
 
-          </template>
+            <div class="row">
+              <div class="col">
+
+                <div class="date">[[date]]</div>
+
+              </div>
+            </div>
+          </div>
 
         </div>
 
         <block-menu menu="[[menu]]"></block-menu>
 
       </div>
+    </div>
+
+    <div class="headerMobile" hidden$="[[!mobile]]">
+
+      <div class="menu" on-tap="_mobileMenu"></div>
+
+      <div class="logo">
+        <a href="#/front/home"></a>
+      </div>
+
+      <a class="search" href="#/search"></a>
+
+      <block-menu-mobile show="{{showMenu}}" menu="[[menu]]"></block-menu-mobile>
+
     </div>
 
   </template>
@@ -129,7 +187,17 @@
             value: null
           },
 
+          mobile: {
+            type: Boolean,
+            value: false
+          },
+
           gMd: {
+            type: Boolean,
+            value: false
+          },
+
+          showMenu: {
             type: Boolean,
             value: false
           }
@@ -139,7 +207,7 @@
 
       static get observers() {
         return [
-          '_greaterMd(xl, lg)'
+          '_viewports(xl, lg, md, sm)'
         ]
       }
 
@@ -176,8 +244,16 @@
         this.search = '';
       }
 
-      _greaterMd(xl, lg) {
+      _viewports(xl, lg, md, sm) {
         this.gMd = (xl || lg);
+        this.mobile = !this.gMd;
+      }
+
+      _mobileMenu() {
+
+        this.showMenu = !this.showMenu;
+        console.log("show:",this.showMenu);
+
       }
 
 

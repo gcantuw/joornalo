@@ -1,0 +1,159 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-menu-mobile">
+  <template>
+    <style include="shared">
+      .overlay {
+        position: absolute;
+        width: 0;
+        height: 100vh;
+        background: #000;
+        opacity: 0;
+        left: 0;
+        top: 0;
+        z-index: 1000;
+        -webkit-transition: width 0; 
+        transition: width 0;
+        -webkit-transition: opacity .2s; 
+        transition: opacity .2s;
+      }
+
+      [show].overlay {
+        width: 100vw;
+        opacity: 0.5;
+      }
+
+      .menu {
+        position: absolute;
+        height: 100vh;
+        width: 0;
+        left: 0;
+        top: 0;
+        background: #fff;
+
+        -webkit-transition: width .2s; 
+        transition: width .2s;
+        z-index: 1001;
+        overflow-x:hidden;
+      }
+
+      [show].menu {
+        width: 300px;
+        background: #333;
+        color: #fff;
+        padding: 1rem;
+      }
+
+      [show].menu a {
+        color: #FFF;
+      }
+
+
+
+      ul {
+        padding: 0;
+        list-style-type: none;
+        margin: 0;
+        padding: 1px 0.5rem;
+        font-size: 1.3rem;
+        font-weight: 200;
+
+        -webkit-transition: all 0; 
+        transition: all 0;
+      }
+      li {
+        padding: 0.25rem 0 0.25rem;
+      }
+      ol {
+        list-style-type: none;
+        margin: 0;
+        padding: 0.2rem 0.5rem 0.2rem 1rem;
+      }
+      li a {
+        color:#fff;
+        text-decoration: none;
+        padding: .2rem .5rem;
+      }
+      li a:hover {
+        color:#cc0002;
+      }
+
+
+    </style>
+
+
+    <div class="overlay" show$="[[show]]" on-tap="_hide"></div>
+
+    <div class="menu" show$="[[show]]">
+
+      <ul>
+        <template is="dom-repeat" items="{{menu}}">
+
+          <li>
+            <a href="[[item.link]]" on-tap="_close">[[item.text]]</a>
+
+            <ol hidden$="{{!item.sub}}">
+
+              <template is="dom-repeat" items="{{item.sub}}" as="sub">
+                <li><a on-tap="_close" href="[[sub.link]]">[[sub.text]]</a></li>
+              </template>
+
+            </ol>
+
+          </li>
+
+        </template>
+      </ul>
+
+
+    </div>
+      
+    
+  </template>
+
+  <script>
+  
+    class BlockMenuMobile extends Polymer.GestureEventListeners(Polymer.Element) {
+      static get is() { return 'block-menu-mobile'; }
+      static get properties() {
+        return {
+
+          menu: {
+            type: Object
+          },
+
+          show: {
+            type: Boolean,
+            value: false,
+            notify: true,
+            observer: '_showChanged'
+          }
+          
+        };
+      }
+
+      _showChanged() {
+        console.log("show::::",this.show);
+        let body = document.getElementsByTagName("body")[0];
+        if(this.show) {
+          body.className = "mobileMenu";
+        } else {
+          body.className = "";
+        }
+      }
+
+      _hide(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.show = false;
+      }
+
+      _close() {
+        this.show = false;
+      }
+    }
+
+    window.customElements.define(BlockMenuMobile.is, BlockMenuMobile);
+  </script>
+</dom-module>

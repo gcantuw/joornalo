@@ -181,8 +181,11 @@
       }
 
       _changeVideo(e) {
-        console.log(e.model.video);
+        // console.log(e.model.video);
         this.video = e.model.video;
+        if(!this.gMd) {
+          window.scrollTo(0, 0);
+        }
       }
     }
 
