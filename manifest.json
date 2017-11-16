@@ -1,15 +1,15 @@
 {
-  "name": "My App",
-  "short_name": "My App",
-  "description": "My App description",
-  "start_url": "./?homescreen=1",
+  "name": "PoderEdomex",
+  "short_name": "PoderEdomex",
+  "description": "Toda la información del Estado de México",
+  "start_url": "./#/front/home",
   "display": "standalone",
-  "theme_color": "#3f51b5",
-  "background_color": "#3f51b5",
+  "theme_color": "#cc0002",
+  "background_color": "#cc0002",
   "icons": [
     {
       "src": "images/manifest/icon-192x192.png",
-      "sizes": "192x192",
+      "sizes": "192x18",
       "type": "image/png"
     },
     {
