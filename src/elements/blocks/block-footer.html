@@ -70,9 +70,9 @@
           <div class="col-lg-6 col-md-12 col-sm-12">
 
             <ol>
-              <li><a href="#/static/about">Nosotros</a></li>
-              <li><a href="#/static/about">Aviso de Privacidad</a></li>
-              <li><a href="#/static/legal">Contacto</a></li>
+              <template is="dom-repeat" items="{{menuFooter}}">
+                <li><a href="[[item.link]]">[[item.text]]</a></li>
+              </template>
             </ol>
 
           </div>

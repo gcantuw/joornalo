@@ -193,7 +193,8 @@
         //console.log("Gallery Id:", id);
         this.id = id;
 
-        let api = 'json/media/gallery.json'; //' + id; //'json/gallery?i=' + id;
+        //let api = 'json/media/gallery.json'; //' + id; //'json/gallery?i=' + id;
+        let api = 'json/media/gallery.asp?id=' + id;
         window.ajax.request('GET', api, null, (data) => {
 
           this.title = data.title;

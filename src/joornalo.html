@@ -58,7 +58,7 @@
 
     </div>
     
-    <block-footer menu=[[menuHeader]]></block-footer>
+    <block-footer menu=[[menuHeader]] menu-footer=[[menuFooter]]></block-footer>
 
   </template>
 
@@ -93,14 +93,15 @@
       ready() {
         super.ready();
 
-        let api = 'json/menu.json';
+        let api = 'json/menu.asp';
 
         window.ajax.request('GET', api, null, (data) => {
 
-          // console.log(data);
-
           this.menuHeader = data['menu-header'];
           this.menuFooter = data['menu-footer'];
+          window.sectionId = data['section-id'];
+          window.sectionClave = data['section-clave'];
+          window.store.publish('sections-loaded', {});
 
         }, (err) => this.setData(err));
 

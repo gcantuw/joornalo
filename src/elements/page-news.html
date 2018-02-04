@@ -4,6 +4,7 @@
 <link rel="import" href="./util/app-viewport.html">
 <link rel="import" href="./util/app_cookie.html">
 <link rel="import" href="./util/app-spinner.html">
+<link rel="import" href="./blocks/block-error.html">
 <link rel="import" href="./blocks/block-banner.html">
 <link rel="import" href="./blocks/block-galleries.html">
 <link rel="import" href="./blocks/block-top-news.html">
@@ -47,6 +48,7 @@
       .images {
         position: relative;
         color: #FFF;
+        margin-top: .5rem;
       }
       .images h6 {
         margin: 0;
@@ -215,7 +217,14 @@
         display: inline-block;
         margin: .5rem 0;
       }
-
+      .content{
+        opacity: 1;
+        -webkit-transition: opacity 0.5s; /* Safari */
+        transition: opacity 0.5s;
+      }
+      .content[hide] {
+        opacity: 0;
+      }
     </style>
 
     <app-route
@@ -229,87 +238,32 @@
 
     <app-spinner loading="[[spinner]]"></app-spinner>
 
-    <template is="dom-if" if="{{gMd}}">
-      <div class="row">
-        <div class="col-12">
-          <div class="block-top">
-            <block-banner size="b980x90"></block-banner>
+    <block-error error-message="[[errorMessage]]"></block-error>
+
+    <div class="content" hide$=[[!found]]>
+      <template is="dom-if" if="{{gMd}}">
+        <div class="row">
+          <div class="col-12">
+            <div class="block-top">
+              <block-banner size="b980x90"></block-banner>
+            </div>
           </div>
         </div>
-      </div>
-    </template>
-    
-    <div class="row page" mobile$="[[sm]]">
+      </template>
+      
+      <div class="row page" mobile$="[[sm]]">
 
-      <div class="col-lg-2 left-column">
+        <div class="col-lg-2 left-column">
 
-        <div hidden$="[[!news]]">
+          <div hidden$="[[!news]]">
 
-          <a href="#/front/[[news.section-id]]">
-              <h3 class="section border-bottom">[[news.section]]</h3>
-          </a>
-          
-          <template is="dom-if" if="{{gMd}}">
+            <a href="#/front/[[news.section-id]]">
+                <h3 class="section border-bottom">[[news.section]]</h3>
+            </a>
+            
+            <template is="dom-if" if="{{gMd}}">
 
-            <div class="share border-bottom">
-              
-              <a href="[[facebookLink]]" target="_blank">
-                <span class="icon-facebook2"></span>
-              </a>
-              <a href="[[twitterLink]]" target="_blank">
-                <span class="icon-twitter"></span>
-              </a>
-              <a href="[[linkedinLink]]" target="_blank">
-                <span class="icon-linkedin"></span>
-              </a>
-              <a href="[[mailToLink]]">
-                <span class="icon-mail"></span>
-              </a>
-              <h6 voted$="[[voted]]" class="likes" on-tap="_like"><span class="icon-like"></span>[[likes]]</h6>
-            </div>
-
-            <h6 class="date">[[date]]</h6>
-            <h6 class="author border-bottom">[[news.author]]</h6>
-          
-            <div hidden$="[[!news.author-profile]]" class="profile">
-              <h3>Perfil del Autor</h3>
-              <p>[[news.author-profile]]</p>
-            </div>
-
-          </template>
-
-        </div>
-      </div>
-
-      <div class="col-lg-7">
-
-        <div hidden$="[[!news]]">
-
-          <div class="news">
-            <div hidden$="[[!news.column]]" class="column">
-              <h3>[[news.column]]</h3>
-              <h4>[[news.author]]</h4>
-            </div>
-
-            <h2>[[news.title]]</h2>
-            <h5>[[news.desc]]</h5>
-
-            <div class="images" loop$="[[loopImages]]" hidden$="[[!activeImage]]">
-
-              <img src="[[activeImage.url]]">
-              <h6 hidden$="[[!activeImage.label]]">[[activeImage.label]]</h6>
-              <div class="left" on-tap="_left">
-                <span class="icon-circle-left"></span>
-              </div>
-              <div class="right" on-tap="_right">
-                <span class="icon-circle-right"></span>
-              </div>
-
-            </div>
-
-            <template is="dom-if" if="{{!gMd}}">
-
-              <div class="share mobile">
+              <div class="share border-bottom">
                 
                 <a href="[[facebookLink]]" target="_blank">
                   <span class="icon-facebook2"></span>
@@ -326,26 +280,85 @@
                 <h6 voted$="[[voted]]" class="likes" on-tap="_like"><span class="icon-like"></span>[[likes]]</h6>
               </div>
 
+              <h6 class="date">[[date]]</h6>
+              <h6 class="author border-bottom">[[news.author.name]]</h6>
+            
+              <div hidden$="[[!news.author.profile]]" class="profile">
+                <h3>Perfil del Autor</h3>
+                <p inner-h-t-m-l=[[news.author.profile]]></p>
+              </div>
+
             </template>
 
-            <p inner-h-t-m-l="[[news.text]]"></p>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+
+          <div hidden$="[[!news]]">
+
+            <div class="news">
+              <div hidden$="[[!news.author.column]]" class="column">
+                <h3>[[news.author.column]]</h3>
+                <h4>[[news.author.name]]</h4>
+              </div>
+
+              <h2>[[news.title]]</h2>
+              <h5 inner-h-t-m-l=[[news.desc]]></h5>
+
+              <div class="images" loop$="[[loopImages]]" hidden$="[[!activeImage]]">
+
+                <img src="[[activeImage.url]]">
+                <h6 hidden$="[[!activeImage.label]]">[[activeImage.label]]</h6>
+                <div class="left" on-tap="_left">
+                  <span class="icon-circle-left"></span>
+                </div>
+                <div class="right" on-tap="_right">
+                  <span class="icon-circle-right"></span>
+                </div>
+
+              </div>
+
+              <template is="dom-if" if="{{!gMd}}">
+
+                <div class="share mobile">
+                  
+                  <a href="[[facebookLink]]" target="_blank">
+                    <span class="icon-facebook2"></span>
+                  </a>
+                  <a href="[[twitterLink]]" target="_blank">
+                    <span class="icon-twitter"></span>
+                  </a>
+                  <a href="[[linkedinLink]]" target="_blank">
+                    <span class="icon-linkedin"></span>
+                  </a>
+                  <a href="[[mailToLink]]">
+                    <span class="icon-mail"></span>
+                  </a>
+                  <h6 voted$="[[voted]]" class="likes" on-tap="_like"><span class="icon-like"></span>[[likes]]</h6>
+                </div>
+
+              </template>
+
+              <p inner-h-t-m-l="[[news.text]]"></p>
+
+            </div>
 
           </div>
+        </div>
+
+        <div class="col-lg-3">
+          
+          <block-past-columns columns="[[news.author.past-columns]]"></block-past-columns>
+          <block-banner size="b300x250" class="margin-bottom"></block-banner>
+          <block-top-news top-news="[[data.top-news]]"></block-top-news>
+          <block-banner size="b300x250" class="margin-bottom"></block-banner>
+          <block-galleries galleries="[[data.galleries]]"></block-galleries>
+          <block-banner size="b300x250" class="margin-bottom"></block-banner>
 
         </div>
-      </div>
-
-      <div class="col-lg-3">
-        
-        <block-past-columns columns="[[news.past-columns]]"></block-past-columns>
-        <block-banner size="b300x250" class="margin-bottom"></block-banner>
-        <block-top-news top-news="[[data.top-news]]"></block-top-news>
-        <block-banner size="b300x250" class="margin-bottom"></block-banner>
-        <block-galleries galleries="[[data.galleries]]"></block-galleries>
-        <block-banner size="b300x250" class="margin-bottom"></block-banner>
 
       </div>
-
     </div>
 
   </template>
@@ -367,6 +380,16 @@
 
           data: {
             type: Object
+          },
+
+          found: {
+            type: Boolean,
+            value: false
+          },
+
+          errorMessage: {
+            type: String,
+            value: null
           },
 
           gMd: {
@@ -470,6 +493,8 @@
       }
 
       _newsChanged(id) {
+        this.found = false;
+        this.errorMessage = null;
         this.spinner = true;
         this.activeImage = null;
         this.news = null;
@@ -482,16 +507,17 @@
         //console.log("News Id:", id);
         this.id = id;
 
-        let api = 'json/news/newsColumn.json'; //?id=' + id;
+        let api = 'json/news/news.asp?id=' + id;
 
-        if(id=='123456') {
-          api = 'json/news/news.json'; //?id=' + id;
-        }
+        // if(id=='765721') {
+        //   api = 'json/news/newsColumn.json?id=' + id;
+        // }
         window.ajax.request('GET', api, null, (data) => {
 
           this.spinner = false;
 
           if (data.success) {
+            this.found = true;
             this.news = data;
             this.likes = data.likes;
             this.url = window.location.origin + '/#/news/' + data.id;
@@ -499,6 +525,15 @@
 
             this._socialMediaLinks();
             this._imageProcessing();
+          } else {
+            this.errorMessage = data.error.message;
+            // if (data.status == 404) {
+            //   this.notFound = true;
+            // } else {
+
+            // }
+
+
           }
 
         }, (err) => { console.log('error-------'); });

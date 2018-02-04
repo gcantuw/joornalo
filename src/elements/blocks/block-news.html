@@ -8,6 +8,9 @@
       :host {
         display: block;
       }
+      .title {
+        word-break: break-word;
+      }
 
       .front1 {
         background: #666;
@@ -74,6 +77,10 @@
         font-weight: 500;
         line-height: 1.3rem;
       }
+      .front3 [big].title {
+        font-size: 1.8rem;
+        line-height: 2rem;
+      }
       .front3 .desc {
         @apply --h6-mixin;
         font-size: 0.75rem;
@@ -122,7 +129,7 @@
       <a href="#/news/[[news.id]]">
         <div class="section">[[news.section-name]]</div>
         <div hidden$="[[!news.img]]" class="img"><img src="[[news.img]]"></div>
-        <div class="title">[[news.title]]</div>
+        <div class="title" big$="[[!news.img]]">[[news.title]]</div>
         <div class="desc">[[news.desc]]</div>
       </a>
     </div>

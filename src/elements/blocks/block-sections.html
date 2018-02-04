@@ -23,15 +23,15 @@
 
     <template is="dom-repeat" items="{{sections}}" as="section">
       <div class="tab">
-        <h3><a href="#/front/[[section.id]]">[[section.name]]</a></h3>
+        <h3><a href="#/front/[[section.seccion-id]]">[[section.name]]</a></h3>
       </div>
-      <ul>
+      <div class="row">
         <template is="dom-repeat" items="{{section.news}}" as="news">
-          <li>
+          <div class="col-lg-4 col-md-6 col-sm-12">
             <block-news news="[[news]]" format="front3"></block-news>
-          </li>
+          </div>
         </template>
-      </ul>
+      </div>
     </template>
     
   </template>

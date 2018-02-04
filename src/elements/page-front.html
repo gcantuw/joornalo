@@ -89,22 +89,33 @@
           this.section = section.replace("/", "");
           // console.log("Section:", this.section);
 
-          let api = 'json/front/' + this.section + '.json'; //'json/front?s=' + section;
 
-          window.ajax.request('GET', api, null, (data) => {
 
-            this.spinner = false;
-
-            if (data.success) {
-
-              this.layout = data.layout;
-              this.data = data;
-
-            }
-
-          }, (err) => this.setData(err));
-
+          if(window.sectionClave) {
+            this._loadFront();
+          } else {
+            window.store.subscribe('sections-loaded', this._loadFront.bind(this));
+          }
         }
+      }
+
+      _loadFront() {
+
+        //let api = 'json/front/' + this.section + '.json'; //'json/front?s=' + section;
+        let api = 'json/front/front.asp?s=' + window.sectionClave[this.section];
+
+        window.ajax.request('GET', api, null, (data) => {
+
+          this.spinner = false;
+
+          if (data.success) {
+
+            this.layout = data.layout;
+            this.data = data;
+
+          }
+
+        }, (err) => this.setData(err));
 
       }
 

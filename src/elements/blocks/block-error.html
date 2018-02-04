@@ -1,0 +1,54 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-error">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+      }
+      div {
+        font-size: 2rem;
+        text-align: center;
+        padding-top: 8rem;
+      }
+
+      
+
+    </style>
+
+    <div hidden$="[[!display]]">
+      [[errorMessage]]
+    </div>
+    
+  </template>
+
+  <script>
+  
+    class BlockError extends Polymer.Element {
+      static get is() { return 'block-error'; }
+      static get properties() {
+        return {
+
+          display: {
+            type: Boolean,
+            value: false
+          },
+
+          errorMessage: {
+            type: String,
+            value: '',
+            observer: '_errorMessageChange'
+          }
+
+        };
+      }
+
+      _errorMessageChange() {
+        this.display = (this.errorMessage && this.errorMessage.length > 0);
+      }
+    }
+
+    window.customElements.define(BlockError.is, BlockError);
+  </script>
+</dom-module>

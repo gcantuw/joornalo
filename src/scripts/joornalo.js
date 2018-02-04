@@ -25,9 +25,9 @@ class requestEmitter {
 
   request(method, apiName, payload, successFn, errorFn) {
 
-    //let endpoint = 'http://localhost:9998/';
-    //let endpoint = 'http://127.0.0.1:8081/';
-    let endpoint = './';
+    //let endpoint = 'http://127.0.0.1:9998/';
+    let endpoint = 'http://64.182.211.118/';
+    //let endpoint = './';
     let url;
     if (apiName.startsWith("http")) {
       url = apiName;
@@ -66,9 +66,11 @@ class requestEmitter {
       cache: 'default'
     };
 
-    if (method !== 'GET') {
-      properties.body = JSON.stringify(payload);
-    }
+    //if (method !== 'GET') {
+      if (payload) {
+        properties.body = JSON.stringify(payload);
+      }
+    //}
 
     let status;
 

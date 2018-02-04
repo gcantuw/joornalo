@@ -102,6 +102,10 @@
         font-weight: 500;
         line-height: 1.3rem;
       }
+      .flow2 [big].title {
+        font-size: 1.8rem;
+        line-height: 2rem;
+      }
       .flow2 .desc {
         @apply --h6-mixin;
         font-size: 0.75rem;
@@ -111,6 +115,33 @@
       }
       .flow2 .section {
         display: none;
+      }
+      .flow2 [big].title  {
+        overflow: hidden;
+        position: relative; 
+        line-height: 2rem;
+        /* max-height = line-height (2) * lines max number (7) */
+        max-height: 14rem; 
+        margin-right: -1em;
+        padding-right: 1em;
+      }
+      .flow2 [big].title:before {
+        content: '...';
+        position: absolute;
+  /*      right: 0;
+        bottom: 0;*/
+        right: 2rem;
+        bottom: -0.3rem;
+        font-size: 1rem;
+      }
+      .flow2 [big].title:after {
+        content: '';
+        position: absolute;
+        right: 0;
+        width: 1em;
+        height: 1em;
+        margin-top: 0.2em;
+        background: white;
       }
 
     </style>
@@ -122,10 +153,10 @@
           <div class="time">[[news.time]]</div>
         </div>
         <div class="img" hidden$="[[!news.img]]"><img src="[[news.img]]"></div>
-        <div class="title">
+        <div class="title" big$="[[!news.img]]">
           <div class="top-right">
-            <div class="time">[[news.time]]</div>
-            <h6 hidden$=[[!news.votes]]>[[news.votes]]</h6>
+            <div class="time">[[time]]</div>
+            <h6 hidden$=[[hideVote]]>[[sign]][[news.votes]]</h6>
           </div>
           [[news.title]]
         </div>
@@ -142,16 +173,39 @@
       static get is() { return 'block-news-flow'; }
       static get properties() {
         return {
+
           news: {
-            type: Object
+            type: Object,
+            observer: '_newChange'
           },
 
           format: {
             type: String
+          },
+
+          time: {
+            type: String
+          },
+
+          sign: {
+            type: String,
+            value: '+'
+          },
+
+          hideVote: {
+            type: Boolean,
+            value: false
           }
 
 
         };
+      }
+
+      _newChange() {
+        let dateX = new Date(Date.parse(this.news.date));
+        this.time = dateX.getHours() + ':' + dateX.getMinutes();
+        this.hideVote = (!this.news.votes || this.news.votes == 0);
+        if(this.news.votes < 0) this.sign = '-';
       }
     }
 

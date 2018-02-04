@@ -35,7 +35,7 @@
       }
     </style>
 
-    <div class="all" hidden$="[[!galleries]]">
+    <div class="all" hidden$="[[hideBlock]]">
 
       <div class="tab transparent">
         <h3><a href="#/galleries">galerías</a></h3>
@@ -62,11 +62,22 @@
       static get is() { return 'block-galleries'; }
       static get properties() {
         return {
+
           galleries: {
             type: Array,
-            value: null
+            value: []
+          },
+
+          hideBlock: {
+            type: Boolean,
+            computed: 'emptyGallery(galleries)'
           }
         };
+
+      }
+
+      emptyGallery() {
+        return (!this.galleries || this.galleries.length == 0);
       }
     }
 
