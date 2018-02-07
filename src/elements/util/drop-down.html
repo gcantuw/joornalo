@@ -1,0 +1,152 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="drop-down">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+        width: auto;
+/*        width: 100%;*/
+      }
+
+      .container {
+        display: flex;
+        height: 2rem;
+      }
+      .opened {
+        display: none;
+        position: absolute;
+        z-index: 10;
+      }
+      .container,
+      .opened {
+      /*  width: 100%;*/
+        line-height: 1.9rem;
+        background: #FFF;
+        border: 1px solid #ccc;
+        padding: 0 .4rem;
+        cursor: pointer;
+      }
+      .selected {
+        flex: 1;
+      }
+
+      .container:hover .selected{
+        color: #CC0005;
+      }
+
+      .icon-plus {
+        width: 16px;
+        padding: 6px 6px 0 0;
+      }
+
+      [class^="icon-"], [class*=" icon-"] {
+        @apply --joornalo-icon;
+        cursor: pointer;
+        color: #666;
+      }
+      .container:hover .icon-plus{
+        color: #CC0005;
+      }
+      .icon-plus:before {
+        font-size: 0.9rem;
+        content: "\ea0a";
+      }
+
+      [open].opened {
+        display: block;
+        margin-top: -2rem;
+/*        width: calc(100% - 30px);*/
+        width: 225px;
+      }
+
+      .options:hover {
+        color: #CC0005;
+      }
+
+    </style>
+
+
+    <div class="container" on-tap="_open">
+      <span class="selected">[[displayValue]]</span>
+      <span class="icon-plus"></span>
+    </div>
+
+    <div open$="[[open]]" class="opened">
+      <template is="dom-repeat" items="{{options}}" as="option">
+        <div class="options" on-tap="_select">[[option.desc]]</div>
+      </template>
+
+    </div>
+  </template>
+  <script>
+    class DropDown extends Polymer.GestureEventListeners(Polymer.Element) {
+      static get is() { return 'drop-down'; }
+      static get properties() {
+        return {
+
+          value: {
+            type: String,
+            notify: true,
+            value: null
+          },
+
+          options: {
+            type: Array,
+            observer: '_optionsChanged'
+          },
+
+          displayValue: {
+            type: String,
+            value: null
+          },
+
+          open: {
+            type: Boolean,
+            value: false
+          },
+
+          close: {
+            type: Boolean,
+            value: false,
+            observer: '_closeChanged'
+          }
+
+        };
+
+      }
+
+      ready(){
+        super.ready();
+      }
+
+      _optionsChanged(){
+        console.log(this.options);
+        if (this.options && this.options.length>0) {
+          this.displayValue = this.options[0].desc;
+          this.value = this.options[0].value;
+        }
+      }
+
+      _open() {
+        this.open = true;
+      }
+
+      _select(ev) {
+        console.log(ev);
+        this.open = false;
+        this.displayValue = ev.model.option.desc;
+        this.value = ev.model.option.value;
+      }
+
+      _closeChanged() {
+        if(this.close) {
+          this.open = false;
+        }
+      }
+    }
+
+    window.customElements.define(DropDown.is, DropDown);
+  </script>
+</dom-module>

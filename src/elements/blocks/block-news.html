@@ -52,6 +52,11 @@
         margin: -0.5rem 0 .5rem;
         font-weight: 500;
       }
+
+      .front2 [noimage] .title {
+        margin-top: 0;
+      }
+
       .front2 .desc {
         @apply --h6-mixin;
         margin: 0;
@@ -126,7 +131,7 @@
     </style>
 
     <div class$="[[format]]">
-      <a href="#/news/[[news.id]]">
+      <a href="#/news/[[news.id]]" noimage$="[[!news.img]]">
         <div class="section">[[news.section-name]]</div>
         <div hidden$="[[!news.img]]" class="img"><img src="[[news.img]]"></div>
         <div class="title" big$="[[!news.img]]">[[news.title]]</div>

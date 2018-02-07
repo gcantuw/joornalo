@@ -2,6 +2,8 @@
 <link rel="import" href="./util/search-input.html">
 <link rel="import" href="./util/app-spinner.html">
 <link rel="import" href="./util/app-viewport.html">
+<link rel="import" href="./util/drop-down.html">
+<link rel="import" href="./util/app-viewport.html">
 <link rel="import" href="../styles/shared.html">
 
 <dom-module id="page-search">
@@ -97,6 +99,25 @@
         font-weight: bold;
       }
 
+      .advanced {
+        padding: 0 1rem;
+      }
+      .advanced .col-lg-4 {
+        background: #eee;
+        padding-bottom: 1rem;
+        /*display: flex;*/
+      }
+      .advanced .col-lg-4 span {
+        float: right;
+        padding: 0.25rem 1rem 0 0;
+      }
+
+      drop-down {
+        width: 225px;
+        display: inline-block;
+        float: right;
+      }
+
     </style>
 
     <iron-location id="location"></iron-location>
@@ -110,9 +131,31 @@
 
     <app-spinner loading="[[spinner]]"></app-spinner>
 
-    <h2>
-      <search-input type="text" value="{{search::input}}" autofocus submit="{{submit}}"></search-input>
-    </h2>
+    <div class="row">
+      <div class="col-lg-12">
+        <h2>
+          <search-input type="text" value="{{search::input}}" autofocus submit="{{submit}}"></search-input>
+        </h2>
+      </div>
+      <div class="col-lg-12">
+        <div class="row advanced">
+          <div class="col-lg-4">
+            <div>
+              <drop-down value="{{section}}" options=[[sectionOptions]] close="[[close]]"></drop-down>
+              <span>Seccion</span>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <drop-down value="{{date}}" options=[[dateOptions]] close="[[close]]"></drop-down>
+            <span>Fechas</span>
+          </div>
+          <div class="col-lg-4">
+            <drop-down value="{{sort}}" options=[[sortOptions]] close="[[close]]"></drop-down>
+            <span>Ordenar</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="results">
 
@@ -230,6 +273,36 @@
           gSm: {
             type: Boolean,
             value: false
+          },
+
+          sectionOptions: {
+            type: Array
+          },
+
+          sortOptions: {
+            type: Array,
+            value: [
+              { value: 'r', desc: 'Relevancia' },
+              { value: 'd', desc: 'Fecha' },
+              { value: 'l', desc: 'Votos' }
+            ]
+          },
+
+          dateOptions: {
+            type: Array,
+            value: [
+              { value: 0, desc: 'Todo desde 2007' },
+              { value: 1, desc: 'Ultimas 24 horas' },
+              { value: 7, desc: '1 Semana' },
+              { value: 30, desc: '1 Mes' },
+              { value: 90, desc: '3 meses' },
+              { value:365, desc: '1 año' }
+            ]
+          },
+
+          close: {
+            type: Boolean,
+            value: false
           }
 
         };
@@ -245,6 +318,13 @@
       constructor() {
         super();
         window.store.subscribe('search', this._reset.bind(this));
+
+        if(window.sections) {
+          this._sectionList();
+        } else {
+          window.store.subscribe('sections-loaded', this._sectionList.bind(this));
+        }
+
       }
 
       _reset() {
@@ -255,6 +335,11 @@
         this.results = [];
       }
 
+      _sectionList() {
+        window.sections[0].desc = 'Todas';
+        this.sectionOptions = window.sections;
+      }
+
       _searchChanged(keywords) {
 
         if(keywords && keywords.length>0) {
@@ -262,7 +347,7 @@
 
           this.search = this.keywords.replace(/\+/g, " ");
 
-          let api = 'json/news/search.json?k=' + keywords.replace(/\-/g, "+");
+          let api = 'json/news/search.json?k=' + keywords.replace(/\-/g, "+") + this._getParams();
           
           this.spinner = true;
 
@@ -294,6 +379,22 @@
 
       }
 
+      _getParams() {
+        let params = '';
+
+        if(this.section && this.section != 0) {
+          params = params + "&s=" + this.section;
+        }
+
+        if(this.date && this.date != 0) {
+          params = params + "&d=" + this.date;
+        }
+
+        params = params + "&o=" + this.sort;
+
+        return params;
+      }
+
       _submitChange() {
         if(this.submit) {
           this._search();
@@ -301,14 +402,31 @@
       }
 
       _search() {
+        this.close = true;
+        setTimeout(() => {
+          this.close = false;
+        }, 100);
         let search = this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+");
-        this.$.location.set('hash', '/search/'+search);
+
+        let params = "?o=" + this.sort;
+
+        if(this.section && this.section != 0) {
+          params = params + "&s=" + this.section;
+        }
+
+        if(this.date && this.date != 0) {
+          params = params + "&d=" + this.date;
+        }
+
+        
+
+        this.$.location.set('hash', '/search/'+search+'/'+params);
       }
 
       _more() {
         this.page++;
 
-        let api = 'json/news/search.json?k=' + this.keywords.replace(/\-/g, "+") + '&p=' + this.page;
+        let api = 'json/news/search.json?k=' + this.keywords.replace(/\-/g, "+") + '&p=' + this.page + this._getParams();
         
         this.spinner = true;
         window.ajax.request('GET', api, null, (data) => {
