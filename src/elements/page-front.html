@@ -109,7 +109,7 @@
           this.spinner = false;
 
           if (data.success) {
-
+            data.section = window.sectionName[data['section-id']];
             this.layout = data.layout;
             this.data = data;
 

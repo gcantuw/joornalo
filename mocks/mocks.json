@@ -581,10 +581,27 @@
 	},
 	{
 		"request": {
-			"url": "^/json/news/news.json",
+			"url": "^/json/news/news.asp",
 			"method": "GET"
 		},
-		"response": {
+		"responseNotFound": {
+			"status": 404,
+			"headers": {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Headers": "X-Requested-With"
+			},
+			"latency": 1000,
+			"body": {
+				"error": {
+				  "code": 404,
+				  "detail": "newsIdNotFound",
+				  "message": "La página que buscas no ha sido encontrada."
+				},
+				"status": 404
+			}
+		},
+		"responseNormal": {
 			"status": 200,
 			"headers": {
 				"Content-Type": "application/json",
@@ -613,7 +630,70 @@
 					}
 				]
 			}
-		}
+		},
+		"response": {
+			"status": 200,
+			"headers": {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Headers": "X-Requested-With"
+			},
+			"latency": 200,
+			"body": {
+				"HTTP_REFERER": "",
+				"id": "115294",
+				"title": "JORGE OCAMPO Y SERGIO RAMÍREZ ",
+				"date": "11/17/2017",
+				"section": "Columnas",
+				"section-id": "columnas",
+				"likes": "24",
+				"author": {
+					"name": "Guillermo Garduño Ramírez",
+					"column": "DE PODER A PODER",
+					"avatar": "",
+					"profile": "<p>Fiel seguidor del acontecer mundial, pero sobre todo estatal. Periodista de profesi&oacute;n, reportero de vocaci&oacute;n y toluque&ntilde;o de nacimiento; ha sabido conjugar sus cuatro pasiones, (la otra es el futbol) y con gran agudeza retrata los aconteceres del edomex</p>",
+					"header": "<p><span style=\"font-size: x-large;\">DE PODER A PODER</span></p><br><br><p><span style=\"font-size: medium;\">Guillermo Gardu&ntilde;o Ram&iacute;rez</span></p>",
+					"footer": "<p>Nos leemos en: www.poderedomex.com y nos escuchamos a partir de las 6:15 de la ma&ntilde;ana en la primera emisi&oacute;n del noticiario &ldquo;Al Instante estado de M&eacute;xico&rdquo;, a trav&eacute;s de Radio Capital.<br /><br />Comunicados: depoder@mail.poderedomex.com y guigar1113ster@gmail.com</p>",
+					"past-columns": [{
+							"id": "115300",
+							"title": "+ Se juega Alfredo del Mazo Maza, destino de su gobierno en 2018",
+							"date": "11/21/2017"
+						},
+						{
+							"id": "115282",
+							"title": "CLAUDIA RUIZ, NOMBRAMIENTOS, DEL MAZO Y ANTICORRUPCION",
+							"date": "11/16/2017"
+						},
+						{
+							"id": "115257",
+							"title": "TELEPRESENCIA, MANZUR, NEMER Y FIL",
+							"date": "11/15/2017"
+						},
+						{
+							"id": "115244",
+							"title": "CASTILLO, MARTÍNEZ CRUZ, LÍMITE PARA RENUNCIAR ",
+							"date": "11/14/2017"
+						},
+						{
+							"id": "115238",
+							"title": "+ UAEM y José Antonio Meade será el candidato de la transparencia",
+							"date": "11/13/2017"
+						},
+						{
+							"id": "115219",
+							"title": "¿Y LAS VICTIMAS DE ROBO? EL SALON DE LA FAMA",
+							"date": "11/10/2017"
+						}
+					]
+				},
+				"desc": "",
+				"text": "<p><strong> </strong></p><p><strong> La frase </strong></p><p>Naci&oacute; en Masatepe, Masaya, Nicaragua. Es escritor, periodista, pol&iacute;tico y abogado, fue vicepresidente de su pa&iacute;s y hoy&hellip;</p><p><strong> PREMIO CERVANTES </strong></p><p><strong> EL DETALLE: </strong> El secreto se lo llevaron a la tumba.</p><p>El doctor <strong>Jorge Jim&eacute;nez Cant&uacute;</strong> autoriz&oacute; la obra del Cosmovitral en el antiguo Mercado 16 de septiembre.</p><p>Pero no solamente eso, sino que<strong>bosquej&oacute; lo que dio origen al hombre c&oacute;smico.</strong></p><p><strong>Leopoldo Flores</strong> lo plasm&oacute; en el recinto. <strong>Ni el doctor Jorge Jim&eacute;nez Cant&uacute; presumi&oacute; en su tiempo y en su momento ese hecho, ni tampoco Leopoldo Flores lo confirm&oacute;.</strong></p><p>Alguien cercano a los dos, porque fungi&oacute; como Coordinador de Obras P&uacute;blicas de nuestra entidad,<strong>Jorge Ocampo Alvarez del Castillo</strong> quiz&aacute; lo dijo, pero no p&uacute;blicamente.</p><p>Y tambi&eacute;n, <strong>el secreto se lo llev&oacute; a la tumba, pues muri&oacute; hace algunos d&iacute;as.</strong></p><p>Tuve el gusto de conocerlo, primero como funcionario, despu&eacute;s como empresario.</p><p>Era el due&ntilde;o de <strong>&ldquo;El Pari&aacute;n&rdquo;</strong>, restaurante sobre la carretera M&eacute;xico-Toluca y frisaba los 95 a&ntilde;os de edad.</p><p><strong> CON SERGIO RAMIREZ </strong></p><p>Tiene 75 a&ntilde;os de edad, pero no los representa.<strong>Camina pausado, pero no cancino.</strong> Se le ve por el lobby del hotel sede de la FIL de Guadalajara.</p><p><strong>Ah&iacute; hemos platicado varias veces</strong>. Hoy, el nicarag&uuml;ense es el Premio Cervantes de Literatura, no sufr&iacute;a por obtener el galard&oacute;n, pero ahora, en compa&ntilde;&iacute;a de su esposa <strong>&ldquo;lo disfrutar&eacute; al m&aacute;ximo, hasta que el a&ntilde;o pr&oacute;ximo se lo den a otra persona&rdquo;, </strong>dijo al conocer la noticia.</p><p>Es doctor en Derecho por la Universidad Nacional Aut&oacute;noma de Nicaragua. <strong>Lider&oacute; el llamado Grupo de los 12 en contra del r&eacute;gimen de Anastacio Somoza</strong>, en el primer r&eacute;gimen de Daniel Ortega y se retir&oacute; de la pol&iacute;tica en 1996.</p><p>Dirige una revista electr&oacute;nica llamada <strong>Car&aacute;tula.</strong></p><p>Es columnista frecuente de varios diarios. <strong>Gran amigo de Carlos Fuentes y de Mario Vargas Llosa</strong>, de &eacute;ste &uacute;ltimo public&oacute; un platillo que se disfruta en uno de los principales restaurantes del Per&uacute;, <strong>Tanta</strong>, los huevos don Mario en su jugo.</p><p>Su m&aacute;s reciente novela <strong>Ya nadie llora por m&iacute;</strong>, en donde su gran protagonista es el detective <strong>Dolores Morales</strong>, un elemento derrotado del sandinismo quien mantiene la aspiraci&oacute;n &eacute;tica originaria de la revoluci&oacute;n.</p><p>De alguna forma es el formato de la llamada <strong>novela negra,</strong> un tema recurrente en sus obras.</p><p>La universidad de Princeton custodia una <strong> <a title=\"Ir a la colecci&oacute;n de manuscritos (Abre en ventana nueva)\" href=\"http://findingaids.princeton.edu/collections/C1123\" target=\"_blank\"> colecci&oacute;n de manuscritos </a> </strong>de sus escritos, correspondencia personal, literaria y pol&iacute;tica, papeles y documentos relacionados con la carrera pol&iacute;tica de Sergio Ram&iacute;rez y de la historia pol&iacute;tica de Nicaragua, as&iacute; como fotograf&iacute;as y material gr&aacute;fico e impreso.</p><p>Pero c&oacute;mo se inici&oacute; el escritor.</p><p><strong> Consolidado </strong> , sin lugar a dudas esta palabra queda, define y precisa, a fondo, el oficio de escritor que ha desarrollado desde sus or&iacute;genes <strong>Sergio Ram&iacute;rez</strong>, autor nicarag&uuml;ense, al que recordamos como un cuentista en sus inicios, con el libro que le public&oacute; Joaqu&iacute;n Diez Canedo, aqu&iacute;, en M&eacute;xico, <strong>Charles Atlas tambi&eacute;n</strong> <strong>muere</strong>, para los lectores contempor&aacute;neos nada les dice el nombre de Charles Atlas, quien en los a&ntilde;os sesenta era aparentemente una especie de preparador f&iacute;sico que se encargaba, con un programa para hacer ejercicios, en lograr que las personas que lo adquirieran mejoraran la estructura muscular de su organismo, al decir su propaganda: <strong>deje usted de ser un alfe&ntilde;ique con el m&eacute;todo de Charles Atlas para mejorar su apariencia</strong>.</p><p>Algunos siguieron al pie de la letra el programa de preparaci&oacute;n f&iacute;sica, sobre todo cuando en nuestro pa&iacute;s aun no se popularizaban los famosos gimnasios y no manejaban sistemas de pesas para hacer crecer los m&uacute;sculos y tener brazos fuertes, no gordos, capaces de levantar cosas pesadas sin realizar alg&uacute;n esfuerzo extraordinario.</p><p>Eso era lo que se&ntilde;alaban los autores de la publicidad con esta tem&aacute;tica.</p><p>Lo que realiz&oacute; este autor centroamericano, fue tomar esa especie de programa capitalista, para indicar que ese tipo de estructuras del imperialismo yanqui con el paso del tiempo iban a desaparecer, tal y como sucedi&oacute;.</p><p>Este libro breve de cuentos se public&oacute; originalmente en la editorial <strong>Joaqu&iacute;n Mortiz,</strong> en <strong>1976</strong>, para dar a conocer, en pleno <strong>Boom de la Narrativa Latinoamericana </strong>a un escritor que, con el paso del tiempo madurar&iacute;a, como resultado del programa de ejercicios no s&oacute;lo de su estructura muscular sino de su estructura mental al entregarnos una literatura digna de estudio en las universidades y digna de leerse por los seguidores del arte de escribir.</p><p>Como buen nicarag&uuml;ense, se opuso y se manifest&oacute; en contra del dictador Anastasio Somoza, al fornar parte de la guerrilla que logr&oacute; derrocarlo, al formar parte de las filas del Ej&eacute;rcito de de Liberaci&oacute;n Nacional, mejor conocido con el nombre de <strong>C&eacute;sar Sandino</strong>, base para formar el <strong>Frente Sandinista de Liberaci&oacute;n</strong> <strong>Nacional</strong>, para echar fuera del territorio a Somoza y colocar a Violeta Chamorro.</p><p>Lo anterior, es un panorama hist&oacute;rico sobre como se gest&oacute; esa literatura de Sergio Ram&iacute;rez al abordar el problema de la colonizaci&oacute;n norteamericana en los pa&iacute;ses centroamericanos que resalta el lenguaje de los oprimidos frente al enemigo extranjero, cuando el verdadero y gran enemigo siempre estuvo en casa, como el giro dictatorial que le ha dado ahora, el que fue el comandante <strong>Daniel Ortega</strong>, quien tras la revoluci&oacute;n de 1979, y en el transcurso de la presidencia de Violeta Chamorro, increment&oacute; su ambici&oacute;n por perpetuarse en poder, Ortega, quien se convirti&oacute; en <strong>dictador</strong> al m&aacute;s puro estilo de <strong>Somoza</strong>, es decir sucumbi&oacute; ante los embates de lo que combati&oacute;.</p><p><strong> Sergio Ram&iacute;rez Mercado </strong> lleg&oacute; a formar parte de este ej&eacute;rcito y despu&eacute;s como vicepresidente del gobierno que encabez&oacute; <strong>Daniel Ortega</strong> de <strong>1985 a 1990</strong>, para abandonar el cargo al concluir el periodo gubernamental, a fin de dedicarse de lleno a su carrera como literato y obtener galardones como el del Premio Alfaguara en el rengl&oacute;n de la novel&iacute;stica con su libro <strong>Margarita, est&aacute; linda la mar</strong> de<strong> 1998</strong>, para continuar en ascenso con otras novelas como<strong>Sobras nada m&aacute;s,</strong> de<strong> 2002</strong>, <strong>Mil y</strong> <strong>una muertes</strong>, 2004; y su libro de memorias <strong>Adi&oacute;s muchachos</strong>, 1999, en donde explica su desencanto por la revoluci&oacute;n emprendida.</p><p>&#8203;</p>",
+				"images": [{
+					"url": "http://poderedomex.com/upload/foto/8/5/7/image_41.jpg",
+					"label": "En una de las varias entrevistas que he tenido con el galardonado Sergio Ramírez."
+				}]
+			}
+		},
 	},
 	{
 		"request": {

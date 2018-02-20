@@ -103,14 +103,18 @@
           window.sections = data['sections'];
           window.sectionClave = data['section-clave'];
           window.store.publish('sections-loaded', {});
+          window.sectionName = [];
+          data['sections'].forEach((element) => {
+            window.sectionName[element.value] = element.desc;
+          });
 
         }, (err) => this.setData(err));
 
       }
 
       _routePageChanged(page) {
-        //window.scrollTo(0, 0);
-        console.log(this.route.path);
+        window.scrollTo(0, 0);
+        //console.log(this.route.path);
         if (this.route.path == '' || this.route.path == '/' || this.route.path == '/front') {
           console.log('----');
           this.$.location.set('path', '/front/home');

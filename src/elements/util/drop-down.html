@@ -7,12 +7,11 @@
       :host {
         display: block;
         width: auto;
-/*        width: 100%;*/
       }
 
       .container {
         display: flex;
-        height: 2rem;
+        height: 1.7rem;
       }
       .opened {
         display: none;
@@ -21,12 +20,12 @@
       }
       .container,
       .opened {
-      /*  width: 100%;*/
-        line-height: 1.9rem;
+        line-height: 1.7rem;
         background: #FFF;
         border: 1px solid #ccc;
         padding: 0 .4rem;
         cursor: pointer;
+        font-size: 0.875rem;
       }
       .selected {
         flex: 1;
@@ -56,7 +55,7 @@
 
       [open].opened {
         display: block;
-        margin-top: -2rem;
+        margin-top: -1.7rem;
 /*        width: calc(100% - 30px);*/
         width: 225px;
       }
@@ -89,7 +88,8 @@
           value: {
             type: String,
             notify: true,
-            value: null
+            value: null,
+            observer: '_valueChanged'
           },
 
           options: {
@@ -119,13 +119,27 @@
 
       ready(){
         super.ready();
+        console.log(this.value);
+      }
+
+      _findIndex() {
+        var arrayLength = this.options.length;
+        for (var i = 0; i < arrayLength; i++) {
+          console.log(this.value + '==??' + this.options[i].value);
+          if(this.value == this.options[i].value) {
+            console.log(this.value + '==' + this.options[i].value);
+            return i;
+          }
+        }
+        return 0;
       }
 
       _optionsChanged(){
         console.log(this.options);
         if (this.options && this.options.length>0) {
-          this.displayValue = this.options[0].desc;
-          this.value = this.options[0].value;
+          let i = this._findIndex();
+          this.displayValue = this.options[i].desc;
+          this.value = this.options[i].value;
         }
       }
 
@@ -138,6 +152,14 @@
         this.open = false;
         this.displayValue = ev.model.option.desc;
         this.value = ev.model.option.value;
+      }
+
+      _valueChanged() {
+        console.log('---------------');
+        console.log(this.value);
+        this._optionsChanged();
+
+
       }
 
       _closeChanged() {
