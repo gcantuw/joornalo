@@ -1,0 +1,175 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="app-pagination">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+      ul {
+        padding: 0;
+        border: 1px solid #666;
+        border-right: 0;
+        display: inline-flex;
+      }
+      li {
+        list-style: none;
+        width: 36px;
+        height: 36px;
+        border-right: 1px solid #666;
+        text-align: center;
+        cursor: pointer;
+        color: var(--accent-color);
+        padding-top: .65rem;
+      }
+      li[current] {
+        color: #ccc;
+      }
+      li:hover {
+        font-weight: bold;
+        background: #eee;
+      }
+      li[current]:hover {
+        font-weight: normal;
+        background: var(--primary-background-color);
+      }
+      .previous,
+      .next {
+        width: 100px;
+      }
+    </style>
+    
+
+    
+    <div class="row" hidden$="[[!display]]">
+      <div class="col-lg-12">
+        <ul>
+          <li hidden$="[[first]]" class="previous" on-tap="_previous">anterior</li>
+          <template is="dom-repeat" items="{{pages}}">
+            <li current$="[[item.current]]" on-tap="_changePage">[[item.page]]</li>
+          </template>
+          <li hidden$="[[last]]" class="next" on-tap="_next">siguiente</li>
+        </ul>
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+    class AppPagination extends Polymer.GestureEventListeners(Polymer.Element) {
+      static get is() { return 'app-pagination'; }
+      static get properties() {
+        return {
+
+          display: {
+            type: Boolean,
+            value: false
+          },
+
+          first: {
+            type: Boolean,
+            value: true
+          },
+
+          last: {
+            type: Boolean,
+            value: false
+          },
+
+          total: {
+            type: Number,
+            value: 0,
+            observer: '_totalChanged'
+          },
+
+          currentPage: {
+            type: Number,
+            observer: '_totalChanged'
+          },
+
+          pages: {
+            type: Array,
+            value:[]
+          },
+
+          requestedPage: {
+            type: Number,
+            value: null,
+            notify: true
+          },
+
+          size: {
+            type: Number,
+            value: 10
+          },
+
+          totalPages: {
+            type: Number,
+            value: 0
+          }
+
+        };
+      }
+
+      _totalChanged() {
+        let i = 1,
+            y = 10,
+            tmp = [];
+
+        this.totalPages = parseInt(this.total / this.size);
+        if(this.totalPages*this.size < this.total) {
+          this.totalPages++;
+        }
+
+        this.first = (this.currentPage == 1);
+        this.last = (this.currentPage == this.totalPages);
+
+        if(this.totalPages>10) {
+          i = this.currentPage-5;
+          if(i<1) i = 1;
+          y = i + 10;
+          if(y>this.totalPages) {
+            y = this.totalPages;
+            i = y - 10;
+          }
+
+        } else {
+          y = this.totalPages;
+        }
+
+        for(;i <= y; i++) {
+          let obj = { 
+                      page: i,
+                      current: false
+                    };
+
+          if(i == this.currentPage) {
+            obj.current = true;
+          }
+          tmp.push(obj);
+        }
+
+        this.pages = tmp;
+        this.display = (this.totalPages > 1);
+      }
+
+      _changePage(e) {
+        if(e.model.item.page !== this.currentPage) {
+          this.requestedPage = e.model.item.page;
+        }
+      }
+
+      _previous() {
+        this.requestedPage = parseInt(this.currentPage) - 1;
+      }
+
+      _next() {
+        this.requestedPage = parseInt(this.currentPage) + 1;
+      }
+
+    }
+
+    window.customElements.define(AppPagination.is, AppPagination);
+  </script>
+</dom-module>

@@ -117,17 +117,16 @@
 
       }
 
-      ready(){
-        super.ready();
-        console.log(this.value);
-      }
+      // ready(){
+      //   super.ready();
+      // }
 
       _findIndex() {
         var arrayLength = this.options.length;
         for (var i = 0; i < arrayLength; i++) {
-          console.log(this.value + '==??' + this.options[i].value);
+          //console.log(this.value + '==??' + this.options[i].value);
           if(this.value == this.options[i].value) {
-            console.log(this.value + '==' + this.options[i].value);
+            //console.log(this.value + '==' + this.options[i].value);
             return i;
           }
         }
@@ -135,7 +134,7 @@
       }
 
       _optionsChanged(){
-        console.log(this.options);
+        //console.log(this.options);
         if (this.options && this.options.length>0) {
           let i = this._findIndex();
           this.displayValue = this.options[i].desc;
@@ -148,15 +147,15 @@
       }
 
       _select(ev) {
-        console.log(ev);
+        //console.log(ev);
         this.open = false;
         this.displayValue = ev.model.option.desc;
         this.value = ev.model.option.value;
       }
 
       _valueChanged() {
-        console.log('---------------');
-        console.log(this.value);
+        // console.log('---------------');
+        // console.log(this.value);
         this._optionsChanged();
 
 

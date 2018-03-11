@@ -4,6 +4,7 @@
 <link rel="import" href="./util/app-viewport.html">
 <link rel="import" href="./util/drop-down.html">
 <link rel="import" href="./util/app-viewport.html">
+<link rel="import" href="./util/app-pagination.html">
 <link rel="import" href="../styles/shared.html">
 
 <dom-module id="page-search">
@@ -86,6 +87,11 @@
         margin-top: .2rem;
       }
 
+      .results em {
+        font-style: italic;
+        font-weight: 600;
+      }
+
       .navigation {
         background: #666;
         color: #FFF;
@@ -105,7 +111,6 @@
       .advanced .col-lg-4 {
         background: #eee;
         padding-bottom: 1rem;
-        /*display: flex;*/
       }
       .advanced .col-lg-4 span {
         float: right;
@@ -123,15 +128,6 @@
 
     <iron-location 
       id="location"></iron-location>
-<!--     <iron-location 
-      id="location"
-      path="{{path}}"
-      query="{{query}}"></iron-location>
- -->
-    <!-- <app-route
-        route="{{route}}"
-        pattern="/search/:keywords"
-        data="{{routeData}}"></app-route> -->
 
     <app-route
         route="{{route}}"
@@ -184,7 +180,10 @@
         </p>
       </div>
 
-      <p hidden$="[[empty]]">Se encontraron [[totalResults]] resultados para: [[keywords]]</p>
+      <p hidden$="[[empty]]">
+        <span hidden$="[[!firstPage]]">Se encontraron [[totalResults]] resultados para: <em>[[keywords]]</em></span>
+        <span hidden$="[[firstPage]]">Página [[page]] de [[totalResults]] resultados para: <em>[[keywords]]</em></span>
+      </p>
 
       <div class="row">
 
@@ -213,9 +212,7 @@
 
       </div>
 
-      <div hidden$="[[!more]]" class="navigation" on-tap="_more">
-        Mostrar más resultados
-      </div>
+      <app-pagination total="[[totalResults]]" current-page="[[page]]" requested-page="{{requestedPage}}"></app-pagination>
 
     </div>
 
@@ -292,8 +289,18 @@
             value: false
           },
 
+          section: {
+            type: String,
+            observer: '_paramChange'
+          },
+
           sectionOptions: {
             type: Array
+          },
+
+          sort: {
+            type: String,
+            observer: '_paramChange'
           },
 
           sortOptions: {
@@ -305,15 +312,20 @@
             ]
           },
 
+          date: {
+            type: String,
+            observer: '_paramChange'
+          },
+
           dateOptions: {
             type: Array,
             value: [
               { value: 0, desc: 'Todo desde 2007' },
               { value: 1, desc: 'Ultimas 24 horas' },
-              { value: 7, desc: '1 Semana' },
-              { value: 30, desc: '1 Mes' },
-              { value: 90, desc: '3 meses' },
-              { value:365, desc: '1 año' }
+              { value: 7, desc: 'Ultima Semana' },
+              { value: 30, desc: 'Ultimo Mes' },
+              { value: 90, desc: 'Ultimos 3 meses' },
+              { value:365, desc: 'Ultimo año' }
             ]
           },
 
@@ -325,6 +337,22 @@
           debounce: {
             type: Boolean,
             value: false
+          },
+
+          requestedPage: {
+            type: Number,
+            value: null,
+            observer: '_requestedPageChanged'
+          },
+
+          totalPages: {
+            type: Number,
+            value: 0
+          },
+
+          firstPage: {
+            type: Boolean,
+            value: true
           }
 
         };
@@ -339,7 +367,6 @@
 
       constructor() {
         super();
-        window.store.subscribe('search', this._reset.bind(this));
 
         if(window.sections) {
           this._sectionList();
@@ -349,68 +376,69 @@
 
       }
 
-      _reset() {
-        this.search = null;
-        this.noResults = false;
-        this.more = false;
-        this.empty = true;
-        this.results = [];
-      }
-
       _sectionList() {
         window.sections[0].desc = 'Todas';
         this.sectionOptions = window.sections;
       }
 
       _searchChanged() {
-        console.log(this.tail);
-        let keywords = this._getParameterByName('k', null),
-            section = this._getParameterByName('s', 0),
-            date = this._getParameterByName('d', 0),
-            sort = this._getParameterByName('o', 'r'),
-            page = this._getParameterByName('p', 1);
+        if(!this.debounce) {
+          this.debounce = true;
+          setTimeout(() => {
+            this.debounce = false;
+          }, 300);
 
-        this.section = section;
-        this.date = date;
-        this.sort = sort;
-        this.page = page;
+          let keywords = this._getParameterByName('k', null),
+              section = this._getParameterByName('s', 0),
+              date = this._getParameterByName('d', 0),
+              sort = this._getParameterByName('o', 'r'),
+              page = this._getParameterByName('p', 1);
 
-        console.log('+++++++++++++++++++');
-        console.log(this.date);
+          this.section = section;
+          this.date = date;
+          this.sort = sort;
+          this.page = page;
 
-        if(keywords && keywords.length>0) {
-          this.keywords = keywords.replace(/\+/g, " ");
+          if(keywords && keywords.length>0) {
+            this.keywords = keywords.replace(/\+/g, " ");
 
-          this.search = this.keywords.replace(/\+/g, " ");
+            this.search = this.keywords.replace(/\+/g, " ");
 
-          let api = 'json/news/search.json?k=' + keywords.replace(/\-/g, "+") + this._getParams();
-          
-          this.spinner = true;
+            //let api = 'json/news/search.json?k=' + keywords.replace(/\-/g, "+") + this._getParams();
+            let api = 'json/news/search.asp?k=' + keywords.replace(/\-/g, "+") + this._getParams();
+            
+            this.spinner = true;
 
-          window.ajax.request('GET', api, null, (data) => {
+            window.ajax.request('GET', api, null, (data) => {
 
-            this.spinner = false;
-            this.results = data.results;
-            this.more = data.more;
-            this.totalResults = data.total;
-            if(data.results.length>0) {
-              this.noResults = false;
-              this.empty = false;
-            } else {
-              this.noResults = true;
-              this.more = false;
-              this.empty = true;
-            }
-            this.page = 1;
+              this.spinner = false;
+              this.results = data.results;
+              this.more = data.more;
+              this.totalResults = data.total;
+              if(data.results.length>0) {
+                this.noResults = false;
+                this.empty = false;
+              } else {
+                this.noResults = true;
+                this.more = false;
+                this.empty = true;
+              }
+              this.firstPage = (this.page == 1);
 
-          }, (err) => this.setData(err));
+              this.totalPages = parseInt(this.totalResults / 10);
+              if (this.totalPages * 10 < this.totalResults) {
+                  this.totalPages++;
+              }
 
-        } else {
-          this.keywords = '';
-          this.results = [];
-          this.empty = true;
-          this.more = false;
-          this.totalResults = 0;
+            }, (err) => this.setData(err));
+
+          } else {
+            this.keywords = '';
+            this.results = [];
+            this.empty = true;
+            this.more = false;
+            this.totalResults = 0;
+          }
         }
 
       }
@@ -439,13 +467,23 @@
 
       _submitChange() {
         if(this.submit) {
-          console.log('ok');
+          this.page = 1;
+          this._search();
+        }
+      }
+
+      _paramChange() {
+        if(!this.debounce) {
+          this.page = 1;
           this._search();
         }
       }
 
       _search() {
+        if(!this.search || this.search.length == 0) return;
+
         this.close = true;
+        this.requestedPage = null;
 
         setTimeout(() => {
           this.close = false;
@@ -454,22 +492,6 @@
         let params = "?k=" + this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+") + this._getParams();
 
         this.$.location.set('hash', '/search/'+params);
-      }
-
-      _more() {
-        this.page++;
-
-        let api = 'json/news/search.json?k=' + this.keywords.replace(/\-/g, "+") + this._getParams();
-        
-        this.spinner = true;
-        window.ajax.request('GET', api, null, (data) => {
-
-          this.spinner = false;
-
-          this.results = this.results.concat(data.results);
-          this.more = data.more;
-
-        }, (err) => this.setData(err));
       }
 
       _greaterSm(xl, lg, md) {
@@ -481,7 +503,25 @@
         var href = window.location.href;
         var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
         var string = reg.exec(href);
-        return string ? string[1] : value;
+
+        return string ? decodeURIComponent(string[1]) : value;
+      }
+
+      _requestedPageChanged() {
+        if (this.requestedPage) {
+          this.page = this.requestedPage;
+          window.scrollTo(0, 0);
+
+          this.close = true;
+
+          setTimeout(() => {
+            this.close = false;
+          }, 100);
+
+          let params = "?k=" + this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+") + this._getParams();
+
+          this.$.location.set('hash', '/search/'+params);
+        } 
       }
 
     }
