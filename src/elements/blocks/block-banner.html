@@ -6,55 +6,144 @@
     <style include="shared">
       :host {
         display: block;
-        background: #eee;
+      }
+
+      #banner {
+        display: block;
+      }
+
+      .frame {
+        display: block;
+        /*background: #eee;*/
         padding: 4px 0;
       }
 
+      img {
+        display: none;
+      }
+
       .b300x250 {
-        height: 250px;
+        /*height: 250px;*/
       }
       .b300x250 img {
+        display: block;
         position: relative;
         
         left: 50%;
         margin-left: -150px;
       }
 
+      .b728x90 img {
+        display: block;
+      }
+
       .b980x90 {
-        height: 90px;
+       /* height: 90px;*/
       }
       .b980x90 img {
+        display: block;
         position: relative;
         left: 50%;
         margin-left: -490px;
       }
       img {
         width: auto;
+        cursor: pointer;
+      }
+
+      .embed {
+        display: flex;
+       /* width: 100%;
+        height: 100%;*/
+      }
+
+      .b160x600 img {
+        display: block;
+        margin: 0.4rem auto;
       }
 
     </style>
 
-    <div class$="[[size]]">
+    <div id="banner">
+      <div hidden=[[!display]] class="frame">
+        <div class$="[[size]]">
 
-      <img src="../../images/banners/[[img]]">
+          <template is="dom-if" if="{{embed}}">
+            <span class="embed" inner-h-t-m-l=[[embed]]></span>
+          </template>
 
+          <template is="dom-if" if="{{!embed}}">
+            <div on-tap="_click">
+              <img src="[[img]]">
+            </div>
+          </template>
+        </div>
+      </div>
     </div>
     
   </template>
 
   <script>
   
-    class BlockBanner extends Polymer.Element {
+    class BlockBanner extends Polymer.GestureEventListeners(Polymer.Element) {
       static get is() { return 'block-banner'; }
       static get properties() {
         return {
+
+          id: {
+            type: String,
+            value: null
+          },
 
           size: {
             type: String
           },
 
+          section: {
+            type: String,
+            value: null,
+            observer: '_preLoad'
+          },
+
+          module: {
+            type: String,
+            value: null,
+            observer: '_preLoad'
+          },
+
           img: {
-            type: String
+            type: String,
+            value: null
+          },
+
+          display: {
+            type: Boolean,
+            value: false
+          },
+
+          loaded: {
+            type: Boolean,
+            value: false
+          },
+
+          isIntersecting: {
+            type: Boolean,
+            value: false
+          },
+
+          embed: {
+            type: String,
+            value: null
+          },
+
+          internal: {
+            type: Boolean,
+            value: false
+          },
+
+          url: {
+            type: String,
+            value: null
           }
 
         };
@@ -63,18 +152,106 @@
       ready() {
         super.ready();
 
-        let banners = {
-          "b300x250": ['b1.png','b2.jpg','b3.jpg','b4.jpg'],
-          "b728x90": ['a1.jpg','a2.jpg','a3.jpg','a4.jpg'],
-          "b980x90": ['c1.gif','c2.png','c3.gif','c4.jpg']
-        };
+        window.store.subscribe('banner-reset', this._resetBanner.bind(this));
+        this._resetBanner();
+      }
 
-        let ran = Math.floor(Math.random() * 4);
+      _resetBanner() {
+        this.display = false;
+        this.id = null;
+        this.img = null;
+        this.loaded = false;
+        this.isIntersecting = false;
+        this.embed = null;
+        this.internal = false;
+        this.url = null;
 
-        this.img = banners[this.size][ran];
-        //console.log(this.img);
+        let observer = new IntersectionObserver(this._handler.bind(this));
+        observer.observe(this.$.banner);
+      }
+
+      _handler(entries, observer) {
+        if(!this.loaded && entries[0].isIntersecting) {
+          this.loaded = true;
+          this.isIntersecting = true;
+          this._preLoad();
+        }
+      }
+
+      _preLoad() {
+        if(this.isIntersecting && (this.section || this.module)) {
+          this._loadBanner();
+        }
+      }
+
+      _loadBanner() {
+          //console.log("Loading Banner.......");
+
+          let bannerSize = {
+            "b468x60": 1,
+            "b728x90": 2,
+            "b234x60": 3,
+            "b300x250": 4,
+            "b980x90": 5,
+            "b160x600": 6
+          };
+
+          // let banners = {
+          //   "b300x250": ['b1.png','b2.jpg','b3.jpg','b4.jpg'],
+          //   "b728x90": ['a1.jpg','a2.jpg','a3.jpg','a4.jpg'],
+          //   "b980x90": ['c1.gif','c2.png','c3.gif','c4.jpg']
+          // };
+
+          // console.log("...section:", this.section);
+          // console.log("...size:", bannerSize[this.size]);
+
+          // let ran = Math.floor(Math.random() * 4);
+          // setTimeout(() => {
+          //   console.log(".......loaded");
+          //   this.img = banners[this.size][ran];
+          //   this.loaded = true;
+          // }, 1000);
+
+          let api = 'json/adv.asp?z=' + bannerSize[this.size];
+          if(this.section) api += '&s=' + window.sectionClave[this.section];
+          if(this.module) api += '&m=' + this.module;
+          window.ajax.request('GET', api, null, (data) => {
+            this._displayBanner(data);
+          }, (err) => this.setData(err));
 
       }
+
+      _displayBanner(data) {
+        if(data.id) {
+          this.id = data.id;
+          if(data.embed) {
+            this.embed = data.embed;
+          } else {
+            this.img = data.img;
+            this.url = data.url;
+            this.internal = (data.internal == 1);
+          }
+          this.display = true
+        } else {
+          this.display = false;
+        }
+      }
+
+      _click() {
+        if(this.url) {
+          if(this.internal) {
+            window.location = this.url;
+          } else {
+            window.open(this.url, '_blank');
+          }
+        }
+
+        let api = 'json/advCont.asp?id=' + this.id;
+        window.ajax.request('GET', api, null, (data) => {
+        }, (err) => this.setData(err));
+
+      }
+
     }
 
     window.customElements.define(BlockBanner.is, BlockBanner);

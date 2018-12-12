@@ -1,0 +1,99 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<link rel="import" href="../util/app-viewport.html">
+<link rel="import" href="../blocks/block-banner.html">
+<link rel="import" href="../blocks/block-galleries.html">
+<link rel="import" href="../blocks/block-media.html">
+<link rel="import" href="../blocks/block-radio.html">
+
+<dom-module id="layout-subsec1">
+  <template>
+    <style include="shared">
+
+      :host {
+        display: block;
+      }
+
+      .list {
+        margin-bottom: 2rem;
+      }
+
+    </style>
+
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
+
+    <div class="page-title">
+      <h3><a href="#/front/[[data.sectionId]]">[[data.section]]</a> / [[data.subsec]]</h3>
+    </div>
+
+    <template is="dom-if" if="{{gMd}}">
+      <div class="row">
+        <div class="col-12">
+          <div class="margin-bottom">
+            <block-banner size="b980x90" section="[[section]]"></block-banner>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <div class="row">
+      <div class="col-lg-8 col-xl-9">
+
+        <div class="row list">
+
+          <template is="dom-repeat" items="{{data.news}}" as="news">
+
+            <div class="col-12 col-sm-12 col-mg-6 col-lg-6 col-xl-6">
+
+              <block-news news="[[news]]" format="front6"></block-news>
+
+            </div>
+
+          </template>
+
+        </div>
+
+      </div>
+      <div class="col-lg-4 col-xl-3">
+
+        <div class="block block-col">
+
+          <block-radio></block-radio>
+
+          <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner>
+
+          <block-galleries galleries="[[data.galleries]]"></block-galleries>
+
+          <!-- <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner> -->
+
+          <block-media multimedia="[[data.multimedia]]"></block-media>
+
+          <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner>
+
+        </div>
+
+      </div>
+    </div>
+
+
+  </template>
+
+  <script>
+  
+    class LayoutSebsec1 extends Polymer.Element {
+      static get is() { return 'layout-subsec1'; }
+      static get properties() {
+        return {
+          data: {
+            type: Object
+          }
+
+        };
+      }
+
+    }
+
+    window.customElements.define(LayoutSebsec1.is, LayoutSebsec1);
+  </script>
+</dom-module>

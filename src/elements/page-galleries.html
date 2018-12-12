@@ -9,6 +9,10 @@
       :host {
         display: block;
       }
+
+      *, *:after, *:before {
+        @apply --initial;
+      }
       
       .galleries {
         margin: 0 0 4rem;
@@ -54,7 +58,7 @@
           
     </style>
 
-    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
 
     <div class="page-title">
       <h3>Foto Galerías</h3>
@@ -64,7 +68,7 @@
       <div class="row">
         <div class="col-12">
           <div class="margin-bottom">
-            <block-banner size="b980x90"></block-banner>
+            <block-banner size="b980x90" module="3"></block-banner>
           </div>
         </div>
       </div>
@@ -123,6 +127,10 @@
           gMd: {
             type: Boolean,
             value: false
+          },
+
+          time: {
+            type: Number
           }
 
         };
@@ -136,15 +144,27 @@
 
       constructor() {
         super();
-        this._init();
-        window.store.subscribe('gallery', this._init.bind(this));
+        this._getData();
+        window.store.subscribe('galleries', this._getData.bind(this));
       }
 
       greaterMd(xl, lg) {
         this.gMd = (xl || lg);
       }
 
-      _init() {
+      _getData() {
+        if(this.galleries) {
+          let timeDiff = (Date.now() - this.time) / 1000 / 60;
+          // only data from Galleries is more than 10 minutes old
+          if (timeDiff > 10) {
+            this._loadData();
+          }
+        } else {
+          this._loadData();
+        }
+      }
+
+      _loadData() {
 
         //let api = 'json/media/galleries.json';
         let api = 'json/media/galleries.asp';
@@ -167,6 +187,7 @@
               tmp.push(galleries[y]);
             }
             this.galleries = tmp;
+            this.time = Date.now();
 
           }
 

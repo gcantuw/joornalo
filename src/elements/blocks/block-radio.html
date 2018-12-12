@@ -1,0 +1,39 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-radio">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+        position: relative;
+        margin-bottom: 1rem;
+      }
+
+    </style>
+
+    <div class="radio">
+    	<audio id="stream" controls preload="none" title="Solo hits 104.5 FM, Grupo MS Multimedios" style="width: 100%;">
+		    <source src="http://192.99.16.17:1987/;" type="audio/mpeg">
+		  </audio>
+		  
+    </div>
+
+  </template>
+
+  <script>
+  
+    class BlockRadio extends Polymer.GestureEventListeners(Polymer.Element) {
+      static get is() { return 'block-radio'; }
+
+      ready() {
+        super.ready();
+
+        let audio = this.$.stream;
+        audio.volume = 1;
+      }
+    }
+
+    window.customElements.define(BlockRadio.is, BlockRadio);
+  </script>
+</dom-module>

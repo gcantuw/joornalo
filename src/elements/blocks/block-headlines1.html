@@ -3,6 +3,7 @@
 
 <link rel="import" href="../util/app-viewport.html">
 <link rel="import" href="./block-news.html">
+<!-- <link rel="import" href="./block-tips.html"> -->
 
 <dom-module id="block-headlines1">
   <template>
@@ -22,7 +23,7 @@
 
     </style>
 
-    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
 
     <div class="row nopad">
       
@@ -34,39 +35,76 @@
         </div>
       </template>
 
-      <div class="col-lg-8 col-xl-8">
+      <template is="dom-if" if="{{gMd}}">
+        <div class="col-lg-8 col-xl-8">
+          <block-news news="[[news.0]]" format="front1"></block-news>
+        </div>
+      </template>
 
-        <block-news news="[[news.0]]" format="front1"></block-news>
+      <template is="dom-if" if="{{sm}}">
+        <div class="col-sm-12">
+          <block-news news="[[news.0]]" format="front1b"></block-news>
+        </div>
 
-      </div>
+        <div class="col-sm-6 col-6">
+          <block-news news="[[news.1]]" format="front2b"></block-news>
+        </div>
+        <div class="col-sm-6 col-6">
+          <block-news news="[[news.2]]" format="front2b"></block-news>
+        </div>
+        <div class="col-sm-6 col-6">
+          <block-news news="[[news.3]]" format="front2b"></block-news>
+        </div>
+        <div class="col-sm-6 col-6">
+          <block-news news="[[news.4]]" format="front2b"></block-news>
+        </div>
+      </template>
+
+      <template is="dom-if" if="{{md}}">
+        <div class="col-md-6">
+          <block-news news="[[news.0]]" format="front1"></block-news>
+        </div>
+
+        <div class="col-md-6">
+          <block-news news="[[news.1]]" format="front4"></block-news>
+          <block-news news="[[news.2]]" format="front4"></block-news>
+          <block-news news="[[news.3]]" format="front4"></block-news>
+          <block-news news="[[news.4]]" format="front5"></block-news>
+        </div>
+      </template>
 
     </div>
     
-    <div class="row nopad">
+    <template is="dom-if" if="{{gMd}}">
 
-      <div class="col-lg-3 col-xl-3">
-        <block-news news="[[news.1]]" format="front2"></block-news>
-      </div>
-      <div class="col-lg-3 col-xl-3">
-        <block-news news="[[news.2]]" format="front2"></block-news>
-      </div>
-      <div class="col-lg-3 col-xl-3">
-        <block-news news="[[news.3]]" format="front2"></block-news>
-      </div>
-      <div class="col-lg-3 col-xl-3">
-        <block-news news="[[news.4]]" format="front2"></block-news>
-      </div>
+      <div class="row nopad">
 
-    </div>
+        <div class="col-lg-3 col-xl-3">
+          <block-news news="[[news.1]]" format="front2"></block-news>
+        </div>
+        <div class="col-lg-3 col-xl-3">
+          <block-news news="[[news.2]]" format="front2"></block-news>
+        </div>
+        <div class="col-lg-3 col-xl-3">
+          <block-news news="[[news.3]]" format="front2"></block-news>
+        </div>
+        <div class="col-lg-3 col-xl-3">
+          <block-news news="[[news.4]]" format="front2"></block-news>
+        </div>
+
+      </div>
+    </template>
 
     <div class="row nopad">
       
       <template is="dom-if" if="{{lLg}}">
-        <div class="col">
-
+        <div class="col-md-6 col-sm-12">
           <block-top-news top-news="[[topNews]]"></block-top-news>
-
         </div>
+
+        <!-- <div class="col-md-6 col-sm-12">
+          <block-tips tips="[[tips]]"></block-tips>
+        </div> -->
       </template>
 
     </div>
@@ -89,6 +127,10 @@
             observer: '_topChanged'
           },
 
+          // tips: {
+          //   type: Array
+          // },
+
           gMd: {
             type: Boolean,
             value: false
@@ -98,7 +140,6 @@
             type: Boolean,
             value: false
           }
-
 
         };
       }

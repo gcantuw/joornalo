@@ -8,6 +8,10 @@
     <style include="shared">
       :host {
         display: block;
+      }
+
+      .display {
+        display: block;
         background: #666;
         color:#FFF;
         margin-bottom: 1.5rem;
@@ -38,7 +42,9 @@
       }
       .video {
         width: 100%;
-        height: 200px;
+        /*height: 200px;*/
+        /*height: auto;*/
+        margin-bottom: 1rem;
       }
       iframe {
         border: none;
@@ -52,37 +58,47 @@
 
     <template is="dom-if" if="{{multimedia}}">
 
-      <div class="tab transparent">
-        <h3><a href="#/multimedia">multimedia</a></h3>
+      <div class="display">
+
+        <div class="tab transparent">
+          <h3><a href="#/multimedia">multimedia</a></h3>
+        </div>
+
+        <div class="video" hidden$="{{!multimedia.0.youtube-id}">
+          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/[[multimedia.0.youtube-id]]"></iframe>
+          <div class="title">[[multimedia.0.title]]</div>
+        </div>
+
+        <div class="video" hidden$="{{!multimedia.0.facebook-id}}">
+            <iframe src="https://www.facebook.com/plugins/video.php?href=[[multimedia.0.facebook-url]]" width="100%" height="100%" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+            <div class="title">[[multimedia.0.title]]</div>
+        </div>
+
+        <div class="video" hidden$="{{!multimedia.0.vimeo-id}}">
+            <iframe src="https://player.vimeo.com/video/[[multimedia.0.vimeo-id]]" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+            <div class="title">[[multimedia.0.title]]</div>
+        </div>
+
+        <ol>
+          <li>
+            <block-video-thumb video="[[multimedia.0]]" format="front1"></block-video>
+          </li>
+          <li>
+            <block-video-thumb video="[[multimedia.1]]" format="front1"></block-video>
+          </li>
+        </ol>
+        <ol>
+          <li>
+            <block-video-thumb video="[[multimedia.2]]" format="front1"></block-video>
+          </li>
+          <li>
+            <block-video-thumb video="[[multimedia.3]]" format="front1"></block-video>
+          </li>
+        </ol>
+
       </div>
-
-      <div class="video">
-        <iframe width="100%" height="auto"
-          src="https://www.youtube.com/embed/[[multimedia.0.youtube-id]]">
-        </iframe>
-        <div class="title">[[multimedia.0.title]]</div>
-      </div>
-
-      <ol>
-        <li>
-          <block-video-thumb video="[[multimedia.0]]" format="front1"></block-video>
-        </li>
-        <li>
-          <block-video-thumb video="[[multimedia.1]]" format="front1"></block-video>
-        </li>
-      </ol>
-      <ol>
-        <li>
-          <block-video-thumb video="[[multimedia.2]]" format="front1"></block-video>
-        </li>
-        <li>
-          <block-video-thumb video="[[multimedia.3]]" format="front1"></block-video>
-        </li>
-      </ol>
-
     </template>
 
-    
   </template>
 
   <script>

@@ -1,0 +1,214 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-tips">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+        position: relative;
+        color:#000;
+        background: #224488;
+        margin-bottom: 1.5rem;
+        padding: 0 4px;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+      }
+      .tab {
+        padding-top: 1px;
+      }
+      .tab h3 {
+        color: #fff;
+        background: #224488;
+        padding: 1px 0 0 6px;
+      }
+      .tab::after {
+          border-color: #fff;
+          border-top: 0px;
+      }
+      ol {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        min-height: 370px;
+        margin-top: 5px;
+      }
+      @media (max-width: 991px) {
+        ol {
+          min-height: auto;
+        }
+      }
+      li {
+        padding: 0.4rem;
+      }
+      h5, h6 {
+        margin: 0;
+        margin: .4rem 0;
+      }
+      h6 {
+        color: #fff;
+        font-weight: 200;
+        line-height: 19px;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+      }
+      h5 {
+        font-weight: 500;
+        color: #aaa;
+        line-height: 1rem;
+      }
+      h5.title {
+        font-weight: 200;
+      }
+      a {
+        color: #333;
+      }
+      .nav {
+        text-align: right;
+        padding: 0 5px 5px;
+        position: absolute;
+        bottom: 0;
+        right: 5px;
+        font-size: 20px;
+        top: 2px;
+        right: 1px;
+      }
+      [class^="icon-"], [class*=" icon-"] {
+        @apply --joornalo-icon;
+        cursor: pointer;
+        color: #fff;
+      }
+      [class^="icon-"]:hover, [class*=" icon-"]:hover {
+        color: #999;
+      }
+      .icon-circle-right:before {
+        content: "\ea42";
+      }
+      .icon-circle-left:before {
+        content: "\ea44";
+      }
+      .icon-pause:before {
+        content: "\ea16";
+      }
+      .icon-play2:before {
+        content: "\ea15";
+      }
+    </style>
+
+    <template is="dom-if" if="{{report}}">
+
+      <div class="tab">
+        <h3>reporte expreso</h3>
+      </div>
+
+      <ol>
+        <template is="dom-repeat" items="{{report}}">
+          <li hidden$="{{item.hide}}">
+            <h5>{{item.title}}</h5>
+            <h6>{{item.summary}}</h6>
+          </li>
+        </template>
+      </ol>
+      <div class="nav">
+        <span on-tap="_prev" class="icon-circle-left"></span>
+        <span hidden$="{{pause}}" on-tap="_pause" class="icon-pause"></span>
+        <span hidden$="{{!pause}}" on-tap="_pause" class="icon-play2"></span>
+        <span on-tap="_next" class="icon-circle-right"></span>
+      </div>
+
+    </template>
+    
+  </template>
+
+  <script>
+  
+    class BlockTips extends Polymer.GestureEventListeners(Polymer.Element) {
+      static get is() { return 'block-tips'; }
+      static get properties() {
+        return {
+
+          tips: {
+            type: Array,
+            observer: '_tipsChanged'
+          },
+
+          report: {
+            type: Array
+          },
+
+          total: {
+            type: Number
+          },
+
+          current: {
+            type: Number,
+            value: 0
+          },
+
+          pause: {
+            type: Boolean,
+            value: false
+          },
+
+          delay: {
+            type: Number,
+            value: 20000
+          },
+
+          time: {
+            type: Number
+          }
+        };
+      }
+
+      _tipsChanged() {
+        clearTimeout(this.time);
+        if(this.tips) {
+          this.total = this.tips.length - 1;
+          
+          this.report = this.tips;
+          this._switch();
+          this._startTimeout();
+        }
+      }
+
+      _prev() {
+        this._startTimeout();
+        this.current = (this.current == 0) ? this.total : this.current - 1;
+        this._switch();
+      }
+
+      _next() {
+        this._startTimeout();
+        this.current = (this.current == this.total) ? 0 : this.current + 1;
+        this._switch();
+      }
+
+      _switch() {
+        if(this.tips) {
+          this.tips.map((item, index) => { 
+            this.set('report.' + index + '.hide', (index !== this.current)); 
+            return item;
+          })
+        }
+      }
+
+      _startTimeout() {
+        clearTimeout(this.time);
+        if(!this.pause) {
+          this.time = setTimeout(() => { this._next(); }, this.delay);
+        }
+      }
+
+      _pause() {
+        this.pause = !this.pause;
+        clearTimeout(this.time);
+        if(!this.pause) {
+          this._next();
+        }
+      }
+    }
+
+    window.customElements.define(BlockTips.is, BlockTips);
+  </script>
+</dom-module>

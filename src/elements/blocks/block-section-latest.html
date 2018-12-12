@@ -1,6 +1,8 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../styles/shared.html">
 
+<link rel="import" href="../util/app-viewport.html">
+
 <dom-module id="block-section-latest">
   <template>
     <style include="shared">
@@ -29,6 +31,8 @@
 
     </style>
 
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
+
     
     <div class="tab">
       <h3>lo último</h3>
@@ -36,9 +40,19 @@
 
     <div class="row">
       <template is="dom-repeat" items="{{news}}" as="news">
-        <div class="col-lg-3">
-          <block-news-flow news="[[news]]" format="flow2"></block-news-flow>
-        </div>
+
+        <template is="dom-if" if="{{!sm}}">
+          <div class="col-lg-3 col-md-4">
+            <block-news-flow news="[[news]]" format="flow2"></block-news-flow>
+          </div>
+        </template>
+
+        <template is="dom-if" if="{{sm}}">
+          <div class="col-12">
+            <block-news news="[[news]]" format="front6"></block-news>
+          </div>
+        </template>
+
       </template>
     </div>
     
@@ -50,11 +64,15 @@
       static get is() { return 'block-section-latest'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'block-section-latest'
+          news: {
+            type: Array,
+            observer: '_newsChanged'
           }
         };
+      }
+
+      _newsChanged() {
+        // console.log(this.news);
       }
     }
 

@@ -1,6 +1,8 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../styles/shared.html">
 
+<link rel="import" href="../util/app-viewport.html">
+
 <dom-module id="block-sections">
   <template>
     <style include="shared">
@@ -18,8 +20,13 @@
         flex: 1;
         margin: 0 0.5rem;
       }
+      h3 {
+        margin-bottom: 8px;
+      }
 
     </style>
+
+    <app-viewport sm="{{sm}}"></app-viewport>
 
     <template is="dom-repeat" items="{{sections}}" as="section">
       <div class="tab">
@@ -27,9 +34,19 @@
       </div>
       <div class="row">
         <template is="dom-repeat" items="{{section.news}}" as="news">
-          <div class="col-lg-4 col-md-6 col-sm-12">
-            <block-news news="[[news]]" format="front3"></block-news>
-          </div>
+
+          <template is="dom-if" if="{{!sm}}">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+              <block-news news="[[news]]" format="front3"></block-news>
+            </div>
+          </template>
+
+          <template is="dom-if" if="{{sm}}">
+            <div class="col-12">
+              <block-news news="[[news]]" format="front6"></block-news>
+            </div>
+          </template>
+
         </template>
       </div>
     </template>

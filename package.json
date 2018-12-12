@@ -13,5 +13,8 @@
     "test:integration": "polymer build # test that psk builds without error with the CLI",
     "mocks": "stubby -d mocks/mocks.json -l 127.0.0.1 -s 9998",
     "build": "polymer build"
+  },
+  "dependencies": {
+    "bower-art-resolver": "^2.0.9"
   }
 }

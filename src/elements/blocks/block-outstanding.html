@@ -1,19 +1,67 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../styles/shared.html">
+<link rel="import" href="./block-news.html">
 
 <dom-module id="block-outstanding">
   <template>
-    <style>
-      :host {
+    <style include="shared">
+      .all {
         display: block;
-        background: #aaa;
-        color:#000;
-        min-height: 250px;
         margin-bottom: 1.5rem;
+        background: var(--theme-alt-background-color);
+        padding: .7rem;
       }
+      ul {
+        list-style-type: none;
+        margin: 0.5rem 0 0;
+        padding: 0;
+      }
+      li {
+        margin: 0;
+      }
+
+      @media (max-width: 992px) {
+        ul {
+          display: flex;
+          width: 100%;
+          overflow: hidden;
+        }
+        li {
+          width: 33.33%;
+          padding-left: 1rem;
+        }
+
+        li:first-of-type {
+          padding-left: 0;
+        }
+      }
+
+      @media (max-width: 575px) {
+        li {
+          width: 50%;
+          padding-left: 1rem;
+        }
+
+        li:last-of-type {
+          display: none;
+        }
+
+      }
+
     </style>
 
-    [[prop1]]
+    <div class="all" hidden$="[[hideBlock]]">
+      <div class="tab white">
+        <h3>destacado</h3>
+      </div>
+      <ul>
+        <template is="dom-repeat" items="{{news}}" as="news">
+          <li>
+            <block-news news="[[news]]" format="outstanding1"></block-news>
+          </li>
+        </template>
+      </ul>
+    </div>
     
   </template>
 
@@ -23,12 +71,23 @@
       static get is() { return 'block-outstanding'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'block-outstanding'
+
+          news: {
+            type: Array
+          },
+
+          hideBlock: {
+            type: Boolean,
+            computed: 'emptyBlock(news)'
           }
+
         };
       }
+
+      emptyBlock() {
+        return (!this.news || this.news.length == 0);
+      }
+
     }
 
     window.customElements.define(BlockOutstanding.is, BlockOutstanding);

@@ -3,7 +3,6 @@
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="my-icons.html">
-
 <link rel="import" href="./styles/shared.html">
 
 <link rel="import" href="./elements/blocks/block-header.html">
@@ -14,7 +13,7 @@
 <link rel="lazy-import" href="elements/page-gallery.html">
 <link rel="lazy-import" href="elements/page-search.html">
 <link rel="lazy-import" href="elements/page-multimedia.html">
-<!-- <link rel="lazy-import" href="missing404.html"> -->
+<link rel="lazy-import" href="elements/page-notfound.html">
 
 <dom-module id="joornalo-app">
   <template>
@@ -38,7 +37,7 @@
     <div class="container-fluid">
 
       <div class="content">
-        <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="notFound" selected-attribute="route" selected-attribute-value="{{subroute}}" role="main">
+        <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="notfound" selected-attribute="route" selected-attribute-value="{{subroute}}" role="main">
 
           <page-front name="front" route="[[route]]"></page-front>
 
@@ -52,7 +51,8 @@
 
           <page-multimedia name="multimedia" route="[[route]]"></page-multimedia>
 
-          <!-- <page-not-found name="notFound"></page-not-found> -->
+          <page-notfound name="notfound"></page-notfound>
+          
         </iron-pages>
       </div>
 
@@ -63,11 +63,14 @@
   </template>
 
   <script>
+    const ORIGINAL_TITLE = document.title;
+
     class JoornaloApp extends Polymer.Element {
       static get is() { return 'joornalo-app'; }
 
       static get properties() {
         return {
+          route: Object,
           page: {
             type: String,
             reflectToAttribute: true,
@@ -95,6 +98,8 @@
 
         let api = 'json/menu.asp';
 
+        window.store.subscribe('meta-tags', this._updateMetaTags.bind(this));
+
         window.ajax.request('GET', api, null, (data) => {
 
           this.menuHeader = data['menu-header'];
@@ -114,7 +119,10 @@
 
       _routePageChanged(page) {
         window.scrollTo(0, 0);
-        //console.log(this.route.path);
+        window.store.publish('banner-reset', {});
+        gtag('config', window.GA_TRACKING_ID, { 'page_path': this.subroute.prefix + this.subroute.path });
+        gtag('config', window.GA_TRACKING_ID);
+
         if (this.route.path == '' || this.route.path == '/' || this.route.path == '/front') {
           console.log('----');
           this.$.location.set('path', '/front/home');
@@ -133,12 +141,35 @@
             true);
 
         window.store.publish(page, page);
+        window.store.publish('page-change', page);
         window.scrollTo(0, 0);
       }
 
       _showPage404() {
-        this.page = 'notFound';
+        this.page = 'notfound';
       }
+
+      _updateMetaTags(tags) {
+        //console.log(tags);
+
+        let title = (tags && tags.title.length > 0) ? `${tags.title} - ${ORIGINAL_TITLE}` : `${ORIGINAL_TITLE}`;
+
+        document.title = title;
+        document.querySelector("meta[property='og:title']").content = title;
+        document.querySelector("meta[property='og:description']").content = tags.description;
+        document.querySelector("meta[name='description']").content = tags.description;
+        //document.querySelector("meta[property='og:image']").content = tags.image;
+        //document.querySelector("meta[name='twitter:card']").content = tags.image;
+        document.querySelector("meta[name='twitter:image:alt']").content = tags.imgAltName;
+        document.querySelector("meta[property='og:url']").content = tags.url;
+
+        var link=document.createElement('meta');
+        link.property="og:image";
+        link.content=tags.image;
+        document.getElementsByTagName('head')[0].appendChild(link);
+
+      }
+
     }
 
     window.customElements.define(JoornaloApp.is, JoornaloApp);

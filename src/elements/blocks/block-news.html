@@ -12,48 +12,103 @@
         word-break: break-word;
       }
 
-      .front1 {
+      .front1,
+      .front1b {
         background: #666;
         padding-bottom: .4rem;
         margin-bottom: 1rem;
       }
-      .front1 a {
+      .front1c {
+        padding-bottom: .4rem;
+        margin-bottom: 1rem;
+      }
+      .front1 a,
+      .front1b a {
         color: #FFF;
       }
-      .front1:hover {
+      .front1c a {
+        color: #333;
+      }
+      .front1:hover,
+      .front1b:hover {
         background: #888;
       }
-      .front1 img {
+      .front1 img,
+      .front1b img,
+      .front1c img {
         margin-bottom: .4rem
       }
       .front1 .title {
         @apply --h2-mixin;
+        margin: 0 .5rem .5rem;
+      }
+
+      .front1c .title {
+        @apply --h2-mixin;
+        margin: 0 .5rem .5rem;
+      }
+
+      .front1b .title {
+        @apply --h2-mixin;
+        margin: 0 .5rem .5rem;
+        font-size: 28px;
       }
       .front1 .desc {
         @apply --h4-mixin;
+        margin: 0 .5rem .5rem;
+      }
+      .front1c .desc {
+        @apply --h4-mixin;
+        margin: 0 .5rem .5rem;
       }
 
-      .front2 {
+      .front1b .desc {
+        display: none;
+      }
+
+      .front2,
+      .front2b {
         color: #333;
         padding-bottom: .4rem;
         margin-bottom: 1rem;
       }
-      .front2 a {
+      .front2 a,
+      .front2b a {
         color: #333;
       }
-      .front2 a:hover {
+      .front1c a:hover,
+      .front2 a:hover,
+      .front2b a:hover {
         color: #cc0002;
       }
-      .front2 img {
+      .front2 img,
+      .front2b img {
         margin-bottom: .4rem
       }
-      .front2 .title {
+      .front2 .img,
+      .front2b .img {
+        width: 100%;
+        position: relative;
+        padding-top: 66.6%;
+        overflow: hidden;
+      }
+      .front2 img,
+      .front2b img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+      .front2 .title,
+      .front2b .title {
         @apply --h4-mixin;
-        margin: -0.5rem 0 .5rem;
+        margin: 0.2rem 0 .5rem;
         font-weight: 500;
       }
 
-      .front2 [noimage] .title {
+      .front2 [noimage] .title,
+      .front2b [noimage] .title {
         margin-top: 0;
       }
 
@@ -62,38 +117,126 @@
         margin: 0;
       }
 
-      .front3 {
+      .front2b .desc {
+        display: none;
+      }
+
+      .front3,
+      .front3b {
         color: #333;
         padding-bottom: .4rem;
         margin-bottom: 1rem;
       }
-      .front3 a {
+      .front3 a,
+      .front3b a {
         color: #333;
       }
-      .front3 a:hover {
+      .front3 a:hover ,
+      .front3b a:hover {
         color: #cc0002;
       }
-      .front3 img {
+      .front3 img,
+      .front3b img {
         margin-bottom: .2rem;
       }
-      .front3 .title {
+      .front3 .title,
+      .front3b .title,
+      .front5 .title {
         @apply --h6-mixin;
-        margin: 0 0 .5rem;
+        margin: 0.2rem 0 .5rem;
         font-weight: 500;
         line-height: 1.3rem;
       }
-      .front3 [big].title {
+      .front3 [big].title,
+      .front3b [big].title {
         font-size: 1.8rem;
         line-height: 2rem;
       }
-      .front3 .desc {
+      .front3 .img,
+      .front3b .img {
+        width: 100%;
+        position: relative;
+        padding-top: 75%;
+        overflow: hidden;
+      }
+      .front3 img,
+      .front3b img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+      @media (max-width: 768px) {
+        .front3 [big].title {
+          font-size: 1.5rem;
+          line-height: 1.8rem;
+        }
+      }
+      @media (max-width: 600px) {
+        .front3 [big].title {
+          font-size: 1.2rem;
+          line-height: 1.2rem;
+        }
+      }
+
+      .front3 .desc,
+      .front5 .desc {
         @apply --h6-mixin;
         font-size: 0.75rem;
         margin: 0 0 .5rem;
         font-weight: 400;
         /*line-height: 1.3rem;*/
       }
+      .front3b .desc {
+        display: none;
+      }
 
+      .front4,
+      .front5 {
+        color: #333;
+        padding-bottom: .4rem;
+        margin-bottom: 1rem;
+      }
+      .front4 a,
+      .front5 a,
+      .front6 a  {
+        color: #333;
+      }
+      .front4 a:hover,
+      .front5 a:hover,
+      .front6 a:hover {
+        color: #cc0002;
+      }
+      .front4 .img {
+        margin-bottom: .2rem;
+        width: 40%;
+        float: left;
+      }
+      .front5 .img {
+        display: none;
+      }
+      .front4 .title {
+        @apply --h6-mixin;
+        margin: 0 0 .5rem;
+        font-weight: 500;
+        line-height: 1.3rem;
+        float: right;
+        width: 58%;
+      }
+      /*
+      .front4 [big].title {
+        font-size: 1.8rem;
+        line-height: 2rem;
+      }*/
+      .front4 .desc {
+        @apply --h6-mixin;
+        font-size: 0.75rem;
+        margin: 0 0 .5rem;
+        font-weight: 400;
+        float: right;
+        width: 58%;
+      }
 
       .flow1 {
         color: #333;
@@ -128,12 +271,93 @@
         font-size: .8rem;
       }
 
+      .front6 {
+        color: #333;
+        padding-bottom: .4rem;
+        margin-bottom: 0;
+      }
+
+      .front6 a {
+        display: flex;
+      }
+
+      .front6 .title {
+        @apply --h6-mixin;
+        margin: 0 0 .5rem;
+        font-weight: 500;
+        line-height: 1.3rem;
+        order: 2;
+      }
+
+      .front6 .img,
+      .front6 img {
+        width: 130px;
+      }
+      .front6 .img {
+        margin-right: 15px;
+      }
+
+      .front6 .desc {
+        display: none;
+      }
+
+      .outstanding1 {
+        position: relative;
+        display: block;
+      }
+
+      .outstanding1 .title {
+        color: #fff;
+        @apply --h4-mixin;
+        padding: .5rem .5rem;
+        margin: 0 0 .5rem;
+      }
+
+      .outstanding1 a {
+        display: block;
+      }
+
+      .outstanding1 .desc {
+        display: none;
+      }
+
+      .outstanding1 a:hover .img::before {
+        content: "";
+        background: rgba(0,0,0,.1);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+
+      .outstanding1 a:hover .title {
+        background: rgba(0,0,0,.1);
+      }
+
+      .outstanding1 .img {
+        width: 100%;
+        position: relative;
+        padding-top: 55%;
+        overflow: hidden;
+      }
+      .outstanding1 img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+
     </style>
 
     <div class$="[[format]]">
       <a href="#/news/[[news.id]]" noimage$="[[!news.img]]">
         <div class="section">[[news.section-name]]</div>
-        <div hidden$="[[!news.img]]" class="img"><img src="[[news.img]]"></div>
+        <div hidden$="[[!news.img]]" class="img">
+          <img src="[[news.img]]">
+        </div>
         <div class="title" big$="[[!news.img]]">[[news.title]]</div>
         <div class="desc">[[news.desc]]</div>
       </a>

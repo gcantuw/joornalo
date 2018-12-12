@@ -1,0 +1,90 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-other-news">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+        color:#000;
+        margin-bottom: 1.5rem;
+      }
+
+      ol {
+        padding: 0;
+      }
+      li {
+        list-style-type: none;
+        margin-bottom: 1rem;
+        display: flex;
+        line-height: 1.2rem;
+      }
+/*      li div {
+        flex: 1;
+        margin-top: .2rem;
+      }*/
+      li a {
+        flex: 1;
+        flex-direction: column;
+        color: #000;
+      }
+      li a:hover {
+        color: #cc0002;
+      }
+
+      img {
+        width: 40%;
+        height: auto;
+        margin-top: .2rem;
+        float: left;
+      }
+      li div {
+        width: 60%;
+        display: inline-block;
+        padding-left: .5rem;
+        height: 100%;
+        float: left;
+      }
+
+    </style>
+
+    
+    <div hidden$="[[!otherNews]]">
+      <div class="tab">
+        <h3>otras noticias</h3>
+      </div>
+
+      <ol>
+        <template is="dom-repeat" items="{{otherNews}}">
+          <li>
+            <a href="#/news/[[item.id]]">
+              <img hidden$=[[!item.img]] src="[[item.img]]">
+              <div>[[item.title]]</div>
+            </a>
+          </li>
+        </template>
+      </ol>
+
+    </div>
+
+  </template>
+
+  <script>
+  
+    class BlockOtherNews extends Polymer.Element {
+      static get is() { return 'block-other-news'; }
+      static get properties() {
+        return {
+
+          otherNews: {
+            type: Array,
+            value: null
+          }
+
+        };
+      }
+    }
+
+    window.customElements.define(BlockOtherNews.is, BlockOtherNews);
+  </script>
+</dom-module>

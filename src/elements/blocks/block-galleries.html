@@ -4,21 +4,29 @@
 <dom-module id="block-galleries">
   <template>
     <style include="shared">
-      .all {
+      :host {
+        display: block;
+      }
+
+      .display {
         display: block;
         background: #666;
         color:#FFF;
         margin-bottom: 1.5rem;
         padding: .5rem;
       }
-      ol {
+
+      .tab {
+        margin-bottom: .8rem;
+      }
+      /*ol {
         list-style-type: none;
         margin: 0;
         padding: 0;
       }
       li {
         margin: .8rem 0 .5rem;
-      }
+      }*/
       a {
         display: block;
         color: #fff;
@@ -33,26 +41,36 @@
         font-weight: 100;
         line-height: 1.4rem;
       }
+
+      @media (max-width: 575px) {
+        .nopad div:nth-of-type(2) {
+          display: none;
+        }
+      }
     </style>
 
-    <div class="all" hidden$="[[hideBlock]]">
+    <template is="dom-if" if="{{galleries}}">
 
-      <div class="tab transparent">
-        <h3><a href="#/galleries">galerías</a></h3>
+      <div class="display">
+
+        <div class="tab transparent">
+          <h3><a href="#/galleries">galerías</a></h3>
+        </div>
+
+        <div class="row nopad">
+          <template is="dom-repeat" items="{{items}}" limit="{{max}}">
+            <div class="col-6 col-sm-4 col-md-4 col-lg-12 col-xl-12">
+              <a href="#/gallery/[[item.id]]">
+                <img src="[[item.img]]">
+                <h5>[[item.title]]</h5>
+              </a>
+            </div>
+          </template>
+        </ol>
+
       </div>
 
-      <ol>
-        <template is="dom-repeat" items="{{galleries}}">
-          <li>
-            <a href="#/gallery/[[item.id]]">
-              <img src="[[item.img]]">
-              <h5>[[item.title]]</h5>
-            </a>
-          </li>
-        </template>
-      </ol>
-
-    </div>
+    </template>
     
   </template>
 
@@ -64,16 +82,32 @@
         return {
 
           galleries: {
-            type: Array,
-            value: []
+            type: Array
           },
 
-          hideBlock: {
-            type: Boolean,
-            computed: 'emptyGallery(galleries)'
+          items: {
+            type: Array,
+            computed: '_itemsUpdated(galleries)'
+          },
+
+          max: {
+            type: Number,
+            value: 2
           }
         };
 
+      }
+
+      _itemsUpdated() {
+        let tmp = [];
+        if(this.galleries) {
+          this.galleries.forEach((element, index) => {
+            if(index < this.max) {
+              tmp.push(element);
+            }
+          });
+        }
+        return tmp;
       }
 
       emptyGallery() {

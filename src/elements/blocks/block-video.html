@@ -1,0 +1,71 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../styles/shared.html">
+
+<dom-module id="block-video">
+  <template>
+    <style include="shared">
+
+      :host {
+        display: block;
+      }
+
+      .top,
+      .videoFrame {
+        height: 100%;
+      }
+
+      iframe {
+        border: none;
+      }
+    
+    </style>
+
+    <div class="top" hidden$="[[hidden]]">
+
+      <div class="videoFrame" hidden$="{{!video.youtube-id}}">
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/[[video.youtube-id]]"></iframe>
+      </div>
+
+      <div class="videoFrame" hidden$="{{!video.facebook-id}}">
+          <iframe src="https://www.facebook.com/plugins/video.php?href=[[video.facebook-url]]" width="100%" height="100%" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+      </div>
+
+      <div class="videoFrame" hidden$="{{!video.vimeo-id}}">
+          <iframe src="https://player.vimeo.com/video/[[video.vimeo-id]]" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+      </div>
+
+    </div>
+
+  </template>
+
+  <script>
+  
+    class BlockVideo extends Polymer.Element {
+      static get is() { return 'block-video'; }
+      static get properties() {
+        return {
+
+          hidden: {
+            type: Boolean,
+            value: true,
+            reflectToAttribute: true
+          },
+
+          video: {
+            type: Object,
+            observer: '_videoChange'
+          }
+
+        };
+      }
+
+      _videoChange() {
+        if(this.video) {
+          this.hidden = false;
+        }
+      }
+    }
+
+    window.customElements.define(BlockVideo.is, BlockVideo);
+  </script>
+</dom-module>

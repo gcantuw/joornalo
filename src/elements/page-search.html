@@ -16,9 +16,13 @@
         
       }
 
+      *, *:after, *:before {
+        @apply --initial;
+      }
+
       :host h2 {
         margin: 0;
-        background: #eee;
+        background: var(--light-background-color);
         padding: 1rem;
       }
 
@@ -75,7 +79,7 @@
       }
 
       .result h4.section {
-        color: #CC0005;
+        color: var(--accent-color);
         font-size: 0.9rem;
         line-height: 1.3rem;
       }
@@ -106,10 +110,17 @@
       }
 
       .advanced {
-        padding: 0 1rem;
+        padding: 0 15px;
       }
+
+      @media (max-width: 768px) {
+        .advanced {
+          padding: 0 7px;
+        }
+      }
+      
       .advanced .col-lg-4 {
-        background: #eee;
+        background: var(--light-background-color);
         padding-bottom: 1rem;
       }
       .advanced .col-lg-4 span {
@@ -192,7 +203,7 @@
           <div class="col-lg-12">
             <a class="result" href="#/news/[[news.id]]">
               <div class="left" hidden$="[[!gMd]]">
-                <h5>[[news.date]]</h5>
+                <h5>{{_dateFormat(news.date)}}</h5>
               </div>
               <template is="dom-if" if="{{gSm}}">
                 <div hidden$="[[!news.img]]" right$="[[md]]" class="img">
@@ -320,7 +331,7 @@
           dateOptions: {
             type: Array,
             value: [
-              { value: 0, desc: 'Todo desde 2007' },
+              { value: 0, desc: 'Todo desde 2010' },
               { value: 1, desc: 'Ultimas 24 horas' },
               { value: 7, desc: 'Ultima Semana' },
               { value: 30, desc: 'Ultimo Mes' },
@@ -522,6 +533,12 @@
 
           this.$.location.set('hash', '/search/'+params);
         } 
+      }
+
+      _dateFormat(dt) {
+        let tmp = dt.split('/'),
+            nw = tmp[2] + '/' + ((tmp[0].length<2) ? '0' : '') + tmp[0] + '/' + ((tmp[1].length<2) ? '0' : '') + tmp[1];
+        return nw;
       }
 
     }

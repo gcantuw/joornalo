@@ -22,7 +22,18 @@
         background: #888;
       }
       .front1 img {
-        /*margin-bottom: .4rem*/
+        position:  absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+      .front1 .overlay {
+        display: block;
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%;
+        overflow: hidden;
       }
       .front1 .title {
         @apply --joornalo-h6;
@@ -47,7 +58,13 @@
       }
       .multi1 img {
         /*margin-bottom: .4rem*/
-        margin-bottom: -5px;
+       /* margin-bottom: -5px;*/
+
+        position:  absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
       }
       .multi1 .title {
         @apply --joornalo-h6;
@@ -62,6 +79,12 @@
       .multi1 .overlay {
         display: block;
         position: relative;
+        /*max-height: 93px;*/
+
+        width: 100%;
+        padding-top: 56.25%;
+        overflow: hidden;
+      }
       }
 
       .multi1 .overlay:before {
@@ -106,24 +129,25 @@
       .multi1 a:hover {
         color: #cc0002;
       }
-
-      
-
-     
     </style>
 
     <div class$="[[format]]">
       <a href="#/multimedia/[[video.id]]">
         <span class="icon-play3"></span>
-        <span class="overlay">
+        <span class="overlay" hidden$="{{!video.youtube-id}}">
           <img src="https://i.ytimg.com/vi/[[video.youtube-id]]/mqdefault.jpg">
+        </span>
+        <span class="overlay" hidden$="{{!video.facebook-id}}">
+          <img src="https://graph.facebook.com/[[video.facebook-id]]/picture/">
+        </span>
+        <span class="overlay" hidden$="{{!video.vimeo-id}}">
+          <img src="[[video.img]]">
         </span>
         <div class="title">[[video.title]]</div>
         <div class="desc">[[video.desc]]</div>
       </a>
     </div>
 
-    
   </template>
 
   <script>
@@ -132,6 +156,7 @@
       static get is() { return 'block-video-thumb'; }
       static get properties() {
         return {
+
           video: {
             type: Object
           },

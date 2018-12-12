@@ -5,7 +5,9 @@
 <link rel="import" href="./layout/layout-home1.html">
 <link rel="import" href="./layout/layout-home2.html">
 <link rel="import" href="./layout/layout-section1.html">
-<link rel="import" href="./layout/layout-section2.html">
+<link rel="import" href="./layout/layout-opinion1.html">
+<link rel="import" href="./layout/layout-subsec1.html">
+v
 
 <dom-module id="page-front">
   <template>
@@ -16,6 +18,11 @@
         /*margin-top: 1rem;*/
         /*background: #eee;*/
       }
+
+      *, *:after, *:before {
+        @apply --initial;
+      }
+      
       :host h2 {
         margin: 0;
       }
@@ -25,16 +32,22 @@
     <app-route
         route="{{route}}"
         pattern="/front/:section"
-        data="{{routeData}}"></app-route>
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
 
     <app-spinner loading="[[spinner]]"></app-spinner>
 
     <iron-pages selected="[[layout]]" attr-for-selected="layout" fallback-selection="notFound">
 
-        <layout-home1 layout="home1" data="[[data]]"></layout-home1>
-        <layout-home2 layout="home2" data="[[data]]"></layout-home2>
-        <layout-section1 layout="section1" data="[[data]]"></layout-section1>
-        <layout-section2 layout="section2" data="[[data]]"></layout-section2>
+        <layout-home1 layout="home1" data="[[data]]" section="[[section]]"></layout-home1>
+        <layout-home2 layout="home2" data="[[data]]" section="[[section]]"></layout-home2>
+
+        <layout-section1 layout="section1" data="[[data]]" section="[[section]]"></layout-section1>
+        <layout-section2 layout="section2" data="[[data]]" section="[[section]]"></layout-section2>
+
+        <layout-opinion1 layout="opinion1" data="[[data]]" section="[[section]]"></layout-opinion1>
+
+        <layout-subsec1 layout="subsec1" data="[[data]]" section="[[section]]"></layout-subsec1>
 
       </iron-pages>
   </template>
@@ -62,6 +75,24 @@
           spinner: {
             type: Boolean,
             value: true
+          },
+
+          loadedData: {
+            type: Array,
+            value: []
+          },
+
+          loadedSub: {
+            type: Array,
+            value: []
+          },
+
+          subroute: {
+            type: Object
+          },
+
+          subsection: {
+            type: String
           }
 
         };
@@ -80,28 +111,60 @@
       }
 
       _frontChanged(section) {
+        
+        this.subsection = this.subroute.path.replace('/','');
 
-        if(section) {
+        if(this.subsection.length > 0) {
           this.spinner = true;
           this.layout = null;
           this.data = null;
-
           this.section = section.replace("/", "");
-          // console.log("Section:", this.section);
+          this._getSubsection();
 
-
-
-          if(window.sectionClave) {
-            this._loadFront();
-          } else {
-            window.store.subscribe('sections-loaded', this._loadFront.bind(this));
+        } else {
+          if(section) {
+            // Issues with Opinion front
+            if(section == 'opinion') {
+              window.location.href = window.location.href + '/8'
+            } else { 
+              this.spinner = true;
+              this.layout = null;
+              this.data = null;
+              this.section = section.replace("/", "");
+              if(window.sectionClave) {
+                this._getFront();
+              } else {
+                window.store.subscribe('sections-loaded', this._loadFront.bind(this));
+              }
+            }
           }
         }
       }
 
-      _loadFront() {
+      _getFront() {
+        let requestedSection = window.sectionClave[this.section];
 
+        if(this.loadedData[requestedSection]) {
+          let timeDiff = (Date.now() - this.loadedData[requestedSection].time) / 1000 / 60;
+
+          // only data from Section is more than 10 minutes old
+          if (timeDiff > 10) {
+            this._loadFront();
+          } else {
+            this._processFrontData(this.loadedData[requestedSection].data);
+            this.layout = this.data.layout;
+            this.spinner = false;
+          }
+        } else {
+          this._loadFront();
+        }
+
+      }
+
+      _loadFront() {
         //let api = 'json/front/' + this.section + '.json'; //'json/front?s=' + section;
+        // console.log(this.section);
+        // console.log(window.sectionClave[this.section]);
         let api = 'json/front/front.asp?s=' + window.sectionClave[this.section];
 
         window.ajax.request('GET', api, null, (data) => {
@@ -111,12 +174,90 @@
           if (data.success) {
             data.section = window.sectionName[data['section-id']];
             this.layout = data.layout;
-            this.data = data;
+            this._processFrontData(data);
 
+            this.loadedData[window.sectionClave[this.section]] = {
+              time: Date.now(),
+              data: data
+            }
+          } else {
+            window.location.hash = '/notfound';
           }
 
         }, (err) => this.setData(err));
 
+      }
+
+      _processFrontData(data) {
+        this.data = data;
+        this._updateMetaTags(data);
+      }
+
+      _getSubsection() {
+
+        if(this.loadedSub[this.subsection]) {
+          let timeDiff = (Date.now() - this.loadedSub[this.subsection].time) / 1000 / 60;
+
+          // only data from Section is more than 10 minutes old
+          if (timeDiff > 10) {
+            this._loadSub();
+          } else {
+            //this.data = this.loadedSub[this.subsection].data;
+            this._processFrontData(this.loadedSub[this.subsection].data)
+            this.layout = (this.subsection == 8) ? 'opinion1' : 'subsec1';
+            this.spinner = false;
+          }
+        } else {
+          this._loadSub();
+        }
+
+      }
+
+      _loadSub() {
+        let api = 'json/front/subsec.asp?ss=' + this.subsection;
+
+        window.ajax.request('GET', api, null, (data) => {
+
+          this.spinner = false;
+
+          if (data.success) {
+            // handle 'Policomics'
+            if (data['section-id'] == 9) data['section-id'] = 6;
+
+            data.section = window.sectionName[data['section-id']];
+            data.sectionId = window.sectionId[data['section-id']];
+            
+            this.layout = (this.subsection == 8) ? 'opinion1' : 'subsec1';
+            //this.data = data;
+            this._processFrontData(data);
+
+            this.loadedSub[this.subsection] = {
+              time: Date.now(),
+              data: data
+            }
+
+          } else {
+            window.location.hash = '/notfound';
+          }
+
+        }, (err) => this.setData(err));
+
+      }
+
+      _updateMetaTags(data) {
+        // console.log('-------------');
+        // console.log(data);
+        let metaTags = {
+          title: data.section,
+          description: '',
+          image: '',
+          imageWidth: 0,
+          imageHeight: 0,
+          url: window.location.href,
+          card: '',
+          imgAltName: ''
+        };
+        window.store.publish('meta-tags', metaTags);
       }
 
     }

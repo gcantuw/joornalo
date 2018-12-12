@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="./util/app-viewport.html">
 <link rel="import" href="./blocks/block-banner.html">
+<link rel="import" href="./blocks/block-video.html">
 <link rel="import" href="./blocks/block-video-thumb.html">
 
 <link rel="import" href="../styles/shared.html">
@@ -13,24 +14,24 @@
         margin-bottom: 4rem;
       }
 
+      *, *:after, *:before {
+        @apply --initial;
+      }
+
       .video {
         margin-bottom: 2rem;
       }
 
-      .videoFrame {
-        width: 100%;
-        height: 440px;
+      block-video {
+        height: 100%;
         margin-bottom: 1rem;
+        height: 100%;
       }
       
       @media (max-width: 768px) {
-        .videoFrame {
-          height: 350px;
+        block-video {
+          min-height: 52vw;
         }
-      }
-
-      iframe {
-        border: none;
       }
 
       .video h2 {
@@ -42,6 +43,21 @@
         line-height: 1.6rem;
         margin: 0 0 1rem;
       }
+
+      .align-bottom {
+        margin-top: 20px;
+      }
+
+      .topVideo {
+        min-height: 398px;
+      }
+
+      @media (max-width: 991px) {
+        .video h2 {
+          font-size: 1.4rem;
+          line-height: 1.5rem;
+        }
+      }
   
     </style>
 
@@ -50,7 +66,7 @@
         pattern="/multimedia/:id"
         data="{{routeData}}"></app-route>
 
-    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
 
     <div class="page-title">
       <h3>Multimedia</h3>
@@ -60,7 +76,7 @@
       <div class="row">
         <div class="col-12">
           <div class="margin-bottom">
-            <block-banner size="b980x90"></block-banner>
+            <block-banner size="b980x90" module="4"></block-banner>
           </div>
         </div>
       </div>
@@ -68,19 +84,18 @@
 
     <div class="video">
 
-      <div class="row">
+      <div class="row topVideo">
         <div class="col-lg-7 col-md-7">
-          <div class="videoFrame">
 
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/[[video.youtube-id]]"></iframe>
-            
-          </div>
+          <block-video video=[[video]]></block-video>
+
         </div>
+
         <div class="col-lg-5 col-md-5">
           <h2>[[video.title]]</h2>
           <h4>[[video.desc]]</h4>
 
-          <block-banner size="b300x250"></block-banner>
+          <block-banner class="align-bottom" size="b300x250" module="4"></block-banner>
 
         </div>
       </div>
@@ -120,8 +135,7 @@
           },
 
           multimedia: {
-            type: Array,
-            observer: 'galleriesChange'
+            type: Array
           },
 
           video: {
@@ -129,9 +143,18 @@
             value: null
           },
 
+          videoOld: {
+            type: Object,
+            value: null
+          },
+
           gMd: {
             type: Boolean,
             value: false
+          },
+
+          time: {
+            type: Number
           }
 
         };
@@ -146,25 +169,41 @@
 
       constructor() {
         super();
-        this._init();
-        window.store.subscribe('multimedia', this._init.bind(this));
+        this._loadData();
+        window.store.subscribe('multimedia', this._getData.bind(this));
+        window.store.subscribe('page-change', this._pageChange.bind(this));
       }
 
-      _init() {
+      _getData() {
+        if(this.multimedia) {
+          let timeDiff = (Date.now() - this.time) / 1000 / 60;
+          // only data from Multimedia is more than 10 minutes old
+          if (timeDiff > 10) {
+            this._loadData();
+          }
+        } else {
+          this._loadData();
+        }
+      }
+
+      _pageChange(current) {
+        if(current !== 'multimedia') {
+          this.videoOld = this.video;
+          this.video = null;
+        } else {
+          this.video = this.videoOld;
+        }
+      }
+
+      _loadData() {
         this.id = null;
-
         setTimeout(() => {
-
           let api = 'json/media/multimedia.asp?id=' + this.id;
-
           window.ajax.request('GET', api, null, (data) => {
-
             this.multimedia = data.data;
             this.video = this.multimedia[0];
-
+            this.time = Date.now();
           }, (err) => this.setData(err));
-
-
         }, 0);
 
       }
@@ -174,10 +213,7 @@
       }
 
       _multimediaChanged(id) {
-        
         this.id = id;
-        console.log('id::::>>>>>>>>', this.id);
-
       }
 
       _changeVideo(e) {

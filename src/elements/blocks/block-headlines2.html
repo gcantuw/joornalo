@@ -22,34 +22,62 @@
 
     </style>
 
-    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
 
     <div class="row nopad">
 
-      <div class="col-lg-8 col-xl-8">
+      <div class="col-lg-8 col-xl-8 col-md-6">
 
-        <block-news news="[[news.0]]" format="front1"></block-news>
+        <block-news news="[[news.0]]" format="front1c"></block-news>
 
       </div>
 
-      <div class="col-lg-4 col-xl-4">
-        <block-news news="[[news.1]]" format="front3"></block-news>
+      
 
-        <block-news news="[[news.2]]" format="front3"></block-news>
-      </div>
+      <template is="dom-if" if="{{gMd}}">
+        <div class="col-lg-4 col-xl-4 col-md-6 col-sm-6">
+          <block-news news="[[news.1]]" format="front2b"></block-news>
+          <block-news news="[[news.2]]" format="front2b"></block-news>
+        </div>
+      </template>
+      
+
+      <template is="dom-if" if="{{md}}">
+        <div class="col-md-6">
+          <block-news news="[[news.1]]" format="front4"></block-news>
+          <block-news news="[[news.2]]" format="front4"></block-news>
+          <block-news news="[[news.3]]" format="front4"></block-news>
+        </div>
+      </template>
+
+      <template is="dom-if" if="{{sm}}">
+        <div class="col-sm-6 col-6">
+          <block-news news="[[news.1]]" format="front2b"></block-news>
+        </div>
+        <div class="col-sm-6 col-6">
+          <block-news news="[[news.2]]" format="front2b"></block-news>
+        </div>
+        <div class="col-sm-6 col-6">
+          <block-news news="[[news.3]]" format="front2b"></block-news>
+        </div>
+        <div class="col-sm-6 col-6">
+          <block-news news="[[news.4]]" format="front2b"></block-news>
+        </div>
+      </template>
 
 
     </div>
     
     <div class="row nopad">
 
-      
-      <div class="col-lg-6 col-xl-6">
-        <block-news news="[[news.3]]" format="front2"></block-news>
-      </div>
-      <div class="col-lg-6 col-xl-6">
-        <block-news news="[[news.4]]" format="front2"></block-news>
-      </div>
+      <template is="dom-if" if="{{gMd}}">
+        <div class="col-lg-6 col-xl-6">
+          <block-news news="[[news.3]]" format="front2"></block-news>
+        </div>
+        <div class="col-lg-6 col-xl-6">
+          <block-news news="[[news.4]]" format="front2"></block-news>
+        </div>
+      </template>
 
     </div>
 

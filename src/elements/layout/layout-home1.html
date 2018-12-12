@@ -8,11 +8,12 @@
 <link rel="import" href="../blocks/block-sections.html">
 <link rel="import" href="../blocks/block-galleries.html">
 <link rel="import" href="../blocks/block-opinions.html">
+<!-- <link rel="import" href="../blocks/block-tips.html"> -->
 <link rel="import" href="../blocks/block-top-news.html">
 <link rel="import" href="../blocks/block-outstanding.html">
 <link rel="import" href="../blocks/block-weather.html">
 <link rel="import" href="../blocks/block-media.html">
-
+<link rel="import" href="../blocks/block-radio.html">
 
 
 <dom-module id="layout-home1">
@@ -42,13 +43,13 @@
 
     </style>
 
-    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{sm}}"></app-viewport>
+    <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
 
     <template is="dom-if" if="{{gMd}}">
       <div class="row">
         <div class="col-12">
           <div class="margin-bottom">
-            <block-banner size="b980x90"></block-banner>
+            <block-banner size="b980x90" section="home"></block-banner>
           </div>
         </div>
       </div>
@@ -57,20 +58,16 @@
     <div class="row">
       <div class="col-lg-8 col-xl-9">
 
-        <block-headlines1 news="[[data.headlines]]" top-news="[[data.top-news]]"></block-headlines1>
+        <block-headlines1 news="[[data.headlines]]" top-news="[[data.top-news]]"  tips="[[data.tips]]"></block-headlines1>
 
       </div>
       <div class="col-lg-4 col-xl-3">
 
+<!--         <template is="dom-if" if="{{gMd}}">
+          <block-tips tips="[[data.tips]]"></block-tips>
+        </template> -->
+        <block-radio></block-radio>
         <block-opinions news="[[data.opinion]]"></block-opinions>
-
-        <div class="block block-col">
-
-          <block-banner size="b300x250"></block-banner>
-
-        </div>
-
-        <block-weather></block-weather>
 
       </div>
     </div>
@@ -88,7 +85,7 @@
       <template is="dom-if" if="{{lg}}">
         <div class="col-lg-12 margin-bottom">
 
-          <block-banner size="b980x90"></block-banner>
+          <block-banner size="b980x90" section="[[section]]"></block-banner>
 
         </div>
       </template>
@@ -100,16 +97,19 @@
           <template is="dom-if" if="{{xl}}">
             <div class="col-xl-12 margin-bottom">
 
-              <block-banner size="b980x90"></block-banner>
+              <block-banner size="b980x90" section="[[section]]"></block-banner>
 
             </div>
           </template>
 
-          <div class="col-lg-3 col-xl-3">
+          <template is="dom-if" if="{{gMd}}">
+            <div class="col-lg-3 col-xl-3">
 
-            <block-latest news="[[data.latest]]"></block-latest>
+              <block-latest news="[[data.latest]]"></block-latest>
 
-          </div>
+            </div>
+          </template>
+
           <div class="col-lg-9 col-xl-9">
 
             <block-sections sections="[[data.section-news]]"></block-sections>
@@ -123,13 +123,17 @@
 
         <div class="block block-col">
 
-          <block-galleries galleries="[[data.galleries]]"></block-galleries>
+          <block-outstanding news="[[data.outstanding]]"></block-outstanding>
 
-          <block-banner size="b300x250" class="margin-bottom"></block-banner>
-
-          <block-banner size="b300x250" class="margin-bottom"></block-banner>
+          <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner>
 
           <block-media multimedia="[[data.multimedia]]"></block-media>
+
+          <block-weather></block-weather>
+
+          <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner>
+
+          <block-galleries max="2" galleries="[[data.galleries]]"></block-galleries>
 
         </div>
 
@@ -146,8 +150,7 @@
       static get properties() {
         return {
           data: {
-            type: Object,
-            // observer: '_dataChanged'
+            type: Object
           },
 
           gMd: {
@@ -175,10 +178,6 @@
         this.gMd = (xl || lg);
       }
 
-      // _dataChanged() {
-
-      //   console.log(this.data);
-      // }
     }
 
     window.customElements.define(LayoutHome1.is, LayoutHome1);

@@ -6,9 +6,13 @@
 <link rel="import" href="./util/app-spinner.html">
 <link rel="import" href="./blocks/block-error.html">
 <link rel="import" href="./blocks/block-banner.html">
-<link rel="import" href="./blocks/block-galleries.html">
+<link rel="import" href="./blocks/block-video.html">
+<!-- <link rel="import" href="./blocks/block-galleries.html"> -->
+<!-- <link rel="import" href="./blocks/block-media.html"> -->
 <link rel="import" href="./blocks/block-top-news.html">
+<link rel="import" href="./blocks/block-other-news.html">
 <link rel="import" href="./blocks/block-past-columns.html">
+<link rel="import" href="./blocks/block-radio.html">
 
 
 <dom-module id="page-news">
@@ -17,8 +21,13 @@
 
       :host {
         display: block;
-        margin: 1rem 0 2rem;
+        margin: 1rem 0 2.1rem;
       }
+
+      *, *:after, *:before {
+        @apply --initial;
+      }
+
       .page {
         margin: 2rem 0 0;
       }
@@ -40,10 +49,15 @@
         @apply --joornalo-h2;
         margin: 0;
         font-weight: normal;
+        margin-bottom: 0.7rem;
+      }
+      h5 {
+        margin-bottom: 0.7rem;
       }
       [mobile] h2 {
         @apply --joornalo-h3;
         font-weight: normal;
+        line-height: 1.8rem;
       }
       .images {
         position: relative;
@@ -95,10 +109,12 @@
       .icon-circle-right:before {
         content: "\ea42";
         color: #FFF;
+        text-shadow: 0 1px 1px #000;
       }
       .icon-circle-left:before {
         content: "\ea44";
         color: #FFF;
+        text-shadow: 0 1px 1px #000;
       }
       .icon-mail:before {
         content: "\ea83";
@@ -113,6 +129,14 @@
       .icon-linkedin:before {
         content: "\eac9";
       }
+      .icon-heart:before {
+        content: "\e9da";
+        font-size: 21px;
+      }
+      [voted] .icon-heart:before {
+        color:#cc0002;
+        cursor: default;
+      }
       .share {
         font-size: 1.4rem;
         color: #666;
@@ -125,26 +149,14 @@
         border-bottom: 1px dotted #ddd;
         padding-top: .2rem;
 
-      }
-
-      .icon-like {
-        display: inline-block;
-        height: 16px;
-        width: 20px;
-        background: url(../../images/icons/like.svg) no-repeat top left;
-        background-size: 16px;
-        cursor: pointer;
-      }
-
-      [voted] .icon-like {
-        background: url(../../images/icons/likeVoted.svg) no-repeat top left;
-        cursor: none;
+        display: flex;
       }
 
       .left-column .section {
         @apply --joornalo-h4;
         font-weight: 500;
         color: #cc0002;
+        display: block;
       }
       .left-column .section:hover {
         text-decoration: underline;
@@ -164,11 +176,13 @@
         color: #3699A9
       }
       .likes {
-        margin: 0.3rem 0;
+        flex: 1;
+        margin: 0.1rem 0.5rem 0 0;
         line-height: 1rem;
         color: #cc0002;
         display: inline-block;
         font-size: 1.5rem;
+        text-align: right;
       }
       .border-bottom {
         border-bottom: 1px dotted #ddd;
@@ -225,6 +239,26 @@
       .content[hide] {
         opacity: 0;
       }
+
+      .news-content block-video{
+        height: 300px;
+      }
+
+      @media (max-width: 575px) {
+          .news-content block-video{
+          height: 200px;
+        }
+      }
+
+      .bannerLeft {
+        margin-top: 1rem;
+
+        position: absolute;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, 0);
+      }
+
     </style>
 
     <app-route
@@ -245,7 +279,7 @@
         <div class="row">
           <div class="col-12">
             <div class="block-top">
-              <block-banner size="b980x90"></block-banner>
+              <block-banner size="b980x90" section="[[section]]"></block-banner>
             </div>
           </div>
         </div>
@@ -265,19 +299,21 @@
 
               <div class="share border-bottom">
                 
-                <a href="[[facebookLink]]" target="_blank">
-                  <span class="icon-facebook2"></span>
-                </a>
-                <a href="[[twitterLink]]" target="_blank">
-                  <span class="icon-twitter"></span>
-                </a>
-                <a href="[[linkedinLink]]" target="_blank">
-                  <span class="icon-linkedin"></span>
-                </a>
-                <a href="[[mailToLink]]">
-                  <span class="icon-mail"></span>
-                </a>
-                <h6 voted$="[[voted]]" class="likes" on-tap="_like"><span class="icon-like"></span>[[likes]]</h6>
+                <div class="social">
+                  <a href="[[facebookLink]]" target="_blank">
+                    <span class="icon-facebook2"></span>
+                  </a>
+                  <a href="[[twitterLink]]" target="_blank">
+                    <span class="icon-twitter"></span>
+                  </a>
+                  <a href="[[linkedinLink]]" target="_blank">
+                    <span class="icon-linkedin"></span>
+                  </a>
+                  <a href="[[mailToLink]]">
+                    <span class="icon-mail"></span>
+                  </a>
+                </div>
+                <h6 voted$="[[voted]]" class="likes" on-tap="_like"><span class="icon-heart"></span> [[likes]]</h6>
               </div>
 
               <h6 class="date">[[date]]</h6>
@@ -287,6 +323,8 @@
                 <h3>Perfil del Autor</h3>
                 <p inner-h-t-m-l=[[news.author.profile]]></p>
               </div>
+
+              <block-banner class="bannerLeft" size="b160x600" section="[[section]]"></block-banner>
 
             </template>
 
@@ -308,7 +346,7 @@
 
               <div class="images" loop$="[[loopImages]]" hidden$="[[!activeImage]]">
 
-                <img src="[[activeImage.url]]">
+                <img id="activeImage" src="[[activeImage.url]]">
                 <h6 hidden$="[[!activeImage.label]]">[[activeImage.label]]</h6>
                 <div class="left" on-tap="_left">
                   <span class="icon-circle-left"></span>
@@ -322,25 +360,26 @@
               <template is="dom-if" if="{{!gMd}}">
 
                 <div class="share mobile">
-                  
-                  <a href="[[facebookLink]]" target="_blank">
-                    <span class="icon-facebook2"></span>
-                  </a>
-                  <a href="[[twitterLink]]" target="_blank">
-                    <span class="icon-twitter"></span>
-                  </a>
-                  <a href="[[linkedinLink]]" target="_blank">
-                    <span class="icon-linkedin"></span>
-                  </a>
-                  <a href="[[mailToLink]]">
-                    <span class="icon-mail"></span>
-                  </a>
-                  <h6 voted$="[[voted]]" class="likes" on-tap="_like"><span class="icon-like"></span>[[likes]]</h6>
+                  <div class="social">
+                    <a href="[[facebookLink]]" target="_blank">
+                      <span class="icon-facebook2"></span>
+                    </a>
+                    <a href="[[twitterLink]]" target="_blank">
+                      <span class="icon-twitter"></span>
+                    </a>
+                    <a href="[[linkedinLink]]" target="_blank">
+                      <span class="icon-linkedin"></span>
+                    </a>
+                    <a href="[[mailToLink]]">
+                      <span class="icon-mail"></span>
+                    </a>
+                  </div>
+                  <h6 voted$="[[voted]]" class="likes" on-tap="_like"><span class="icon-heart"></span> [[likes]]</h6>
                 </div>
 
               </template>
 
-              <p inner-h-t-m-l="[[news.text]]"></p>
+              <p class="news-content" inner-h-t-m-l="[[news.text]]"></p>
 
             </div>
 
@@ -349,12 +388,15 @@
 
         <div class="col-lg-3">
           
+          <block-radio></block-radio>
           <block-past-columns columns="[[news.author.past-columns]]"></block-past-columns>
-          <block-banner size="b300x250" class="margin-bottom"></block-banner>
+          <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner>
           <block-top-news top-news="[[data.top-news]]"></block-top-news>
-          <block-banner size="b300x250" class="margin-bottom"></block-banner>
-          <block-galleries galleries="[[data.galleries]]"></block-galleries>
-          <block-banner size="b300x250" class="margin-bottom"></block-banner>
+          <!-- <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner> -->
+          <block-other-news other-news="[[data.other-news]]"></block-other-news>
+<!--           <block-galleries galleries="[[data.galleries]]"></block-galleries>
+          <block-media multimedia="[[data.multimedia]]"></block-media> -->
+          <!-- <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner> -->
 
         </div>
 
@@ -371,7 +413,13 @@
         return {
 
           id: {
-            type: String
+            type: String,
+            observer: '_idChanged'
+          },
+
+          section: {
+            type: String,
+            value: null
           },
 
           news: {
@@ -427,6 +475,11 @@
             value: null
           },
 
+          urlShare: {
+            type: String,
+            value: null
+          },
+
           facebookLink: {
             type: String,
             value: null
@@ -460,6 +513,11 @@
           spinner: {
             type: Boolean,
             value: true
+          },
+
+          loadedData: {
+            type: Array,
+            value: []
           }
 
         };
@@ -472,19 +530,16 @@
         ]
       } 
 
-      constructor() {
-        super();
+      // constructor() {
+      //   super();
+      // }
 
-        //this._init();
-        //window.store.subscribe('news', this._init.bind(this));
-      }
-
-      ready(){
-        super.ready();
+      _idChanged(){
         if(!this.$.cookie.cookiesEnabled()) { 
           this.voted = true;
         } else {
-          if(this.$.cookie.getCookie('nv' +  this.id)) this.voted = true;
+          let voted = this.$.cookie.getCookie('nv' +  this.id);
+          this.voted = (voted) ? true : false;
         }
       }
 
@@ -493,6 +548,7 @@
       }
 
       _newsChanged(id) {
+        this.section = null;
         this.found = false;
         this.errorMessage = null;
         this.spinner = true;
@@ -500,52 +556,99 @@
         this.news = null;
         this.likes = null;
         this.url  = null;
+        this.urlShare = null;
         this.date = null;
         this.totalImages = 0;
 
-
-        //console.log("News Id:", id);
         this.id = id;
 
+        this._getNews();
+
+      }
+
+      _getNews(){
+        if(this.loadedData[this.id]) {
+          let timeDiff = (Date.now() - this.loadedData[this.id].time) / 1000 / 60;
+
+          // only data from News is more than 10 minutes old
+          if (timeDiff > 10) {
+            this._loadNews();
+          } else {
+            this.spinner = false;
+            this._processData(this.loadedData[this.id].data);
+          }
+        } else {
+          this._loadNews();
+        }
+
+      }
+
+
+      _loadNews(){
+        let id = this.id;
         let api = 'json/news/news.asp?id=' + id;
 
-        // if(id=='765721') {
-        //   api = 'json/news/newsColumn.json?id=' + id;
-        // }
         window.ajax.request('GET', api, null, (data) => {
 
           this.spinner = false;
 
           if (data.success) {
-            this.found = true;
-            this.news = data;
-            this.likes = data.likes;
-            this.url = window.location.origin + '/#/news/' + data.id;
-            this.date = this._convertDate(data.date);
 
-            this._socialMediaLinks();
-            this._imageProcessing();
+            this.section = data['section-id'];
+            // handle 'Policomics'
+            if (data['section-id'] == 'cartones') {
+              data['section-id'] = 'opinion';
+              data['section'] = 'Opinión';
+            }
+
+            if(data.media.length > 0) {
+              data.text = this._embedTags(data.text);
+            }
+
+            setTimeout(() => {
+              this.loadedData[this.id] = {
+                time: Date.now(),
+                data: data
+              }
+
+              this._processData(data);
+            }, 0);
+
+
           } else {
-            this.errorMessage = data.error.message;
+            //this.errorMessage = data.error.message;
+            window.location.hash = '/notfound';
             // if (data.status == 404) {
             //   this.notFound = true;
             // } else {
 
             // }
-
-
           }
 
-        }, (err) => { console.log('error-------'); });
+        }, (err) => { console.log('error-------'); });  
 
+      }
 
-        api = 'json/news/column-data.json';
+      _processData(data) {
+        this.found = true;
+        this.news = data;
+        this.likes = data.likes;
+        this.url = window.location.origin + '/#/news/' + data.id;
+        this.urlShare = window.location.origin + '/share.asp?nid=' + data.id + '#/news/' + data.id;
+        this.date = this._convertDate(data.date);  
+
+        this.section = data['section-id'];
+
+        this._updateMetaTags(data);
+
+        this._socialMediaLinks();
+        this._imageProcessing();
+        this._embedMedia();
+
+        let api = 'json/news/column-data.asp?id=' + data.id + '&s='+window.sectionClave[data['section-id']];
         window.ajax.request('GET', api, null, (data) => {
-
           this.data = data;
-
         }, (err) => this.setData(err));
-
       }
 
       _convertDate(dateString) {
@@ -554,7 +657,6 @@
             date = new Date(dateString);
 
         return days[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
-
       }
 
       _imageProcessing() {
@@ -562,18 +664,37 @@
         if(this.totalImages > 0) {
           this.activeImageIndex = 0;
           this.activeImage = this.news.images[0];
-          if(this.totalImages > 1) {
-            this.loopImages = true;
-          }
+          this.loopImages = (this.totalImages > 1);
         }
       }
 
+      _embedTags(text) {
+        let x,y,tmp = text;
+        x = tmp.indexOf("***video");
+        if (x) y = tmp.indexOf("***", x+1);
+        while(x>0) {
+          tmp = tmp.substr(0, x) + '<block-video id="video' + tmp.substr(x+8,y-x-8) + '"></block-video>' + tmp.substr(y+3);
+
+          x = tmp.indexOf("***video");
+          if (x) y = tmp.indexOf("***", x+1);
+        }
+        return tmp;
+      }
+
+      _embedMedia() {
+        this.news.media.forEach((element) => {
+          if (this.shadowRoot.querySelector("#video"+element.num)) {
+            this.shadowRoot.querySelector("#video"+element.num).video = element;
+          }
+        });
+      }
+
       _socialMediaLinks() {
-        this.facebookLink = "https://www.facebook.com/dialog/share?app_id=1914179482237147&href=" + encodeURIComponent(this.url);
+        this.facebookLink = "https://www.facebook.com/dialog/share?app_id=974004652805964&href=" + encodeURIComponent(this.urlShare);
 
-        this.twitterLink = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(this.news.title) + "&url=" + encodeURIComponent(this.url);
+        this.twitterLink = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(this.news.title) + "&url=" + encodeURIComponent(this.urlShare);
 
-        this.linkedinLink = "https://www.linkedin.com/shareArticle?mini=true&title=" + encodeURIComponent(this.news.title) + "&url=https" + encodeURIComponent(this.url);
+        this.linkedinLink = "https://www.linkedin.com/shareArticle?mini=true&title=" + encodeURIComponent(this.news.title) + "&url=" + encodeURIComponent(this.urlShare);
 
         this.mailToLink = "mailto:?subject=" + encodeURIComponent(this.news.title) + "&body=" + encodeURIComponent(this.url);
       }
@@ -596,16 +717,35 @@
 
       _like() {
         if(!this.voted) {
-          this.$.cookie.setCookie('nv' +  this.id, '1');
-          let api = 'json/news/like.json?id=' +  this.id;
+          this.voted = true;
+          //this.$.cookie.setCookie('nv' +  this.id, '1');
+          let api = 'json/news/like.asp?id=' +  this.id;
           window.ajax.request('GET', api, null, (data) => {
-
             this.likes = data.likes;
-            this.voted = true;
-
-
+            this.loadedData[this.id].data.likes = data.likes;
           }, (err) => this.setData(err));
         }
+      }
+
+      _updateMetaTags(data) {
+        let desc = (data.desc.length > 200) ? data.desc.substr(0, 197) + '...' : data.desc,
+            img = (data.images && data.images[0]) ? data.images[0].url : '',
+            imgAltName = (data.images && data.images[0]) ? data.images[0].label : '';
+
+        setTimeout(() => {
+          let metaTags = {
+            title: data.title + ' - ' + data.section,
+            description: desc,
+            image: img,
+            imageWidth: this.$.activeImage.naturalWidth,
+            imageHeight: this.$.activeImage.naturalHeight,
+            url: window.location.href,
+            card: img,
+            imgAltName: imgAltName
+          };
+          window.store.publish('meta-tags', metaTags);
+        }, 0);
+        
       }
 
     }

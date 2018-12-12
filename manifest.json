@@ -1,11 +1,11 @@
 {
-  "name": "Poder Edomex",
-  "short_name": "PoderEdomex",
-  "description": "Toda la información del Estado de México",
+  "name": "MS Noticias",
+  "short_name": "MS Noticias",
+  "description": "",
   "start_url": "./#/front/home",
   "display": "standalone",
-  "theme_color": "#cc0002",
-  "background_color": "#cc0002",
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
   "icons": [
     {
       "src": "images/manifest/icon-192x192.png",

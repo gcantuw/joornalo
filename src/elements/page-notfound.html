@@ -1,0 +1,75 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="./util/app-viewport.html">
+<link rel="import" href="./blocks/block-banner.html">
+<link rel="import" href="../styles/shared.html">
+
+<dom-module id="page-notfound">
+  <template>
+    <style include="shared">
+      :host {
+        display: block;
+      }
+
+      *, *:after, *:before {
+        @apply --initial;
+      }
+      
+      .not-found {
+        margin: 5rem 0 4rem;
+      }
+
+      .message {
+        text-align: center;
+        font-size: 1.5rem;
+        color: #333;
+      }
+
+      .link {
+        display: block;
+        margin-top: 1rem;
+        color: var(--theme-background-color);
+      }
+
+      .link:hover {
+        text-decoration: underline;
+      }
+          
+    </style>
+
+
+    <div class="page-title">
+      <h3>Página no encontrada</h3>
+    </div>
+
+    <div class="not-found">
+      <div class="row">
+        <div class="col-12 message">
+         La página solicitada no está disponible en msnoticias.com
+       </div>
+
+       <div class="col-12 message">
+          <a class="link" href="#/front/home"">Ir a la portada</a>
+       </div>
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+  
+    class PageNotfound extends Polymer.Element {
+      static get is() { return 'page-notfound'; }
+      
+
+      // constructor() {
+      //   super();
+      //   this._loadData();
+      //   window.store.subscribe('multimedia', this._getData.bind(this));
+      //   window.store.subscribe('page-change', this._pageChange.bind(this));
+      // }
+
+    }
+
+    window.customElements.define(PageNotfound.is, PageNotfound);
+  </script>
+</dom-module>

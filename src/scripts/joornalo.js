@@ -24,10 +24,7 @@ class requestEmitter {
   }
 
   request(method, apiName, payload, successFn, errorFn) {
-
-    //let endpoint = 'http://127.0.0.1:9998/';
-    let endpoint = 'http://64.182.211.118/';
-    //let endpoint = './';
+    let endpoint = 'https://www.msnoticias.com/';
     let url;
     if (apiName.startsWith("http")) {
       url = apiName;

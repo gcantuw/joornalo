@@ -36,7 +36,14 @@
 		};
 
 		--font-common-base: {
-			font-family: 'Roboto', 'Noto', sans-serif;
+			/*font-family: 'Roboto', 'Noto', sans-serif;*/
+			font-family: "Open Sans",Arial,sans-serif;
+			-webkit-font-smoothing: antialiased;
+		};
+
+		--joornalo-font-common-base: {
+			/*font-family: 'Roboto', 'Noto', sans-serif;*/
+			font-family: "Open Sans",Arial,sans-serif;
 			-webkit-font-smoothing: antialiased;
 		};
 
@@ -49,6 +56,8 @@
 			@apply(--joornalo-font-common-base);
 			font-size: 2.25rem;  /*  36px  */
 			font-weight: normal;
+			/*line-height: 1.9rem;*/
+			line-height: 2.6rem;
 		};
 		--joornalo-h3: {
 			@apply(--joornalo-font-common-base);

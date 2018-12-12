@@ -5,7 +5,10 @@
     "src/elements/page-front.html",
     "src/elements/page-news.html",
     "src/elements/page-galleries.html",
-    "src/elements/page-search.html"
+    "src/elements/page-gallery.html",
+    "src/elements/page-search.html",
+    "src/elements/page-multimedia.html",
+    "src/elements/page-notfound.html"
   ],
   "sources": [
     "src/**/*",
@@ -21,7 +24,8 @@
     "rules": ["polymer-2"]
   },
   "builds": [{
-    "bundle": false,
+    "bundle": true,
+    "addServiceWorker": true,
     "js": {
       "minify": true,
       "compile": true
