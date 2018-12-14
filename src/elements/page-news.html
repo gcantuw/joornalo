@@ -175,6 +175,16 @@
         line-height: 1.2rem;
         color: #3699A9
       }
+      .date-author {
+        font-size: 1rem;
+        font-weight: 300;
+        margin: 0 0 .5rem;
+        line-height: 1rem;
+        color: #777;
+      }
+      .date-author span {
+        color: #3699A9
+      }
       .likes {
         flex: 1;
         margin: 0.1rem 0.5rem 0 0;
@@ -317,7 +327,7 @@
               </div>
 
               <h6 class="date">[[date]]</h6>
-              <h6 class="author border-bottom">[[news.author.name]]</h6>
+              <h6 class="author">[[news.author.name]]</h6>
             
               <div hidden$="[[!news.author.profile]]" class="profile">
                 <h3>Perfil del Autor</h3>
@@ -342,6 +352,15 @@
               </div>
 
               <h2>[[news.title]]</h2>
+
+              <template is="dom-if" if="{{!gMd}}">
+                <h6 class="date-author">[[date]] 
+                  <template is="dom-if" if="{{news.author.name}}">
+                    | <span>[[news.author.name]]</span>
+                  </template>
+                </h6>
+              </template>
+
               <h5 inner-h-t-m-l=[[news.desc]]></h5>
 
               <div class="images" loop$="[[loopImages]]" hidden$="[[!activeImage]]">

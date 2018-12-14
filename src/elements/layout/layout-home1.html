@@ -28,19 +28,6 @@
         margin-top: 1rem;
       }
 
-
-/*      .block-col block-banner {
-        background: #ccc;
-        padding-bottom: 1rem;
-      }
-      .block-col block-banner:first-of-type {
-        padding-top: 1rem;
-      }*/
-
-/*      .row .row {
-        margin: 0 -16px;
-      }*/
-
     </style>
 
     <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
@@ -58,41 +45,17 @@
     <div class="row">
       <div class="col-lg-8 col-xl-9">
 
-        <block-headlines1 news="[[data.headlines]]" top-news="[[data.top-news]]"  tips="[[data.tips]]"></block-headlines1>
-
-      </div>
-      <div class="col-lg-4 col-xl-3">
-
-<!--         <template is="dom-if" if="{{gMd}}">
-          <block-tips tips="[[data.tips]]"></block-tips>
-        </template> -->
-        <block-radio></block-radio>
-        <block-opinions news="[[data.opinion]]"></block-opinions>
-
-      </div>
-    </div>
-
-<!--     <div class="row">
-      <div class="col-12">
-
-        <block-outstanding></block-outstanding>
-
-      </div>
-    </div> -->
-
-    <div class="row">
-
-      <template is="dom-if" if="{{lg}}">
-        <div class="col-lg-12 margin-bottom">
-
-          <block-banner size="b980x90" section="[[section]]"></block-banner>
-
-        </div>
-      </template>
-      
-      <div class="col-lg-8 col-xl-9">
-
         <div class="row">
+
+          <div class="col-12">
+
+            <block-headlines1 news="[[data.headlines]]" top-news="[[data.top-news]]"  tips="[[data.tips]]"></block-headlines1>
+
+            <template is="dom-if" if="{{ltl}}">
+              <block-outstanding news="[[data.outstanding]]" format="outstanding1"></block-outstanding>
+            </template>
+
+          </div>
 
           <template is="dom-if" if="{{xl}}">
             <div class="col-xl-12 margin-bottom">
@@ -121,9 +84,15 @@
       </div>
       <div class="col-lg-4 col-xl-3">
 
-        <div class="block block-col">
+        <div class="block">
 
-          <block-outstanding news="[[data.outstanding]]"></block-outstanding>
+          <block-radio></block-radio>
+
+          <template is="dom-if" if="{{gMd}}">
+            <block-outstanding news="[[data.outstanding]]" format="outstanding2"></block-outstanding>
+          </template>
+
+          <block-opinions news="[[data.opinion]]"></block-opinions>
 
           <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner>
 
@@ -133,13 +102,12 @@
 
           <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner>
 
-          <block-galleries max="2" galleries="[[data.galleries]]"></block-galleries>
+          <block-galleries max="3" galleries="[[data.galleries]]"></block-galleries>
 
         </div>
 
       </div>
     </div>
-
 
   </template>
 
@@ -172,10 +140,8 @@
       }
 
       greaterMd(xl, lg) {
-        // console.log("============");
-        // console.log("xl:"+this.xl);
-        // console.log("lg:"+this.lg);
         this.gMd = (xl || lg);
+        this.ltl = !(xl || lg);
       }
 
     }
