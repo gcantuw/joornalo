@@ -358,9 +358,11 @@
     <div class$="[[format]]">
       <a href="#/news/[[news.id]]" noimage$="[[!news.img]]">
         <div class="section">[[news.section-name]]</div>
-        <div hidden$="[[!news.img]]" class="img">
-          <img src="[[news.img]]">
-        </div>
+        <template is="dom-if" if="{{news.img}}">
+          <div class="img">
+            <img src="[[news.img]]">
+          </div>
+        </template>
         <div class="title" big$="[[!news.img]]">[[news.title]]</div>
         <div class="desc">[[news.desc]]</div>
       </a>

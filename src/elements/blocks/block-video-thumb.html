@@ -134,15 +134,25 @@
     <div class$="[[format]]">
       <a href="#/multimedia/[[video.id]]">
         <span class="icon-play3"></span>
-        <span class="overlay" hidden$="{{!video.youtube-id}}">
-          <img src="https://i.ytimg.com/vi/[[video.youtube-id]]/mqdefault.jpg">
-        </span>
-        <span class="overlay" hidden$="{{!video.facebook-id}}">
-          <img src="https://graph.facebook.com/[[video.facebook-id]]/picture/">
-        </span>
-        <span class="overlay" hidden$="{{!video.vimeo-id}}">
-          <img src="[[video.img]]">
-        </span>
+
+        <template is="dom-if" if="{{video.youtube-id}}">
+          <span class="overlay">
+            <img src="https://i.ytimg.com/vi/[[video.youtube-id]]/mqdefault.jpg">
+          </span>
+        </template>
+
+        <template is="dom-if" if="{{video.facebook-id}}">
+          <span class="overlay">
+            <img src="https://graph.facebook.com/[[video.facebook-id]]/picture/">
+          </span>
+        </template>
+
+        <template is="dom-if" if="{{video.vimeo-id}}">
+          <span class="overlay">
+            <img src="[[video.img]]">
+          </span>
+        </template>
+        
         <div class="title">[[video.title]]</div>
         <div class="desc">[[video.desc]]</div>
       </a>

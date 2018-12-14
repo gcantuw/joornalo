@@ -64,20 +64,26 @@
           <h3><a href="#/multimedia">multimedia</a></h3>
         </div>
 
-        <div class="video" hidden$="{{!multimedia.0.youtube-id}">
-          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/[[multimedia.0.youtube-id]]"></iframe>
-          <div class="title">[[multimedia.0.title]]</div>
-        </div>
-
-        <div class="video" hidden$="{{!multimedia.0.facebook-id}}">
-            <iframe src="https://www.facebook.com/plugins/video.php?href=[[multimedia.0.facebook-url]]" width="100%" height="100%" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+        <template is="dom-if" if="{{multimedia.0.youtube-id}}">
+          <div class="video">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/[[multimedia.0.youtube-id]]"></iframe>
             <div class="title">[[multimedia.0.title]]</div>
-        </div>
+          </div>
+        </template>
 
-        <div class="video" hidden$="{{!multimedia.0.vimeo-id}}">
-            <iframe src="https://player.vimeo.com/video/[[multimedia.0.vimeo-id]]" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
-            <div class="title">[[multimedia.0.title]]</div>
-        </div>
+        <template is="dom-if" if="{{multimedia.0.facebook-id}}">
+          <div class="video">
+              <iframe src="https://www.facebook.com/plugins/video.php?href=[[multimedia.0.facebook-url]]" width="100%" height="100%" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+              <div class="title">[[multimedia.0.title]]</div>
+          </div>
+        </template>
+
+        <template is="dom-if" if="{{multimedia.0.vimeo-id}}">
+          <div class="video">
+              <iframe src="https://player.vimeo.com/video/[[multimedia.0.vimeo-id]]" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+              <div class="title">[[multimedia.0.title]]</div>
+          </div>
+        </template>
 
         <ol>
           <li>

@@ -50,8 +50,9 @@
     </script>
     <script>
       (() => {
+        const LOCAL = self.location.hostname === '127.0.0.1';
         // Load and register Cache Busting Service Worker
-        if ('serviceWorker' in navigator) {
+        if (!LOCAL && 'serviceWorker' in navigator) {
           window.addEventListener('load', () => {
             navigator.serviceWorker
                 .register('service-worker.js')
@@ -80,7 +81,7 @@
       })();
     </script>
 
-    <script src="src/scripts/proxy.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/proxy-polyfill@0.3.0/proxy.min.js"></script>
     <script src="https://cdn.polyfill.io/v2/polyfill.js?features=default,es6,Array.prototype.includes,DocumentFragmen,DocumentFragment.prototype.append,DocumentFragment.prototype.prepend,IntersectionObserver"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -95,8 +96,8 @@
     </script>
     
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="src/scripts/rx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.2.1/webcomponents-loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.5.12/Rx.min.js"></script>
     <script src="src/scripts/joornalo.js"></script>
     <link rel="import" href="src/joornalo.html">
 

@@ -73,9 +73,11 @@
           </template>
 
           <template is="dom-if" if="{{!embed}}">
-            <div on-tap="_click">
-              <img src="[[img]]">
-            </div>
+            <template is="dom-if" if="{{img}}">
+              <div on-tap="_click">
+                <img src="[[img]]">
+              </div>
+            </template>
           </template>
         </div>
       </div>

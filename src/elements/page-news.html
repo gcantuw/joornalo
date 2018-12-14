@@ -13,6 +13,7 @@
 <link rel="import" href="./blocks/block-other-news.html">
 <link rel="import" href="./blocks/block-past-columns.html">
 <link rel="import" href="./blocks/block-radio.html">
+<link rel="import" href="./blocks/block-img.html">
 
 
 <dom-module id="page-news">
@@ -364,8 +365,7 @@
               <h5 inner-h-t-m-l=[[news.desc]]></h5>
 
               <div class="images" loop$="[[loopImages]]" hidden$="[[!activeImage]]">
-
-                <img id="activeImage" src="[[activeImage.url]]">
+                <block-img url="[[activeImage.url]]"></block-img>
                 <h6 hidden$="[[!activeImage.label]]">[[activeImage.label]]</h6>
                 <div class="left" on-tap="_left">
                   <span class="icon-circle-left"></span>
@@ -411,12 +411,8 @@
           <block-past-columns columns="[[news.author.past-columns]]"></block-past-columns>
           <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner>
           <block-top-news top-news="[[data.top-news]]"></block-top-news>
-          <!-- <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner> -->
           <block-other-news other-news="[[data.other-news]]"></block-other-news>
-<!--           <block-galleries galleries="[[data.galleries]]"></block-galleries>
-          <block-media multimedia="[[data.multimedia]]"></block-media> -->
-          <!-- <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner> -->
-
+          
         </div>
 
       </div>
@@ -655,11 +651,9 @@
         this.url = window.location.origin + '/#/news/' + data.id;
         this.urlShare = window.location.origin + '/share.asp?nid=' + data.id + '#/news/' + data.id;
         this.date = this._convertDate(data.date);  
-
         this.section = data['section-id'];
 
         this._updateMetaTags(data);
-
         this._socialMediaLinks();
         this._imageProcessing();
         this._embedMedia();
@@ -756,15 +750,12 @@
             title: data.title + ' - ' + data.section,
             description: desc,
             image: img,
-            imageWidth: this.$.activeImage.naturalWidth,
-            imageHeight: this.$.activeImage.naturalHeight,
             url: window.location.href,
             card: img,
             imgAltName: imgAltName
           };
           window.store.publish('meta-tags', metaTags);
         }, 0);
-        
       }
 
     }

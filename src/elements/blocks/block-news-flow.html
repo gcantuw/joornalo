@@ -162,7 +162,9 @@
           [[news.section-name]]
           <div class="time">[[news.time]]</div>
         </div>
-        <div class="img" hidden$="[[!news.img]]"><img src="[[news.img]]"></div>
+        <template is="dom-if" if="{{news.img}}">
+          <div class="img" hidden$="[[!news.img]]"><img src="[[news.img]]"></div>
+        </template>
         <div class="title" big$="[[!news.img]]">
           <div class="top-right">
             <div class="time">[[time]]</div>
