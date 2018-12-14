@@ -120,7 +120,9 @@
         <div class="gallery">
 
           <div class="picture" on-tap="_right">
-            <img id="image" horizontal$="[[horizontal]]" src="[[picture.img]]">
+            <template is="dom-if" if="{{picture.img}}">
+              <img id="image" horizontal$="[[horizontal]]" src="[[picture.img]]">
+            </template>
             <h6 hidden$="[[!picture.desc]]">[[picture.desc]]</h6>
 
             <div class="left" on-tap="_left">

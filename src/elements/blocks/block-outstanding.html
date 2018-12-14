@@ -57,7 +57,7 @@
       <ul>
         <template is="dom-repeat" items="{{news}}" as="news">
           <li>
-            <block-news news="[[news]]" format="outstanding1"></block-news>
+            <block-news news="[[news]]" format="{{format}}"></block-news>
           </li>
         </template>
       </ul>
@@ -79,6 +79,11 @@
           hideBlock: {
             type: Boolean,
             computed: 'emptyBlock(news)'
+          },
+
+          format: {
+            type: String,
+            value: 'outstanding1'
           }
 
         };

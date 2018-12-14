@@ -1,5 +1,6 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../styles/shared.html">
+<link rel="import" href="./block-img.html">
 
 <dom-module id="block-top-news">
   <template>
@@ -72,7 +73,7 @@
             <div>
               <a href="#/news/[[item.id]]">
                 [[item.title]]
-                <img hidden$=[[!item.img]] src="[[item.img]]">
+                <block-img url="[[item.img]]"></block-img>
               </a>
             </div>
           </li>

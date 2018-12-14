@@ -13,6 +13,7 @@
 <link rel="import" href="./blocks/block-other-news.html">
 <link rel="import" href="./blocks/block-past-columns.html">
 <link rel="import" href="./blocks/block-radio.html">
+<link rel="import" href="./blocks/block-img.html">
 
 
 <dom-module id="page-news">
@@ -175,6 +176,16 @@
         line-height: 1.2rem;
         color: #3699A9
       }
+      .date-author {
+        font-size: 1rem;
+        font-weight: 300;
+        margin: 0 0 .5rem;
+        line-height: 1rem;
+        color: #777;
+      }
+      .date-author span {
+        color: #3699A9
+      }
       .likes {
         flex: 1;
         margin: 0.1rem 0.5rem 0 0;
@@ -317,7 +328,7 @@
               </div>
 
               <h6 class="date">[[date]]</h6>
-              <h6 class="author border-bottom">[[news.author.name]]</h6>
+              <h6 class="author">[[news.author.name]]</h6>
             
               <div hidden$="[[!news.author.profile]]" class="profile">
                 <h3>Perfil del Autor</h3>
@@ -342,11 +353,19 @@
               </div>
 
               <h2>[[news.title]]</h2>
+
+              <template is="dom-if" if="{{!gMd}}">
+                <h6 class="date-author">[[date]] 
+                  <template is="dom-if" if="{{news.author.name}}">
+                    | <span>[[news.author.name]]</span>
+                  </template>
+                </h6>
+              </template>
+
               <h5 inner-h-t-m-l=[[news.desc]]></h5>
 
               <div class="images" loop$="[[loopImages]]" hidden$="[[!activeImage]]">
-
-                <img id="activeImage" src="[[activeImage.url]]">
+                <block-img url="[[activeImage.url]]"></block-img>
                 <h6 hidden$="[[!activeImage.label]]">[[activeImage.label]]</h6>
                 <div class="left" on-tap="_left">
                   <span class="icon-circle-left"></span>
@@ -392,12 +411,8 @@
           <block-past-columns columns="[[news.author.past-columns]]"></block-past-columns>
           <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner>
           <block-top-news top-news="[[data.top-news]]"></block-top-news>
-          <!-- <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner> -->
           <block-other-news other-news="[[data.other-news]]"></block-other-news>
-<!--           <block-galleries galleries="[[data.galleries]]"></block-galleries>
-          <block-media multimedia="[[data.multimedia]]"></block-media> -->
-          <!-- <block-banner size="b300x250" section="[[section]]" class="margin-bottom"></block-banner> -->
-
+          
         </div>
 
       </div>
@@ -636,11 +651,9 @@
         this.url = window.location.origin + '/#/news/' + data.id;
         this.urlShare = window.location.origin + '/share.asp?nid=' + data.id + '#/news/' + data.id;
         this.date = this._convertDate(data.date);  
-
         this.section = data['section-id'];
 
         this._updateMetaTags(data);
-
         this._socialMediaLinks();
         this._imageProcessing();
         this._embedMedia();
@@ -737,15 +750,12 @@
             title: data.title + ' - ' + data.section,
             description: desc,
             image: img,
-            imageWidth: this.$.activeImage.naturalWidth,
-            imageHeight: this.$.activeImage.naturalHeight,
             url: window.location.href,
             card: img,
             imgAltName: imgAltName
           };
           window.store.publish('meta-tags', metaTags);
         }, 0);
-        
       }
 
     }

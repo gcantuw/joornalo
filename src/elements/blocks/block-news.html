@@ -301,23 +301,26 @@
         display: none;
       }
 
-      .outstanding1 {
+      .outstanding1, .outstanding2 {
         position: relative;
         display: block;
       }
 
-      .outstanding1 .title {
+      .outstanding1 .title,
+      .outstanding2 .title {
         color: #fff;
         @apply --h4-mixin;
         padding: .5rem .5rem;
         margin: 0 0 .5rem;
       }
 
-      .outstanding1 a {
+      .outstanding1 a,
+      .outstanding2 a {
         display: block;
       }
 
-      .outstanding1 .desc {
+      .outstanding1 .desc,
+      .outstanding2 .desc {
         display: none;
       }
 
@@ -355,9 +358,11 @@
     <div class$="[[format]]">
       <a href="#/news/[[news.id]]" noimage$="[[!news.img]]">
         <div class="section">[[news.section-name]]</div>
-        <div hidden$="[[!news.img]]" class="img">
-          <img src="[[news.img]]">
-        </div>
+        <template is="dom-if" if="{{news.img}}">
+          <div class="img">
+            <img src="[[news.img]]">
+          </div>
+        </template>
         <div class="title" big$="[[!news.img]]">[[news.title]]</div>
         <div class="desc">[[news.desc]]</div>
       </a>
