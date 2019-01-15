@@ -144,7 +144,9 @@
 
     </style>
 
-    <app-location id="location" use-hash-as-path></app-location>
+    <iron-location 
+      id="location"
+      query="{{query}}"></iron-location>
 
     <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>
 
@@ -155,7 +157,7 @@
 
           <div class="col-xl-3 col-lg-4 col-md-4">
             <div class="logo">
-              <a href="#/front/home"></a>
+              <a href="front/home"></a>
             </div>
           </div>
 
@@ -210,10 +212,10 @@
         <div class="menu" on-tap="_mobileMenu"></div>
 
         <div class="logo">
-          <a href="#/front/home"></a>
+          <a href="front/home"></a>
         </div>
 
-        <a class="search" href="#/search"></a>
+        <a class="search" href="search"></a>
 
         <block-menu-mobile show="{{showMenu}}" menu="[[menu]]"></block-menu-mobile>
 
@@ -281,8 +283,9 @@
 
         if (e.key == 'Enter') {
           if(this.search.length>0) {
-            let search = this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+");
-            this.$.location.set('path', '/search/?k='+search);
+            let params = "k=" + this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+");
+            this.$.location.set('path', '/search/');
+            this.$.location.set('query', params);
             this.search = '';
           }
         }
@@ -290,11 +293,14 @@
       }
 
       _submit() {
-        let search = '';
+        let params = '';
         if(this.search && this.search.length>0) {
-          search = this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+");
+          params = "k=" + this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+");
         }
-        this.$.location.set('path', '/search/?k='+search);
+        this.$.location.set('path', '/search/');
+        this.$.location.set('query', params);
+        console.log(params);
+
         this.search = '';
       }
 

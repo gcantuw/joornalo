@@ -138,13 +138,13 @@
     </style>
 
     <iron-location 
-      id="location"></iron-location>
+      id="location"
+      query="{{query}}"></iron-location>
 
     <app-route
         route="{{route}}"
         pattern="/search"
-        data="{{routeData}}"
-        tail="{{tail}}"></app-route>
+        data="{{routeData}}"></app-route>
 
     <app-viewport xl="{{xl}}" lg="{{lg}}" md="{{md}}" sm="{{sm}}"></app-viewport>        
 
@@ -201,7 +201,7 @@
         <template is="dom-repeat" items="{{results}}" as="news">
 
           <div class="col-lg-12">
-            <a class="result" href="#/news/[[news.id]]">
+            <a class="result" href="news/[[news.id]]">
               <div class="left" hidden$="[[!gMd]]">
                 <h5>{{_dateFormat(news.date)}}</h5>
               </div>
@@ -371,7 +371,7 @@
 
       static get observers() {
         return [
-          '_searchChanged(tail)',
+          '_searchChanged(query)',
           '_greaterSm(xl, lg, md)'
         ];
       }
@@ -415,7 +415,6 @@
 
             this.search = this.keywords.replace(/\+/g, " ");
 
-            //let api = 'json/news/search.json?k=' + keywords.replace(/\-/g, "+") + this._getParams();
             let api = 'json/news/search.asp?k=' + keywords.replace(/\-/g, "+") + this._getParams();
             
             this.spinner = true;
@@ -500,9 +499,11 @@
           this.close = false;
         }, 100);
 
-        let params = "?k=" + this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+") + this._getParams();
+        let params = "k=" + this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+") + this._getParams();
 
-        this.$.location.set('hash', '/search/'+params);
+        this.$.location.set('path', '/search/');
+        this.$.location.set('query', params);
+        
       }
 
       _greaterSm(xl, lg, md) {
@@ -529,9 +530,10 @@
             this.close = false;
           }, 100);
 
-          let params = "?k=" + this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+") + this._getParams();
+          let params = "k=" + this.search.replace(/\s+/g,' ').trim().replace(/ /g, "+") + this._getParams();
 
-          this.$.location.set('hash', '/search/'+params);
+          this.$.location.set('path', '/search/');
+          this.$.location.set('query', params);
         } 
       }
 

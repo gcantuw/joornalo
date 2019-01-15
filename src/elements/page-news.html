@@ -302,7 +302,7 @@
 
           <div hidden$="[[!news]]">
 
-            <a href="#/front/[[news.section-id]]">
+            <a href="front/[[news.section-id]]">
                 <h3 class="section border-bottom">[[news.section]]</h3>
             </a>
             
@@ -648,8 +648,9 @@
         this.found = true;
         this.news = data;
         this.likes = data.likes;
-        this.url = window.location.origin + '/#/news/' + data.id;
-        this.urlShare = window.location.origin + '/share.asp?nid=' + data.id + '#/news/' + data.id;
+        this.url = window.location.origin + '/news/' + data.id;
+        //this.urlShare = window.location.origin + '/share.asp?nid=' + data.id + '/#/news/' + data.id;
+        this.urlShare = window.location.origin + '/news/' + data.id;
         this.date = this._convertDate(data.date);  
         this.section = data['section-id'];
 

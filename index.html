@@ -50,6 +50,11 @@
     </script>
     <script>
       (() => {
+        var hash = location.hash;
+        if(hash !== "") {
+          location = hash.replace('#/', '');
+        }
+
         const LOCAL = self.location.hostname === '127.0.0.1';
         // Load and register Cache Busting Service Worker
         if (!LOCAL && 'serviceWorker' in navigator) {
