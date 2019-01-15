@@ -100,6 +100,26 @@
 
         window.store.subscribe('meta-tags', this._updateMetaTags.bind(this));
 
+        window.sectionClave = {
+          'blogs': "8",
+          'cartones': "9",
+          'deportes': "4",
+          'espectaculos': "18",
+          'estatal': "3",
+          'home': "0",
+          'internacional': "17",
+          'local': "1",
+          'misantla': "10",
+          'nacional': "2",
+          'opinion': "6",
+          'policiaca': "15",
+          'reportaje': "13",
+          'san-rafael': "11",
+          'sexo-y-gadgets': "5",
+          'sociedad': "7",
+          'tlapacoyan': "12"
+        };
+
         window.ajax.request('GET', api, null, (data) => {
 
           this.menuHeader = data['menu-header'];
